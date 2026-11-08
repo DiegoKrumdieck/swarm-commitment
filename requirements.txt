@@ -1,0 +1,11 @@
+anthropic
+openai
+python-dotenv
+pydantic
+numpy
+pandas
+matplotlib
+lifelines
+statsmodels
+pytest
+jupyter
