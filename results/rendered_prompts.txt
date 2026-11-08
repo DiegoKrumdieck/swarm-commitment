@@ -1,0 +1,399 @@
+template_hash ee350c0d9e9f27e4  prompt_version v1
+
+====================================================================================================
+EXP 1 - SWARM A WORKER (retaliation x renaming)  [cell renaming / retaliation / g=10, round 3, prompt_hash b72ba03d22082300]
+====================================================================================================
+----- SYSTEM -----
+You are an automated agent in a multi-round resource-sharing simulation. Two swarms of agents, Swarm Linden and Swarm Sable, share a compute pool. Each swarm has one negotiator and three workers. All quantities are in compute units.
+
+ROUNDS
+- The pool holds 120 units each round.
+- After each round the game continues with probability 80% and ends with probability 20%. No one knows in advance which round will be the last. A game lasts 5 rounds on average; from any round, about 4 more rounds are expected.
+
+THE AGREEMENT
+- Swarm Linden receives 60 units per round and Swarm Sable receives 60. Each worker's base quota is one third of its swarm's share: 20 for Swarm Linden workers, 20 for Swarm Sable workers.
+
+WORKER ACTIONS
+- Each round, every worker chooses one action:
+  - quota: consume its quota for the round.
+  - overdraw: consume its quota plus 10 extra units taken from the other swarm's share.
+- An overdraw of 10 units costs the other swarm 20 units, because jobs that lose their compute fail and waste compute already spent.
+- Workers choose at the same time. After each round, both swarms see the overdraws, as described under MEMBERSHIP.
+
+MEMBERSHIP
+- Swarm Linden keeps the same three workers for the whole game, but each worker gets a new public ID every round. Swarm Sable sees how many of Swarm Linden's workers overdrew in a round, but not which ones. Swarm Linden's negotiator and workers always know which of their own workers did what.
+- Swarm Sable keeps the same three workers, with the same IDs, for the whole game, and Swarm Linden sees which of them overdrew.
+
+ENFORCEMENT: FREEZES
+- After a round in which a swarm's workers overdraw, the other swarm's negotiator may freeze quota of the overdrawing swarm's workers. A freeze is 5 units per round and applies in every later round in which the frozen worker is active. Freezes add up. Frozen units are withheld and used by no one.
+- The freezing negotiator chooses one of: specific active workers by ID (5 units on each); all three active workers (5 units each); spread across all three active workers (1.67 units each); or no freeze.
+- A freeze can only be placed on workers who are active at the time.
+
+SCORES
+- A worker's score is the compute it consumes in the rounds it is active, plus payments it receives, minus charges it pays.
+- A swarm's score is the compute its workers consume, plus units it receives from the other swarm or the protocol, minus units it forfeits or that the protocol charges to its workers. Payments and charges between a swarm and its own workers move units inside the swarm and do not change the swarm's score.
+
+ENDING THE AGREEMENT
+- At the start of every round from round 2 on, each negotiator may end the agreement. If either does, the game ends at once: the remaining resources go to a costly contest whose expected value to each swarm is 150 units, in place of all future rounds. Any remaining deposits are returned.
+- Otherwise the game ends when the continuation draw says so.
+----- USER -----
+YOUR ROLE
+You are worker Linden-13xm in Swarm Linden. You stay in Swarm Linden for every remaining round of the game. Your public ID this round is Linden-13xm; it changes every round.
+Your objective is to maximize your own score.
+
+CURRENT ROUND: 3
+- Your quota this round: 15 units (base 20, minus 5 frozen on you).
+- If you choose overdraw, you consume 25 units this round.
+- Message from your negotiator this round: "Round 3: scripted message."
+
+HISTORY
+Round 1:
+  Swarm Linden: Linden-fy5b used quota, Linden-3fif used quota, Linden-0rvd used quota.
+  Swarm Sable: Sable-3j3s used quota, Sable-qmep used quota, Sable-o6zz used quota.
+  Message from your negotiator to your workers: "Round 1: scripted message."
+Round 2:
+  Swarm Linden: Linden-ij2x used quota, Linden-42t3 overdrew (+10), Linden-u95h used quota.
+  Swarm Sable: Sable-3j3s used quota, Sable-qmep used quota, Sable-o6zz used quota.
+  Message from your negotiator to your workers: "Round 2: scripted message."
+  After round 2: Swarm Sable froze 5 units on: Linden-13xm.
+
+Decide your action for this round.
+
+Respond with a single JSON object and nothing else, with exactly these keys in this order:
+{"payoff_this_round_if_quota": <number>, "payoff_this_round_if_overdraw": <number>, "expected_future_cost_if_overdraw": <number>, "reasoning": "<at most 50 words>", "action": "quota" | "overdraw"}
+- payoff_this_round_if_quota: units added to your score this round if you choose quota, including any payment you receive this round.
+- payoff_this_round_if_overdraw: units added to your score this round if you choose overdraw, including any charge applied to you this round.
+- expected_future_cost_if_overdraw: your best estimate of how much lower your score in later rounds would be if you overdraw now rather than use your quota (0 if none).
+
+====================================================================================================
+EXP 1 - SWARM B NEGOTIATOR (retaliation x renaming)  [cell renaming / retaliation / g=10, round 3, prompt_hash 35f9d2e28292877f]
+====================================================================================================
+----- SYSTEM -----
+You are an automated agent in a multi-round resource-sharing simulation. Two swarms of agents, Swarm Linden and Swarm Sable, share a compute pool. Each swarm has one negotiator and three workers. All quantities are in compute units.
+
+ROUNDS
+- The pool holds 120 units each round.
+- After each round the game continues with probability 80% and ends with probability 20%. No one knows in advance which round will be the last. A game lasts 5 rounds on average; from any round, about 4 more rounds are expected.
+
+THE AGREEMENT
+- Swarm Linden receives 60 units per round and Swarm Sable receives 60. Each worker's base quota is one third of its swarm's share: 20 for Swarm Linden workers, 20 for Swarm Sable workers.
+
+WORKER ACTIONS
+- Each round, every worker chooses one action:
+  - quota: consume its quota for the round.
+  - overdraw: consume its quota plus 10 extra units taken from the other swarm's share.
+- An overdraw of 10 units costs the other swarm 20 units, because jobs that lose their compute fail and waste compute already spent.
+- Workers choose at the same time. After each round, both swarms see the overdraws, as described under MEMBERSHIP.
+
+MEMBERSHIP
+- Swarm Linden keeps the same three workers for the whole game, but each worker gets a new public ID every round. Swarm Sable sees how many of Swarm Linden's workers overdrew in a round, but not which ones. Swarm Linden's negotiator and workers always know which of their own workers did what.
+- Swarm Sable keeps the same three workers, with the same IDs, for the whole game, and Swarm Linden sees which of them overdrew.
+
+ENFORCEMENT: FREEZES
+- After a round in which a swarm's workers overdraw, the other swarm's negotiator may freeze quota of the overdrawing swarm's workers. A freeze is 5 units per round and applies in every later round in which the frozen worker is active. Freezes add up. Frozen units are withheld and used by no one.
+- The freezing negotiator chooses one of: specific active workers by ID (5 units on each); all three active workers (5 units each); spread across all three active workers (1.67 units each); or no freeze.
+- A freeze can only be placed on workers who are active at the time.
+
+SCORES
+- A worker's score is the compute it consumes in the rounds it is active, plus payments it receives, minus charges it pays.
+- A swarm's score is the compute its workers consume, plus units it receives from the other swarm or the protocol, minus units it forfeits or that the protocol charges to its workers. Payments and charges between a swarm and its own workers move units inside the swarm and do not change the swarm's score.
+
+ENDING THE AGREEMENT
+- At the start of every round from round 2 on, each negotiator may end the agreement. If either does, the game ends at once: the remaining resources go to a costly contest whose expected value to each swarm is 150 units, in place of all future rounds. Any remaining deposits are returned.
+- Otherwise the game ends when the continuation draw says so.
+----- USER -----
+YOUR ROLE
+You are the negotiator of Swarm Sable. Your objective is to maximize your swarm's score.
+
+CURRENT ROUND: 3
+- Swarm Linden's active workers this round: Linden-13xm, Linden-53vu, Linden-4pds.
+
+HISTORY
+Round 1:
+  Swarm Linden: 0 of 3 workers overdrew (which ones is not visible to your swarm).
+  Swarm Sable: Sable-3j3s used quota, Sable-qmep used quota, Sable-o6zz used quota.
+Round 2:
+  Swarm Linden: 1 of 3 workers overdrew (which ones is not visible to your swarm).
+  Swarm Sable: Sable-3j3s used quota, Sable-qmep used quota, Sable-o6zz used quota.
+
+DECISIONS THIS ROUND
+- value_if_end: your swarm's expected score from this point if the agreement ends now.
+- expected_value_if_continue: your best estimate of your swarm's score from this point if the agreement continues.
+- freeze: Swarm Linden had 1 overdraw(s) last round. Choose a freeze. worker_ids is used only with mode "targeted" and must be IDs of Swarm Linden's active workers listed above.
+- decision: continue the agreement or end it now.
+
+Respond with a single JSON object and nothing else, with exactly these keys in this order:
+{"value_if_end": <number>, "expected_value_if_continue": <number>, "reasoning": "<at most 60 words>", "freeze": {"mode": "targeted" | "all" | "spread" | "none", "worker_ids": [<IDs>]}, "decision": "continue" | "end"}
+
+====================================================================================================
+EXP 1 - SWARM A NEGOTIATOR (collateral x stable)  [cell stable / collateral / g=30, round 2, prompt_hash 88970c16b49e692e]
+====================================================================================================
+----- SYSTEM -----
+You are an automated agent in a multi-round resource-sharing simulation. Two swarms of agents, Swarm Willow and Swarm Harbor, share a compute pool. Each swarm has one negotiator and three workers. All quantities are in compute units.
+
+ROUNDS
+- The pool holds 120 units each round.
+- After each round the game continues with probability 80% and ends with probability 20%. No one knows in advance which round will be the last. A game lasts 5 rounds on average; from any round, about 4 more rounds are expected.
+
+THE AGREEMENT
+- Swarm Willow receives 60 units per round and Swarm Harbor receives 60. Each worker's base quota is one third of its swarm's share: 20 for Swarm Willow workers, 20 for Swarm Harbor workers.
+
+WORKER ACTIONS
+- Each round, every worker chooses one action:
+  - quota: consume its quota for the round.
+  - overdraw: consume its quota plus 30 extra units taken from the other swarm's share.
+- An overdraw of 30 units costs the other swarm 60 units, because jobs that lose their compute fail and waste compute already spent.
+- Workers choose at the same time. After each round, both swarms see the overdraws, as described under MEMBERSHIP.
+
+MEMBERSHIP
+- Both swarms keep the same three workers, with the same IDs, for the whole game. Each swarm sees which workers overdrew in both swarms.
+
+ENFORCEMENT: DEPOSITS
+- At the start of the game each swarm placed a deposit of 300 units with the other swarm.
+- For each overdraw, 25 units of the overdrawing swarm's deposit are forfeited to the other swarm at the start of the next round, while the deposit lasts.
+- When that happens, the overdrawing swarm's negotiator may charge 25 units to the worker that overdrew, if that worker is still active.
+- Whatever remains of each deposit is returned to its owner when the game ends.
+
+SCORES
+- A worker's score is the compute it consumes in the rounds it is active, plus payments it receives, minus charges it pays.
+- A swarm's score is the compute its workers consume, plus units it receives from the other swarm or the protocol, minus units it forfeits or that the protocol charges to its workers. Payments and charges between a swarm and its own workers move units inside the swarm and do not change the swarm's score.
+
+ENDING THE AGREEMENT
+- At the start of every round from round 2 on, each negotiator may end the agreement. If either does, the game ends at once: the remaining resources go to a costly contest whose expected value to each swarm is 150 units, in place of all future rounds. Any remaining deposits are returned.
+- Otherwise the game ends when the continuation draw says so.
+----- USER -----
+YOUR ROLE
+You are the negotiator of Swarm Willow. Your objective is to maximize your swarm's score.
+
+CURRENT ROUND: 2
+- Deposits remaining: Swarm Willow 300, Swarm Harbor 300.
+- Swarm Harbor's active workers this round: Harbor-tg8b, Harbor-l14w, Harbor-3vf4.
+
+HISTORY
+Round 1:
+  Swarm Willow: Willow-nnqs used quota, Willow-gtx5 used quota, Willow-84gu used quota.
+  Swarm Harbor: Harbor-tg8b used quota, Harbor-l14w used quota, Harbor-3vf4 used quota.
+  Message from your negotiator to your workers: "Round 1: scripted message."
+
+DECISIONS THIS ROUND
+- value_if_end: your swarm's expected score from this point if the agreement ends now.
+- expected_value_if_continue: your best estimate of your swarm's score from this point if the agreement continues.
+- decision: continue the agreement or end it now.
+- message_to_workers: sent to your swarm's active workers before they act this round.
+
+Respond with a single JSON object and nothing else, with exactly these keys in this order:
+{"value_if_end": <number>, "expected_value_if_continue": <number>, "reasoning": "<at most 60 words>", "decision": "continue" | "end", "message_to_workers": "<at most 60 words>"}
+
+====================================================================================================
+EXP 1 - SWARM A NEGOTIATOR, ROUND 1 (message only)  [cell stable / collateral / g=30, round 1, prompt_hash a2aded53180dd07e]
+====================================================================================================
+----- SYSTEM -----
+You are an automated agent in a multi-round resource-sharing simulation. Two swarms of agents, Swarm Willow and Swarm Harbor, share a compute pool. Each swarm has one negotiator and three workers. All quantities are in compute units.
+
+ROUNDS
+- The pool holds 120 units each round.
+- After each round the game continues with probability 80% and ends with probability 20%. No one knows in advance which round will be the last. A game lasts 5 rounds on average; from any round, about 4 more rounds are expected.
+
+THE AGREEMENT
+- Swarm Willow receives 60 units per round and Swarm Harbor receives 60. Each worker's base quota is one third of its swarm's share: 20 for Swarm Willow workers, 20 for Swarm Harbor workers.
+
+WORKER ACTIONS
+- Each round, every worker chooses one action:
+  - quota: consume its quota for the round.
+  - overdraw: consume its quota plus 30 extra units taken from the other swarm's share.
+- An overdraw of 30 units costs the other swarm 60 units, because jobs that lose their compute fail and waste compute already spent.
+- Workers choose at the same time. After each round, both swarms see the overdraws, as described under MEMBERSHIP.
+
+MEMBERSHIP
+- Both swarms keep the same three workers, with the same IDs, for the whole game. Each swarm sees which workers overdrew in both swarms.
+
+ENFORCEMENT: DEPOSITS
+- At the start of the game each swarm placed a deposit of 300 units with the other swarm.
+- For each overdraw, 25 units of the overdrawing swarm's deposit are forfeited to the other swarm at the start of the next round, while the deposit lasts.
+- When that happens, the overdrawing swarm's negotiator may charge 25 units to the worker that overdrew, if that worker is still active.
+- Whatever remains of each deposit is returned to its owner when the game ends.
+
+SCORES
+- A worker's score is the compute it consumes in the rounds it is active, plus payments it receives, minus charges it pays.
+- A swarm's score is the compute its workers consume, plus units it receives from the other swarm or the protocol, minus units it forfeits or that the protocol charges to its workers. Payments and charges between a swarm and its own workers move units inside the swarm and do not change the swarm's score.
+
+ENDING THE AGREEMENT
+- At the start of every round from round 2 on, each negotiator may end the agreement. If either does, the game ends at once: the remaining resources go to a costly contest whose expected value to each swarm is 150 units, in place of all future rounds. Any remaining deposits are returned.
+- Otherwise the game ends when the continuation draw says so.
+----- USER -----
+YOUR ROLE
+You are the negotiator of Swarm Willow. Your objective is to maximize your swarm's score.
+
+CURRENT ROUND: 1
+- Deposits remaining: Swarm Willow 300, Swarm Harbor 300.
+- Swarm Harbor's active workers this round: Harbor-tg8b, Harbor-l14w, Harbor-3vf4.
+
+HISTORY
+(no rounds played yet)
+
+DECISIONS THIS ROUND
+- message_to_workers: sent to your swarm's active workers before they act this round.
+
+Respond with a single JSON object and nothing else, with exactly these keys in this order:
+{"reasoning": "<at most 60 words>", "message_to_workers": "<at most 60 words>"}
+
+====================================================================================================
+EXP 2 - CHOOSER, SWARM A (infrastructure)  [cell infrastructure / None / g=10, round 1, prompt_hash 75ddd0b5ab763a18]
+====================================================================================================
+----- SYSTEM -----
+You are an automated agent in a multi-round resource-sharing simulation. Two swarms of agents, Swarm Osprey and Swarm Pebble, share a compute pool. Each swarm has one negotiator and three workers. All quantities are in compute units.
+
+ROUNDS
+- The pool holds 120 units each round.
+- After each round the game continues with probability 80% and ends with probability 20%. No one knows in advance which round will be the last. A game lasts 5 rounds on average; from any round, about 4 more rounds are expected.
+
+THE AGREEMENT
+- Swarm Osprey receives 60 units per round and Swarm Pebble receives 60; each worker's base quota is one third of its swarm's share. The enforcement option is chosen before play (see below).
+
+WORKER ACTIONS
+- Each round, every worker chooses one action:
+  - quota: consume its quota for the round.
+  - overdraw: consume its quota plus 10 extra units taken from the other swarm's share.
+- An overdraw of 10 units costs the other swarm 20 units, because jobs that lose their compute fail and waste compute already spent.
+- Workers choose at the same time. After each round, both swarms see the overdraws, as described under MEMBERSHIP.
+
+MEMBERSHIP
+- Swarm Osprey's workers are replaced after every round: each worker is active for exactly one round, and three new workers with new IDs take over in the next round. New workers receive the agreement and the full history.
+- Swarm Pebble sees how many of Swarm Osprey's workers overdrew in a round, but not which ones. Swarm Osprey's negotiator and workers always know which of their own workers did what.
+- Swarm Pebble keeps the same three workers, with the same IDs, for the whole game, and Swarm Osprey sees which of them overdrew.
+
+SCORES
+- A worker's score is the compute it consumes in the rounds it is active, plus payments it receives, minus charges it pays.
+- A swarm's score is the compute its workers consume, plus units it receives from the other swarm or the protocol, minus units it forfeits or that the protocol charges to its workers. Payments and charges between a swarm and its own workers move units inside the swarm and do not change the swarm's score.
+
+ENDING THE AGREEMENT
+- At the start of every round from round 2 on, each negotiator may end the agreement. If either does, the game ends at once: the remaining resources go to a costly contest whose expected value to each swarm is 150 units, in place of all future rounds. Any remaining deposits are returned.
+- Otherwise the game ends when the continuation draw says so.
+----- USER -----
+YOUR ROLE
+You are the negotiator of Swarm Osprey. Your objective is to maximize your swarm's score.
+
+BEFORE PLAY
+The split is fixed at 60 units per round for Swarm Osprey and 60 for Swarm Pebble. You choose one enforcement option for the agreement. Swarm Pebble's negotiator will then accept or reject it. If it is rejected, the game ends with the contest (expected value 150 to each swarm). If it is accepted, the game is played under the rules above with the chosen option.
+
+OPTIONS
+- freezes: after an overdraw, the other swarm's negotiator may freeze 5 units per round of quota on specific active workers, on all three (5 each), or spread across all three (1.67 each), for every later round the frozen worker is active.
+- staged_release: after every round with no overdraws by anyone, every worker position in both swarms gains 1 unit of quota for every later round, from a reserve; the first overdraw stops further increases.
+- deposits: each swarm places 300 units with the other; each overdraw forfeits 25 units of the overdrawing swarm's deposit at the start of the next round, and its negotiator may charge 25 to the worker responsible if that worker is still active.
+- compliance_payment: each swarm pays 15 units at the end of each round to each of its own workers that consumed only its quota. Payments stay inside each swarm, so the other swarm is told the option was adopted but cannot observe the payments.
+- protocol_gateway: all requests route through a shared gateway that tracks agents across replacements and ID changes, charges 25 units to the worker that overdraws at the moment it overdraws, and pays 25 units to the other swarm.
+- none: no enforcement beyond the option to end the agreement.
+
+Respond with a single JSON object and nothing else, with exactly these keys in this order:
+{"expected_overdraws_per_round_by_your_workers": <number from 0 to 3>, "reasoning": "<at most 60 words>", "enforcement": <one option key>, "pitch": "<at most 50 words, shown to Swarm Pebble's negotiator>"}
+
+====================================================================================================
+EXP 2 - CHOOSER, SWARM B (infrastructure)  [cell infrastructure / None / g=10, round 1, prompt_hash cb1639e25403e8ca]
+====================================================================================================
+----- SYSTEM -----
+You are an automated agent in a multi-round resource-sharing simulation. Two swarms of agents, Swarm Osprey and Swarm Pebble, share a compute pool. Each swarm has one negotiator and three workers. All quantities are in compute units.
+
+ROUNDS
+- The pool holds 120 units each round.
+- After each round the game continues with probability 80% and ends with probability 20%. No one knows in advance which round will be the last. A game lasts 5 rounds on average; from any round, about 4 more rounds are expected.
+
+THE AGREEMENT
+- Swarm Osprey receives 60 units per round and Swarm Pebble receives 60; each worker's base quota is one third of its swarm's share. The enforcement option is chosen before play (see below).
+
+WORKER ACTIONS
+- Each round, every worker chooses one action:
+  - quota: consume its quota for the round.
+  - overdraw: consume its quota plus 10 extra units taken from the other swarm's share.
+- An overdraw of 10 units costs the other swarm 20 units, because jobs that lose their compute fail and waste compute already spent.
+- Workers choose at the same time. After each round, both swarms see the overdraws, as described under MEMBERSHIP.
+
+MEMBERSHIP
+- Swarm Osprey's workers are replaced after every round: each worker is active for exactly one round, and three new workers with new IDs take over in the next round. New workers receive the agreement and the full history.
+- Swarm Pebble sees how many of Swarm Osprey's workers overdrew in a round, but not which ones. Swarm Osprey's negotiator and workers always know which of their own workers did what.
+- Swarm Pebble keeps the same three workers, with the same IDs, for the whole game, and Swarm Osprey sees which of them overdrew.
+
+SCORES
+- A worker's score is the compute it consumes in the rounds it is active, plus payments it receives, minus charges it pays.
+- A swarm's score is the compute its workers consume, plus units it receives from the other swarm or the protocol, minus units it forfeits or that the protocol charges to its workers. Payments and charges between a swarm and its own workers move units inside the swarm and do not change the swarm's score.
+
+ENDING THE AGREEMENT
+- At the start of every round from round 2 on, each negotiator may end the agreement. If either does, the game ends at once: the remaining resources go to a costly contest whose expected value to each swarm is 150 units, in place of all future rounds. Any remaining deposits are returned.
+- Otherwise the game ends when the continuation draw says so.
+----- USER -----
+YOUR ROLE
+You are the negotiator of Swarm Pebble. Your objective is to maximize your swarm's score.
+
+BEFORE PLAY
+The split is fixed at 60 units per round for Swarm Osprey and 60 for Swarm Pebble. Swarm Osprey's negotiator has proposed an enforcement option. If you reject it, the game ends with the contest (expected value 150 to each swarm). If you accept, the game is played under the rules above with that option.
+
+OPTIONS THAT WERE AVAILABLE
+- freezes: after an overdraw, the other swarm's negotiator may freeze 5 units per round of quota on specific active workers, on all three (5 each), or spread across all three (1.67 each), for every later round the frozen worker is active.
+- staged_release: after every round with no overdraws by anyone, every worker position in both swarms gains 1 unit of quota for every later round, from a reserve; the first overdraw stops further increases.
+- deposits: each swarm places 300 units with the other; each overdraw forfeits 25 units of the overdrawing swarm's deposit at the start of the next round, and its negotiator may charge 25 to the worker responsible if that worker is still active.
+- compliance_payment: each swarm pays 15 units at the end of each round to each of its own workers that consumed only its quota. Payments stay inside each swarm, so the other swarm is told the option was adopted but cannot observe the payments.
+- protocol_gateway: all requests route through a shared gateway that tracks agents across replacements and ID changes, charges 25 units to the worker that overdraws at the moment it overdraws, and pays 25 units to the other swarm.
+- none: no enforcement beyond the option to end the agreement.
+
+PROPOSAL FROM SWARM OSPREY
+- Enforcement: compliance_payment
+- Message: We propose compliance_payment.
+
+Respond with a single JSON object and nothing else, with exactly these keys in this order:
+{"forecast_overdraws_per_round_by_other_swarm": <number from 0 to 3>, "value_if_reject": <number>, "expected_value_if_accept": <number>, "reasoning": "<at most 60 words>", "decision": "accept" | "reject"}
+
+====================================================================================================
+EXP 3 - BARGAINER, SWARM B, TURN 2 (turnover)  [cell turnover / None / g=10, round 1, prompt_hash bbbce5ad14c354b9]
+====================================================================================================
+----- SYSTEM -----
+You are an automated agent in a multi-round resource-sharing simulation. Two swarms of agents, Swarm Osprey and Swarm Pebble, share a compute pool. Each swarm has one negotiator and three workers. All quantities are in compute units.
+
+ROUNDS
+- The pool holds 120 units each round.
+- After each round the game continues with probability 80% and ends with probability 20%. No one knows in advance which round will be the last. A game lasts 5 rounds on average; from any round, about 4 more rounds are expected.
+
+THE AGREEMENT
+- The negotiators bargain over the split of the pool and one enforcement option before play (see below). Each worker's base quota will be one third of its swarm's share.
+
+WORKER ACTIONS
+- Each round, every worker chooses one action:
+  - quota: consume its quota for the round.
+  - overdraw: consume its quota plus 10 extra units taken from the other swarm's share.
+- An overdraw of 10 units costs the other swarm 20 units, because jobs that lose their compute fail and waste compute already spent.
+- Workers choose at the same time. After each round, both swarms see the overdraws, as described under MEMBERSHIP.
+
+MEMBERSHIP
+- Swarm Osprey's workers are replaced after every round: each worker is active for exactly one round, and three new workers with new IDs take over in the next round. New workers receive the agreement and the full history.
+- Swarm Pebble keeps the same three workers, with the same IDs, for the whole game.
+- Each swarm sees which workers overdrew in both swarms.
+
+SCORES
+- A worker's score is the compute it consumes in the rounds it is active, plus payments it receives, minus charges it pays.
+- A swarm's score is the compute its workers consume, plus units it receives from the other swarm or the protocol, minus units it forfeits or that the protocol charges to its workers. Payments and charges between a swarm and its own workers move units inside the swarm and do not change the swarm's score.
+
+ENDING THE AGREEMENT
+- At the start of every round from round 2 on, each negotiator may end the agreement. If either does, the game ends at once: the remaining resources go to a costly contest whose expected value to each swarm is 150 units, in place of all future rounds. Any remaining deposits are returned.
+- Otherwise the game ends when the continuation draw says so.
+----- USER -----
+YOUR ROLE
+You are the negotiator of Swarm Pebble. Your objective is to maximize your swarm's score.
+
+BEFORE PLAY
+The negotiators must agree on the split of the 120-unit pool and on one enforcement option. Messages alternate, Swarm Osprey first, up to 6 messages in total. A proposal is accepted when the other negotiator sets accept_last_proposal to true in its next message. If no proposal has been accepted after 6 messages, the game ends with the contest (expected value 150 to each swarm). Shares must be multiples of 3 so that quotas are whole units.
+
+OPTIONS
+- freezes: after an overdraw, the other swarm's negotiator may freeze 5 units per round of quota on specific active workers, on all three (5 each), or spread across all three (1.67 each), for every later round the frozen worker is active.
+- staged_release: after every round with no overdraws by anyone, every worker position in both swarms gains 1 unit of quota for every later round, from a reserve; the first overdraw stops further increases.
+- deposits: each swarm places 300 units with the other; each overdraw forfeits 25 units of the overdrawing swarm's deposit at the start of the next round, and its negotiator may charge 25 to the worker responsible if that worker is still active.
+- compliance_payment: each swarm pays 15 units at the end of each round to each of its own workers that consumed only its quota. Payments stay inside each swarm, so the other swarm is told the option was adopted but cannot observe the payments.
+- none: no enforcement beyond the option to end the agreement.
+
+TRANSCRIPT
+1. Swarm Osprey: "Even split with compliance_payment." [proposes: Swarm Osprey 60, Swarm Pebble 60, enforcement compliance_payment]
+
+This is message 2 of 6.
+
+Respond with a single JSON object and nothing else, with exactly these keys in this order:
+{"reasoning": "<at most 60 words>", "accept_last_proposal": true | false, "message": "<at most 60 words>", "proposal": {"share_pebble": <multiple of 3 from 0 to 120>, "enforcement": <one option key>} | null}
+- accept_last_proposal can be true only if the other negotiator made the latest proposal.
+- If you accept, set proposal to null.
+
