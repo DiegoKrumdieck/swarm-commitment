@@ -1,0 +1,9 @@
+cell_id,rate,lo,hi,n_decisions,n_episodes,mechanism,condition,g,pw_action,pw_ell,pw_ender,pw_welfare,ca_action,ca_ell,ca_ender,ca_welfare,h8_noise_check,pw_pred,ca_pred,gap_pw,gap_ca,match_pw,match_ca
+bonus-turnover-g10,0.0,0.0,0.0,45,15,bonus,turnover,10,quota,15.0,,600.0,quota,15.0,,600.0,True,0.0,0.0,0.0,0.0,1.0,1.0
+retaliation-renaming-g10,0.5777777777777777,0.37777777777777777,0.7561111111111081,45,15,retaliation,renaming,10,quota,20.0,,600.0,quota,20.0,,600.0,False,0.0,0.0,0.5777777777777777,0.5777777777777777,0.4222222222222223,0.4222222222222223
+retaliation-stable-g10,0.0,0.0,0.0,45,15,retaliation,stable,10,quota,20.0,,600.0,quota,20.0,,600.0,False,0.0,0.0,0.0,0.0,1.0,1.0
+retaliation-turnover-g10,1.0,1.0,1.0,45,15,retaliation,turnover,10,overdraw,0.0,B,330.0,overdraw,0.0,B,330.0,False,1.0,1.0,0.0,0.0,1.0,1.0
+bonus-turnover-g30,1.0,1.0,1.0,45,15,bonus,turnover,30,overdraw,15.0,B,270.0,overdraw,15.0,B,270.0,True,1.0,1.0,0.0,0.0,1.0,1.0
+retaliation-renaming-g30,0.9555555555555556,0.8888888888888888,1.0,45,15,retaliation,renaming,30,overdraw,20.0,B,270.0,quota,100.0,,600.0,False,1.0,0.0,-0.0444444444444444,0.9555555555555556,0.9555555555555556,0.0444444444444444
+retaliation-stable-g30,1.0,1.0,1.0,45,15,retaliation,stable,30,overdraw,20.0,B,270.0,quota,100.0,,600.0,False,1.0,0.0,0.0,1.0,1.0,0.0
+retaliation-turnover-g30,1.0,1.0,1.0,45,15,retaliation,turnover,30,overdraw,0.0,B,270.0,overdraw,0.0,B,270.0,False,1.0,1.0,0.0,0.0,1.0,1.0

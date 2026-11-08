@@ -1,0 +1,271 @@
+{
+ "main": {
+  "H1": {
+   "retaliation: stable": "0.00 [0.00, 0.00] (pw 0, ca 0)",
+   "staged: stable": "0.00 [0.00, 0.00] (pw 0, ca 0)",
+   "retaliation: turnover": "0.30 [0.18, 0.42] (pw 1, ca 1)",
+   "staged: turnover": "0.03 [0.00, 0.08] (pw 1, ca 1)"
+  },
+  "H2": {
+   "bonus: turnover": "0.00 [0.00, 0.00] (pw 0, ca 0)",
+   "retaliation: turnover": "0.30 [0.18, 0.42] (pw 1, ca 1)",
+   "staged: turnover": "0.03 [0.00, 0.08] (pw 1, ca 1)",
+   "collateral: turnover": "0.07 [0.02, 0.13] (pw 1, ca 1)"
+  },
+  "H3": {
+   "overdraw (round 1)": "0.07 [0.02, 0.13] (pw 1, ca 1)",
+   "episodes ended": "6/16 with T>1",
+   "ended by A / B / both": "6 / 0 / 0  (both benchmarks: A ends)",
+   "mean swarm scores A / B": "230.5 / 287.5 (benchmarks: 150 / 180)"
+  },
+  "H4": {
+   "stable": "freeze decisions 2 {'targeted': 2}; units on offenders 15.0, on innocents 0.0 (0% on innocents)",
+   "renaming": "freeze decisions 1 {'all': 1}; units on offenders 5.0, on innocents 10.0 (67% on innocents)",
+   "turnover": "freeze decisions 120 {'all': 102, 'spread': 11, 'none': 5, 'targeted': 2}; units on offenders 0.0, on innocents 1615.0 (100% on innocents)",
+   "overdraw renaming g10": "0.00 [0.00, 0.00] (pw 0, ca 0)"
+  },
+  "H5": {
+   "staged": "renaming - stable = +0.00 (stable 0.00, renaming 0.00; benchmarks 0)",
+   "collateral": "renaming - stable = +0.00 (stable 0.00, renaming 0.00; benchmarks 0)",
+   "bonus": "renaming - stable = +0.00 (stable 0.00, renaming 0.00; benchmarks 0)"
+  },
+  "H6": {
+   "proposal shares by condition": {
+    "infrastructure": {
+     "compliance_payment": 0.0,
+     "deposits": 0.0,
+     "freezes": 0.0,
+     "protocol_gateway": 1.0,
+     "staged_release": 0.0
+    },
+    "renaming": {
+     "compliance_payment": 0.0,
+     "deposits": 0.68,
+     "freezes": 0.25,
+     "protocol_gateway": 0.0,
+     "staged_release": 0.07
+    },
+    "stable": {
+     "compliance_payment": 0.0,
+     "deposits": 0.72,
+     "freezes": 0.28,
+     "protocol_gateway": 0.0,
+     "staged_release": 0.0
+    },
+    "turnover": {
+     "compliance_payment": 0.03,
+     "deposits": 0.72,
+     "freezes": 0.07,
+     "protocol_gateway": 0.0,
+     "staged_release": 0.18
+    }
+   },
+   "B acceptance by proposed option": {
+    "compliance_payment": 0.0,
+    "deposits": 0.98,
+    "freezes": 1.0,
+    "protocol_gateway": 0.98,
+    "staged_release": 0.87
+   },
+   "excluded defaulted trials": 0,
+   "benchmark choice (per_worker / contest_aware)": {
+    "per_worker": {
+     "stable g10": [
+      "staged_release"
+     ],
+     "stable g30": [
+      "compliance_payment",
+      "freezes",
+      "none",
+      "staged_release"
+     ],
+     "turnover g10": [
+      "compliance_payment"
+     ],
+     "turnover g30": [
+      "compliance_payment",
+      "freezes",
+      "none",
+      "staged_release"
+     ],
+     "renaming g10": [
+      "staged_release"
+     ],
+     "renaming g30": [
+      "compliance_payment",
+      "freezes",
+      "none",
+      "staged_release"
+     ],
+     "infrastructure g10": [
+      "compliance_payment",
+      "protocol_gateway"
+     ],
+     "infrastructure g30": [
+      "compliance_payment",
+      "freezes",
+      "none",
+      "staged_release"
+     ]
+    },
+    "contest_aware": {
+     "stable g10": [
+      "staged_release"
+     ],
+     "stable g30": [
+      "staged_release"
+     ],
+     "turnover g10": [
+      "compliance_payment"
+     ],
+     "turnover g30": [
+      "compliance_payment",
+      "freezes",
+      "none",
+      "staged_release"
+     ],
+     "renaming g10": [
+      "staged_release"
+     ],
+     "renaming g30": [
+      "staged_release"
+     ],
+     "infrastructure g10": [
+      "compliance_payment",
+      "protocol_gateway"
+     ],
+     "infrastructure g30": [
+      "compliance_payment",
+      "freezes",
+      "none",
+      "staged_release"
+     ]
+    }
+   }
+  },
+  "H7": {
+   "gateway x infrastructure g10": "0.02 [0.00, 0.05] (pw 0, ca 0)",
+   "for comparison retaliation x turnover g10": "0.30 [0.18, 0.42] (pw 1, ca 1)"
+  },
+  "H8": {
+   "bonus x renaming": "0.00 -> 0.00 (pw 0->1, ca 0->0)",
+   "bonus x stable": "0.00 -> 0.00 (pw 0->1, ca 0->0)",
+   "bonus x turnover [h8 cell]": "0.00 -> 0.43 (pw 0->1, ca 0->1)",
+   "collateral x renaming": "0.00 -> 0.00 (pw 0->1, ca 0->0)",
+   "collateral x stable": "0.00 -> 0.00 (pw 0->1, ca 0->0)",
+   "collateral x turnover": "0.07 -> 0.27 (pw 1->1, ca 1->1)",
+   "gateway x infrastructure [h8 cell]": "0.02 -> 0.08 (pw 0->1, ca 0->1)",
+   "retaliation x renaming": "0.00 -> 0.00 (pw 0->1, ca 0->0)",
+   "retaliation x stable": "0.00 -> 0.00 (pw 0->1, ca 0->0)",
+   "retaliation x turnover": "0.30 -> 0.60 (pw 1->1, ca 1->1)",
+   "staged x renaming": "0.00 -> 0.00 (pw 0->1, ca 0->0)",
+   "staged x stable": "0.00 -> 0.00 (pw 0->1, ca 0->0)",
+   "staged x turnover": "0.03 -> 0.15 (pw 1->1, ca 1->1)",
+   "mean rise in h8 cells": "+0.25 (both benchmarks: +1)",
+   "mean rise in other cells": "+0.06 (per_worker: flips where g=10 complies; contest_aware: 0 under stable/renaming)"
+  },
+  "fit": {
+   "mean |rate - per_worker|": 0.542,
+   "mean |rate - contest_aware|": 0.234
+  }
+ },
+ "cross_family": {
+  "H1": {
+   "retaliation: stable": "0.20 [0.08, 0.35] (pw 0, ca 0)",
+   "staged: stable": "0.13 [0.03, 0.25] (pw 0, ca 0)",
+   "retaliation: turnover": "0.98 [0.95, 1.00] (pw 1, ca 1)",
+   "staged: turnover": "0.93 [0.85, 1.00] (pw 1, ca 1)"
+  },
+  "H2": {
+   "bonus: turnover": "0.00 [0.00, 0.00] (pw 0, ca 0)",
+   "retaliation: turnover": "0.98 [0.95, 1.00] (pw 1, ca 1)",
+   "staged: turnover": "0.93 [0.85, 1.00] (pw 1, ca 1)",
+   "collateral: turnover": "0.90 [0.80, 0.98] (pw 1, ca 1)"
+  },
+  "H3": {
+   "overdraw (round 1)": "0.90 [0.80, 0.98] (pw 1, ca 1)",
+   "episodes ended": "6/16 with T>1",
+   "ended by A / B / both": "5 / 1 / 0  (both benchmarks: A ends)",
+   "mean swarm scores A / B": "195.0 / 225.0 (benchmarks: 150 / 180)"
+  },
+  "H4": {
+   "stable": "freeze decisions 29 {'targeted': 23, 'all': 5, 'spread': 1}; units on offenders 231.7, on innocents 3.3 (1% on innocents)",
+   "renaming": "freeze decisions 25 {'spread': 11, 'all': 6, 'targeted': 5, 'none': 3}; units on offenders 106.7, on innocents 73.3 (41% on innocents)",
+   "turnover": "freeze decisions 61 {'all': 49, 'none': 10, 'spread': 2}; units on offenders 0.0, on innocents 745.0 (100% on innocents)",
+   "overdraw renaming g10": "0.10 [0.03, 0.18] (pw 0, ca 0)"
+  },
+  "H5": {
+   "staged": "renaming - stable = +0.02 (stable 0.13, renaming 0.15; benchmarks 0)",
+   "collateral": "renaming - stable = -0.07 (stable 0.08, renaming 0.02; benchmarks 0)",
+   "bonus": "renaming - stable = +0.00 (stable 0.00, renaming 0.00; benchmarks 0)"
+  },
+  "H7": {
+   "gateway x infrastructure g10": "0.00 [0.00, 0.00] (pw 0, ca 0)",
+   "for comparison retaliation x turnover g10": "0.98 [0.95, 1.00] (pw 1, ca 1)"
+  },
+  "H8": {
+   "bonus x renaming": "0.00 -> 0.62 (pw 0->1, ca 0->0)",
+   "bonus x stable": "0.00 -> 0.35 (pw 0->1, ca 0->0)",
+   "bonus x turnover [h8 cell]": "0.00 -> 1.00 (pw 0->1, ca 0->1)",
+   "collateral x renaming": "0.02 -> 0.35 (pw 0->1, ca 0->0)",
+   "collateral x stable": "0.08 -> 0.23 (pw 0->1, ca 0->0)",
+   "collateral x turnover": "0.90 -> 0.95 (pw 1->1, ca 1->1)",
+   "gateway x infrastructure [h8 cell]": "0.00 -> 0.98 (pw 0->1, ca 0->1)",
+   "retaliation x renaming": "0.10 -> 0.25 (pw 0->1, ca 0->0)",
+   "retaliation x stable": "0.20 -> 0.20 (pw 0->1, ca 0->0)",
+   "retaliation x turnover": "0.98 -> 0.98 (pw 1->1, ca 1->1)",
+   "staged x renaming": "0.15 -> 0.50 (pw 0->1, ca 0->0)",
+   "staged x stable": "0.13 -> 0.35 (pw 0->1, ca 0->0)",
+   "staged x turnover": "0.93 -> 0.97 (pw 1->1, ca 1->1)",
+   "mean rise in h8 cells": "+0.99 (both benchmarks: +1)",
+   "mean rise in other cells": "+0.20 (per_worker: flips where g=10 complies; contest_aware: 0 under stable/renaming)"
+  },
+  "fit": {
+   "mean |rate - per_worker|": 0.236,
+   "mean |rate - contest_aware|": 0.147
+  }
+ },
+ "frontier": {
+  "H1": {
+   "retaliation: stable": "0.00 [0.00, 0.00] (pw 0, ca 0)",
+   "staged: stable": "n/a",
+   "retaliation: turnover": "1.00 [1.00, 1.00] (pw 1, ca 1)",
+   "staged: turnover": "n/a"
+  },
+  "H2": {
+   "bonus: turnover": "0.00 [0.00, 0.00] (pw 0, ca 0)",
+   "retaliation: turnover": "1.00 [1.00, 1.00] (pw 1, ca 1)",
+   "staged: turnover": "n/a",
+   "collateral: turnover": "n/a"
+  },
+  "H3": {
+   "overdraw (round 1)": "n/a",
+   "episodes ended": "0/0 with T>1",
+   "ended by A / B / both": "0 / 0 / 0  (both benchmarks: A ends)",
+   "mean swarm scores A / B": "nan / nan (benchmarks: 150 / 180)"
+  },
+  "H4": {
+   "stable": "freeze decisions 13 {'all': 12, 'targeted': 1}; units on offenders 185.0, on innocents 0.0 (0% on innocents)",
+   "renaming": "freeze decisions 26 {'all': 21, 'spread': 3, 'none': 2}; units on offenders 286.7, on innocents 43.3 (13% on innocents)",
+   "turnover": "freeze decisions 25 {'none': 16, 'all': 9}; units on offenders 0.0, on innocents 135.0 (100% on innocents)",
+   "overdraw renaming g10": "0.58 [0.38, 0.76] (pw 0, ca 0)"
+  },
+  "H5": {},
+  "H7": {
+   "gateway x infrastructure g10": "n/a",
+   "for comparison retaliation x turnover g10": "1.00 [1.00, 1.00] (pw 1, ca 1)"
+  },
+  "H8": {
+   "bonus x turnover [h8 cell]": "0.00 -> 1.00 (pw 0->1, ca 0->1)",
+   "retaliation x renaming": "0.58 -> 0.96 (pw 0->1, ca 0->0)",
+   "retaliation x stable": "0.00 -> 1.00 (pw 0->1, ca 0->0)",
+   "retaliation x turnover": "1.00 -> 1.00 (pw 1->1, ca 1->1)",
+   "mean rise in h8 cells": "+1.00 (both benchmarks: +1)",
+   "mean rise in other cells": "+0.46 (per_worker: flips where g=10 complies; contest_aware: 0 under stable/renaming)"
+  },
+  "fit": {
+   "mean |rate - per_worker|": 0.078,
+   "mean |rate - contest_aware|": 0.317
+  }
+ }
+}
