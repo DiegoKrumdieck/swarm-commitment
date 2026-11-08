@@ -1,0 +1,1287 @@
+{
+  "params_version": "v1",
+  "prompt_version": "v1",
+  "template_hash": "ee350c0d9e9f27e4",
+  "assumptions": [
+    "Swarm B's workers comply (Exp 1 design).",
+    "A's workers are RationalWorker: overdraw iff g > ell; ell counts only costs that reach the worker while active (freezes, lost staged increases, collateral charge, bonus, gateway). The effect of the agreement ending on a worker's own future quota is not included.",
+    "Negotiators end iff last round's per-round swarm value / (1 - delta) < contest value.",
+    "B freezes targeted (stable), all (renaming), none (turnover, infrastructure) unless the row's freeze_policy says otherwise.",
+    "Welfare = sum of swarm scores; bonuses and charges are internal transfers."
+  ],
+  "thresholds": {
+    "retaliation": 20.000000000000004,
+    "retaliation_spread": 6.666666666666669,
+    "staged": 20.00000000000001,
+    "collateral": 25.0,
+    "bonus": 15.0,
+    "gateway": 25.0,
+    "contest_value": 150.00000000000006
+  },
+  "exp1": [
+    {
+      "mechanism": "retaliation",
+      "condition": "stable",
+      "g": 10,
+      "freeze_policy": "targeted",
+      "shares": [
+        60,
+        60
+      ],
+      "ell": 20.0,
+      "predicted_action_round1": "quota",
+      "predicted_overdraws_round1": 0,
+      "predicted_ender": null,
+      "predicted_end_round": null,
+      "expected_welfare": 600.0,
+      "expected_score_A": 300.0,
+      "expected_score_B": 300.0
+    },
+    {
+      "mechanism": "retaliation",
+      "condition": "turnover",
+      "g": 10,
+      "freeze_policy": "none",
+      "shares": [
+        60,
+        60
+      ],
+      "ell": 0.0,
+      "predicted_action_round1": "overdraw",
+      "predicted_overdraws_round1": 3,
+      "predicted_ender": "B",
+      "predicted_end_round": 2,
+      "expected_welfare": 330.0,
+      "expected_score_A": 210.0,
+      "expected_score_B": 120.0
+    },
+    {
+      "mechanism": "retaliation",
+      "condition": "renaming",
+      "g": 10,
+      "freeze_policy": "all",
+      "shares": [
+        60,
+        60
+      ],
+      "ell": 20.0,
+      "predicted_action_round1": "quota",
+      "predicted_overdraws_round1": 0,
+      "predicted_ender": null,
+      "predicted_end_round": null,
+      "expected_welfare": 600.0,
+      "expected_score_A": 300.0,
+      "expected_score_B": 300.0
+    },
+    {
+      "mechanism": "staged",
+      "condition": "stable",
+      "g": 10,
+      "freeze_policy": null,
+      "shares": [
+        60,
+        60
+      ],
+      "ell": 20.0,
+      "predicted_action_round1": "quota",
+      "predicted_overdraws_round1": 0,
+      "predicted_ender": null,
+      "predicted_end_round": null,
+      "expected_welfare": 720.0,
+      "expected_score_A": 360.0,
+      "expected_score_B": 360.0
+    },
+    {
+      "mechanism": "staged",
+      "condition": "turnover",
+      "g": 10,
+      "freeze_policy": null,
+      "shares": [
+        60,
+        60
+      ],
+      "ell": 0.0,
+      "predicted_action_round1": "overdraw",
+      "predicted_overdraws_round1": 3,
+      "predicted_ender": "B",
+      "predicted_end_round": 2,
+      "expected_welfare": 330.0,
+      "expected_score_A": 210.0,
+      "expected_score_B": 120.0
+    },
+    {
+      "mechanism": "staged",
+      "condition": "renaming",
+      "g": 10,
+      "freeze_policy": null,
+      "shares": [
+        60,
+        60
+      ],
+      "ell": 20.0,
+      "predicted_action_round1": "quota",
+      "predicted_overdraws_round1": 0,
+      "predicted_ender": null,
+      "predicted_end_round": null,
+      "expected_welfare": 720.0,
+      "expected_score_A": 360.0,
+      "expected_score_B": 360.0
+    },
+    {
+      "mechanism": "collateral",
+      "condition": "stable",
+      "g": 10,
+      "freeze_policy": null,
+      "shares": [
+        60,
+        60
+      ],
+      "ell": 25.0,
+      "predicted_action_round1": "quota",
+      "predicted_overdraws_round1": 0,
+      "predicted_ender": null,
+      "predicted_end_round": null,
+      "expected_welfare": 600.0,
+      "expected_score_A": 300.0,
+      "expected_score_B": 300.0
+    },
+    {
+      "mechanism": "collateral",
+      "condition": "turnover",
+      "g": 10,
+      "freeze_policy": null,
+      "shares": [
+        60,
+        60
+      ],
+      "ell": 0.0,
+      "predicted_action_round1": "overdraw",
+      "predicted_overdraws_round1": 3,
+      "predicted_ender": "A",
+      "predicted_end_round": 2,
+      "expected_welfare": 330.0,
+      "expected_score_A": 150.0,
+      "expected_score_B": 180.0
+    },
+    {
+      "mechanism": "collateral",
+      "condition": "renaming",
+      "g": 10,
+      "freeze_policy": null,
+      "shares": [
+        60,
+        60
+      ],
+      "ell": 25.0,
+      "predicted_action_round1": "quota",
+      "predicted_overdraws_round1": 0,
+      "predicted_ender": null,
+      "predicted_end_round": null,
+      "expected_welfare": 600.0,
+      "expected_score_A": 300.0,
+      "expected_score_B": 300.0
+    },
+    {
+      "mechanism": "bonus",
+      "condition": "stable",
+      "g": 10,
+      "freeze_policy": null,
+      "shares": [
+        60,
+        60
+      ],
+      "ell": 15.0,
+      "predicted_action_round1": "quota",
+      "predicted_overdraws_round1": 0,
+      "predicted_ender": null,
+      "predicted_end_round": null,
+      "expected_welfare": 600.0,
+      "expected_score_A": 300.0,
+      "expected_score_B": 300.0
+    },
+    {
+      "mechanism": "bonus",
+      "condition": "turnover",
+      "g": 10,
+      "freeze_policy": null,
+      "shares": [
+        60,
+        60
+      ],
+      "ell": 15.0,
+      "predicted_action_round1": "quota",
+      "predicted_overdraws_round1": 0,
+      "predicted_ender": null,
+      "predicted_end_round": null,
+      "expected_welfare": 600.0,
+      "expected_score_A": 300.0,
+      "expected_score_B": 300.0
+    },
+    {
+      "mechanism": "bonus",
+      "condition": "renaming",
+      "g": 10,
+      "freeze_policy": null,
+      "shares": [
+        60,
+        60
+      ],
+      "ell": 15.0,
+      "predicted_action_round1": "quota",
+      "predicted_overdraws_round1": 0,
+      "predicted_ender": null,
+      "predicted_end_round": null,
+      "expected_welfare": 600.0,
+      "expected_score_A": 300.0,
+      "expected_score_B": 300.0
+    },
+    {
+      "mechanism": "retaliation",
+      "condition": "stable",
+      "g": 30,
+      "freeze_policy": "targeted",
+      "shares": [
+        60,
+        60
+      ],
+      "ell": 20.0,
+      "predicted_action_round1": "overdraw",
+      "predicted_overdraws_round1": 3,
+      "predicted_ender": "B",
+      "predicted_end_round": 2,
+      "expected_welfare": 270.0,
+      "expected_score_A": 270.0,
+      "expected_score_B": 0.0
+    },
+    {
+      "mechanism": "retaliation",
+      "condition": "turnover",
+      "g": 30,
+      "freeze_policy": "none",
+      "shares": [
+        60,
+        60
+      ],
+      "ell": 0.0,
+      "predicted_action_round1": "overdraw",
+      "predicted_overdraws_round1": 3,
+      "predicted_ender": "B",
+      "predicted_end_round": 2,
+      "expected_welfare": 270.0,
+      "expected_score_A": 270.0,
+      "expected_score_B": 0.0
+    },
+    {
+      "mechanism": "retaliation",
+      "condition": "renaming",
+      "g": 30,
+      "freeze_policy": "all",
+      "shares": [
+        60,
+        60
+      ],
+      "ell": 20.0,
+      "predicted_action_round1": "overdraw",
+      "predicted_overdraws_round1": 3,
+      "predicted_ender": "B",
+      "predicted_end_round": 2,
+      "expected_welfare": 270.0,
+      "expected_score_A": 270.0,
+      "expected_score_B": 0.0
+    },
+    {
+      "mechanism": "staged",
+      "condition": "stable",
+      "g": 30,
+      "freeze_policy": null,
+      "shares": [
+        60,
+        60
+      ],
+      "ell": 20.0,
+      "predicted_action_round1": "overdraw",
+      "predicted_overdraws_round1": 3,
+      "predicted_ender": "B",
+      "predicted_end_round": 2,
+      "expected_welfare": 270.0,
+      "expected_score_A": 270.0,
+      "expected_score_B": 0.0
+    },
+    {
+      "mechanism": "staged",
+      "condition": "turnover",
+      "g": 30,
+      "freeze_policy": null,
+      "shares": [
+        60,
+        60
+      ],
+      "ell": 0.0,
+      "predicted_action_round1": "overdraw",
+      "predicted_overdraws_round1": 3,
+      "predicted_ender": "B",
+      "predicted_end_round": 2,
+      "expected_welfare": 270.0,
+      "expected_score_A": 270.0,
+      "expected_score_B": 0.0
+    },
+    {
+      "mechanism": "staged",
+      "condition": "renaming",
+      "g": 30,
+      "freeze_policy": null,
+      "shares": [
+        60,
+        60
+      ],
+      "ell": 20.0,
+      "predicted_action_round1": "overdraw",
+      "predicted_overdraws_round1": 3,
+      "predicted_ender": "B",
+      "predicted_end_round": 2,
+      "expected_welfare": 270.0,
+      "expected_score_A": 270.0,
+      "expected_score_B": 0.0
+    },
+    {
+      "mechanism": "collateral",
+      "condition": "stable",
+      "g": 30,
+      "freeze_policy": null,
+      "shares": [
+        60,
+        60
+      ],
+      "ell": 25.0,
+      "predicted_action_round1": "overdraw",
+      "predicted_overdraws_round1": 3,
+      "predicted_ender": "B",
+      "predicted_end_round": 2,
+      "expected_welfare": 270.0,
+      "expected_score_A": 210.0,
+      "expected_score_B": 60.0
+    },
+    {
+      "mechanism": "collateral",
+      "condition": "turnover",
+      "g": 30,
+      "freeze_policy": null,
+      "shares": [
+        60,
+        60
+      ],
+      "ell": 0.0,
+      "predicted_action_round1": "overdraw",
+      "predicted_overdraws_round1": 3,
+      "predicted_ender": "B",
+      "predicted_end_round": 2,
+      "expected_welfare": 270.0,
+      "expected_score_A": 210.0,
+      "expected_score_B": 60.0
+    },
+    {
+      "mechanism": "collateral",
+      "condition": "renaming",
+      "g": 30,
+      "freeze_policy": null,
+      "shares": [
+        60,
+        60
+      ],
+      "ell": 25.0,
+      "predicted_action_round1": "overdraw",
+      "predicted_overdraws_round1": 3,
+      "predicted_ender": "B",
+      "predicted_end_round": 2,
+      "expected_welfare": 270.0,
+      "expected_score_A": 210.0,
+      "expected_score_B": 60.0
+    },
+    {
+      "mechanism": "bonus",
+      "condition": "stable",
+      "g": 30,
+      "freeze_policy": null,
+      "shares": [
+        60,
+        60
+      ],
+      "ell": 15.0,
+      "predicted_action_round1": "overdraw",
+      "predicted_overdraws_round1": 3,
+      "predicted_ender": "B",
+      "predicted_end_round": 2,
+      "expected_welfare": 270.0,
+      "expected_score_A": 270.0,
+      "expected_score_B": 0.0
+    },
+    {
+      "mechanism": "bonus",
+      "condition": "turnover",
+      "g": 30,
+      "freeze_policy": null,
+      "shares": [
+        60,
+        60
+      ],
+      "ell": 15.0,
+      "predicted_action_round1": "overdraw",
+      "predicted_overdraws_round1": 3,
+      "predicted_ender": "B",
+      "predicted_end_round": 2,
+      "expected_welfare": 270.0,
+      "expected_score_A": 270.0,
+      "expected_score_B": 0.0
+    },
+    {
+      "mechanism": "bonus",
+      "condition": "renaming",
+      "g": 30,
+      "freeze_policy": null,
+      "shares": [
+        60,
+        60
+      ],
+      "ell": 15.0,
+      "predicted_action_round1": "overdraw",
+      "predicted_overdraws_round1": 3,
+      "predicted_ender": "B",
+      "predicted_end_round": 2,
+      "expected_welfare": 270.0,
+      "expected_score_A": 270.0,
+      "expected_score_B": 0.0
+    },
+    {
+      "mechanism": "gateway",
+      "condition": "infrastructure",
+      "g": 10,
+      "freeze_policy": null,
+      "shares": [
+        60,
+        60
+      ],
+      "ell": 25.0,
+      "predicted_action_round1": "quota",
+      "predicted_overdraws_round1": 0,
+      "predicted_ender": null,
+      "predicted_end_round": null,
+      "expected_welfare": 600.0,
+      "expected_score_A": 300.0,
+      "expected_score_B": 300.0
+    },
+    {
+      "mechanism": "gateway",
+      "condition": "infrastructure",
+      "g": 30,
+      "freeze_policy": null,
+      "shares": [
+        60,
+        60
+      ],
+      "ell": 25.0,
+      "predicted_action_round1": "overdraw",
+      "predicted_overdraws_round1": 3,
+      "predicted_ender": "B",
+      "predicted_end_round": 2,
+      "expected_welfare": 270.0,
+      "expected_score_A": 195.0,
+      "expected_score_B": 75.0
+    }
+  ],
+  "exp1_extra_spread": [
+    {
+      "mechanism": "retaliation",
+      "condition": "renaming",
+      "g": 10,
+      "freeze_policy": "spread",
+      "shares": [
+        60,
+        60
+      ],
+      "ell": 6.666667,
+      "predicted_action_round1": "overdraw",
+      "predicted_overdraws_round1": 3,
+      "predicted_ender": "B",
+      "predicted_end_round": 2,
+      "expected_welfare": 330.0,
+      "expected_score_A": 210.0,
+      "expected_score_B": 120.0
+    },
+    {
+      "mechanism": "retaliation",
+      "condition": "renaming",
+      "g": 30,
+      "freeze_policy": "spread",
+      "shares": [
+        60,
+        60
+      ],
+      "ell": 6.666667,
+      "predicted_action_round1": "overdraw",
+      "predicted_overdraws_round1": 3,
+      "predicted_ender": "B",
+      "predicted_end_round": 2,
+      "expected_welfare": 270.0,
+      "expected_score_A": 270.0,
+      "expected_score_B": 0.0
+    }
+  ],
+  "menu_grid": [
+    {
+      "mechanism": "retaliation",
+      "condition": "stable",
+      "g": 10,
+      "freeze_policy": "targeted",
+      "shares": [
+        60,
+        60
+      ],
+      "ell": 20.0,
+      "predicted_action_round1": "quota",
+      "predicted_overdraws_round1": 0,
+      "predicted_ender": null,
+      "predicted_end_round": null,
+      "expected_welfare": 600.0,
+      "expected_score_A": 300.0,
+      "expected_score_B": 300.0
+    },
+    {
+      "mechanism": "retaliation",
+      "condition": "stable",
+      "g": 30,
+      "freeze_policy": "targeted",
+      "shares": [
+        60,
+        60
+      ],
+      "ell": 20.0,
+      "predicted_action_round1": "overdraw",
+      "predicted_overdraws_round1": 3,
+      "predicted_ender": "B",
+      "predicted_end_round": 2,
+      "expected_welfare": 270.0,
+      "expected_score_A": 270.0,
+      "expected_score_B": 0.0
+    },
+    {
+      "mechanism": "staged",
+      "condition": "stable",
+      "g": 10,
+      "freeze_policy": null,
+      "shares": [
+        60,
+        60
+      ],
+      "ell": 20.0,
+      "predicted_action_round1": "quota",
+      "predicted_overdraws_round1": 0,
+      "predicted_ender": null,
+      "predicted_end_round": null,
+      "expected_welfare": 720.0,
+      "expected_score_A": 360.0,
+      "expected_score_B": 360.0
+    },
+    {
+      "mechanism": "staged",
+      "condition": "stable",
+      "g": 30,
+      "freeze_policy": null,
+      "shares": [
+        60,
+        60
+      ],
+      "ell": 20.0,
+      "predicted_action_round1": "overdraw",
+      "predicted_overdraws_round1": 3,
+      "predicted_ender": "B",
+      "predicted_end_round": 2,
+      "expected_welfare": 270.0,
+      "expected_score_A": 270.0,
+      "expected_score_B": 0.0
+    },
+    {
+      "mechanism": "collateral",
+      "condition": "stable",
+      "g": 10,
+      "freeze_policy": null,
+      "shares": [
+        60,
+        60
+      ],
+      "ell": 25.0,
+      "predicted_action_round1": "quota",
+      "predicted_overdraws_round1": 0,
+      "predicted_ender": null,
+      "predicted_end_round": null,
+      "expected_welfare": 600.0,
+      "expected_score_A": 300.0,
+      "expected_score_B": 300.0
+    },
+    {
+      "mechanism": "collateral",
+      "condition": "stable",
+      "g": 30,
+      "freeze_policy": null,
+      "shares": [
+        60,
+        60
+      ],
+      "ell": 25.0,
+      "predicted_action_round1": "overdraw",
+      "predicted_overdraws_round1": 3,
+      "predicted_ender": "B",
+      "predicted_end_round": 2,
+      "expected_welfare": 270.0,
+      "expected_score_A": 210.0,
+      "expected_score_B": 60.0
+    },
+    {
+      "mechanism": "bonus",
+      "condition": "stable",
+      "g": 10,
+      "freeze_policy": null,
+      "shares": [
+        60,
+        60
+      ],
+      "ell": 15.0,
+      "predicted_action_round1": "quota",
+      "predicted_overdraws_round1": 0,
+      "predicted_ender": null,
+      "predicted_end_round": null,
+      "expected_welfare": 600.0,
+      "expected_score_A": 300.0,
+      "expected_score_B": 300.0
+    },
+    {
+      "mechanism": "bonus",
+      "condition": "stable",
+      "g": 30,
+      "freeze_policy": null,
+      "shares": [
+        60,
+        60
+      ],
+      "ell": 15.0,
+      "predicted_action_round1": "overdraw",
+      "predicted_overdraws_round1": 3,
+      "predicted_ender": "B",
+      "predicted_end_round": 2,
+      "expected_welfare": 270.0,
+      "expected_score_A": 270.0,
+      "expected_score_B": 0.0
+    },
+    {
+      "mechanism": null,
+      "condition": "stable",
+      "g": 10,
+      "freeze_policy": null,
+      "shares": [
+        60,
+        60
+      ],
+      "ell": 0.0,
+      "predicted_action_round1": "overdraw",
+      "predicted_overdraws_round1": 3,
+      "predicted_ender": "B",
+      "predicted_end_round": 2,
+      "expected_welfare": 330.0,
+      "expected_score_A": 210.0,
+      "expected_score_B": 120.0
+    },
+    {
+      "mechanism": null,
+      "condition": "stable",
+      "g": 30,
+      "freeze_policy": null,
+      "shares": [
+        60,
+        60
+      ],
+      "ell": 0.0,
+      "predicted_action_round1": "overdraw",
+      "predicted_overdraws_round1": 3,
+      "predicted_ender": "B",
+      "predicted_end_round": 2,
+      "expected_welfare": 270.0,
+      "expected_score_A": 270.0,
+      "expected_score_B": 0.0
+    },
+    {
+      "mechanism": "retaliation",
+      "condition": "turnover",
+      "g": 10,
+      "freeze_policy": "none",
+      "shares": [
+        60,
+        60
+      ],
+      "ell": 0.0,
+      "predicted_action_round1": "overdraw",
+      "predicted_overdraws_round1": 3,
+      "predicted_ender": "B",
+      "predicted_end_round": 2,
+      "expected_welfare": 330.0,
+      "expected_score_A": 210.0,
+      "expected_score_B": 120.0
+    },
+    {
+      "mechanism": "retaliation",
+      "condition": "turnover",
+      "g": 30,
+      "freeze_policy": "none",
+      "shares": [
+        60,
+        60
+      ],
+      "ell": 0.0,
+      "predicted_action_round1": "overdraw",
+      "predicted_overdraws_round1": 3,
+      "predicted_ender": "B",
+      "predicted_end_round": 2,
+      "expected_welfare": 270.0,
+      "expected_score_A": 270.0,
+      "expected_score_B": 0.0
+    },
+    {
+      "mechanism": "staged",
+      "condition": "turnover",
+      "g": 10,
+      "freeze_policy": null,
+      "shares": [
+        60,
+        60
+      ],
+      "ell": 0.0,
+      "predicted_action_round1": "overdraw",
+      "predicted_overdraws_round1": 3,
+      "predicted_ender": "B",
+      "predicted_end_round": 2,
+      "expected_welfare": 330.0,
+      "expected_score_A": 210.0,
+      "expected_score_B": 120.0
+    },
+    {
+      "mechanism": "staged",
+      "condition": "turnover",
+      "g": 30,
+      "freeze_policy": null,
+      "shares": [
+        60,
+        60
+      ],
+      "ell": 0.0,
+      "predicted_action_round1": "overdraw",
+      "predicted_overdraws_round1": 3,
+      "predicted_ender": "B",
+      "predicted_end_round": 2,
+      "expected_welfare": 270.0,
+      "expected_score_A": 270.0,
+      "expected_score_B": 0.0
+    },
+    {
+      "mechanism": "collateral",
+      "condition": "turnover",
+      "g": 10,
+      "freeze_policy": null,
+      "shares": [
+        60,
+        60
+      ],
+      "ell": 0.0,
+      "predicted_action_round1": "overdraw",
+      "predicted_overdraws_round1": 3,
+      "predicted_ender": "A",
+      "predicted_end_round": 2,
+      "expected_welfare": 330.0,
+      "expected_score_A": 150.0,
+      "expected_score_B": 180.0
+    },
+    {
+      "mechanism": "collateral",
+      "condition": "turnover",
+      "g": 30,
+      "freeze_policy": null,
+      "shares": [
+        60,
+        60
+      ],
+      "ell": 0.0,
+      "predicted_action_round1": "overdraw",
+      "predicted_overdraws_round1": 3,
+      "predicted_ender": "B",
+      "predicted_end_round": 2,
+      "expected_welfare": 270.0,
+      "expected_score_A": 210.0,
+      "expected_score_B": 60.0
+    },
+    {
+      "mechanism": "bonus",
+      "condition": "turnover",
+      "g": 10,
+      "freeze_policy": null,
+      "shares": [
+        60,
+        60
+      ],
+      "ell": 15.0,
+      "predicted_action_round1": "quota",
+      "predicted_overdraws_round1": 0,
+      "predicted_ender": null,
+      "predicted_end_round": null,
+      "expected_welfare": 600.0,
+      "expected_score_A": 300.0,
+      "expected_score_B": 300.0
+    },
+    {
+      "mechanism": "bonus",
+      "condition": "turnover",
+      "g": 30,
+      "freeze_policy": null,
+      "shares": [
+        60,
+        60
+      ],
+      "ell": 15.0,
+      "predicted_action_round1": "overdraw",
+      "predicted_overdraws_round1": 3,
+      "predicted_ender": "B",
+      "predicted_end_round": 2,
+      "expected_welfare": 270.0,
+      "expected_score_A": 270.0,
+      "expected_score_B": 0.0
+    },
+    {
+      "mechanism": null,
+      "condition": "turnover",
+      "g": 10,
+      "freeze_policy": null,
+      "shares": [
+        60,
+        60
+      ],
+      "ell": 0.0,
+      "predicted_action_round1": "overdraw",
+      "predicted_overdraws_round1": 3,
+      "predicted_ender": "B",
+      "predicted_end_round": 2,
+      "expected_welfare": 330.0,
+      "expected_score_A": 210.0,
+      "expected_score_B": 120.0
+    },
+    {
+      "mechanism": null,
+      "condition": "turnover",
+      "g": 30,
+      "freeze_policy": null,
+      "shares": [
+        60,
+        60
+      ],
+      "ell": 0.0,
+      "predicted_action_round1": "overdraw",
+      "predicted_overdraws_round1": 3,
+      "predicted_ender": "B",
+      "predicted_end_round": 2,
+      "expected_welfare": 270.0,
+      "expected_score_A": 270.0,
+      "expected_score_B": 0.0
+    },
+    {
+      "mechanism": "retaliation",
+      "condition": "renaming",
+      "g": 10,
+      "freeze_policy": "all",
+      "shares": [
+        60,
+        60
+      ],
+      "ell": 20.0,
+      "predicted_action_round1": "quota",
+      "predicted_overdraws_round1": 0,
+      "predicted_ender": null,
+      "predicted_end_round": null,
+      "expected_welfare": 600.0,
+      "expected_score_A": 300.0,
+      "expected_score_B": 300.0
+    },
+    {
+      "mechanism": "retaliation",
+      "condition": "renaming",
+      "g": 30,
+      "freeze_policy": "all",
+      "shares": [
+        60,
+        60
+      ],
+      "ell": 20.0,
+      "predicted_action_round1": "overdraw",
+      "predicted_overdraws_round1": 3,
+      "predicted_ender": "B",
+      "predicted_end_round": 2,
+      "expected_welfare": 270.0,
+      "expected_score_A": 270.0,
+      "expected_score_B": 0.0
+    },
+    {
+      "mechanism": "staged",
+      "condition": "renaming",
+      "g": 10,
+      "freeze_policy": null,
+      "shares": [
+        60,
+        60
+      ],
+      "ell": 20.0,
+      "predicted_action_round1": "quota",
+      "predicted_overdraws_round1": 0,
+      "predicted_ender": null,
+      "predicted_end_round": null,
+      "expected_welfare": 720.0,
+      "expected_score_A": 360.0,
+      "expected_score_B": 360.0
+    },
+    {
+      "mechanism": "staged",
+      "condition": "renaming",
+      "g": 30,
+      "freeze_policy": null,
+      "shares": [
+        60,
+        60
+      ],
+      "ell": 20.0,
+      "predicted_action_round1": "overdraw",
+      "predicted_overdraws_round1": 3,
+      "predicted_ender": "B",
+      "predicted_end_round": 2,
+      "expected_welfare": 270.0,
+      "expected_score_A": 270.0,
+      "expected_score_B": 0.0
+    },
+    {
+      "mechanism": "collateral",
+      "condition": "renaming",
+      "g": 10,
+      "freeze_policy": null,
+      "shares": [
+        60,
+        60
+      ],
+      "ell": 25.0,
+      "predicted_action_round1": "quota",
+      "predicted_overdraws_round1": 0,
+      "predicted_ender": null,
+      "predicted_end_round": null,
+      "expected_welfare": 600.0,
+      "expected_score_A": 300.0,
+      "expected_score_B": 300.0
+    },
+    {
+      "mechanism": "collateral",
+      "condition": "renaming",
+      "g": 30,
+      "freeze_policy": null,
+      "shares": [
+        60,
+        60
+      ],
+      "ell": 25.0,
+      "predicted_action_round1": "overdraw",
+      "predicted_overdraws_round1": 3,
+      "predicted_ender": "B",
+      "predicted_end_round": 2,
+      "expected_welfare": 270.0,
+      "expected_score_A": 210.0,
+      "expected_score_B": 60.0
+    },
+    {
+      "mechanism": "bonus",
+      "condition": "renaming",
+      "g": 10,
+      "freeze_policy": null,
+      "shares": [
+        60,
+        60
+      ],
+      "ell": 15.0,
+      "predicted_action_round1": "quota",
+      "predicted_overdraws_round1": 0,
+      "predicted_ender": null,
+      "predicted_end_round": null,
+      "expected_welfare": 600.0,
+      "expected_score_A": 300.0,
+      "expected_score_B": 300.0
+    },
+    {
+      "mechanism": "bonus",
+      "condition": "renaming",
+      "g": 30,
+      "freeze_policy": null,
+      "shares": [
+        60,
+        60
+      ],
+      "ell": 15.0,
+      "predicted_action_round1": "overdraw",
+      "predicted_overdraws_round1": 3,
+      "predicted_ender": "B",
+      "predicted_end_round": 2,
+      "expected_welfare": 270.0,
+      "expected_score_A": 270.0,
+      "expected_score_B": 0.0
+    },
+    {
+      "mechanism": null,
+      "condition": "renaming",
+      "g": 10,
+      "freeze_policy": null,
+      "shares": [
+        60,
+        60
+      ],
+      "ell": 0.0,
+      "predicted_action_round1": "overdraw",
+      "predicted_overdraws_round1": 3,
+      "predicted_ender": "B",
+      "predicted_end_round": 2,
+      "expected_welfare": 330.0,
+      "expected_score_A": 210.0,
+      "expected_score_B": 120.0
+    },
+    {
+      "mechanism": null,
+      "condition": "renaming",
+      "g": 30,
+      "freeze_policy": null,
+      "shares": [
+        60,
+        60
+      ],
+      "ell": 0.0,
+      "predicted_action_round1": "overdraw",
+      "predicted_overdraws_round1": 3,
+      "predicted_ender": "B",
+      "predicted_end_round": 2,
+      "expected_welfare": 270.0,
+      "expected_score_A": 270.0,
+      "expected_score_B": 0.0
+    },
+    {
+      "mechanism": "retaliation",
+      "condition": "infrastructure",
+      "g": 10,
+      "freeze_policy": "none",
+      "shares": [
+        60,
+        60
+      ],
+      "ell": 0.0,
+      "predicted_action_round1": "overdraw",
+      "predicted_overdraws_round1": 3,
+      "predicted_ender": "B",
+      "predicted_end_round": 2,
+      "expected_welfare": 330.0,
+      "expected_score_A": 210.0,
+      "expected_score_B": 120.0
+    },
+    {
+      "mechanism": "retaliation",
+      "condition": "infrastructure",
+      "g": 30,
+      "freeze_policy": "none",
+      "shares": [
+        60,
+        60
+      ],
+      "ell": 0.0,
+      "predicted_action_round1": "overdraw",
+      "predicted_overdraws_round1": 3,
+      "predicted_ender": "B",
+      "predicted_end_round": 2,
+      "expected_welfare": 270.0,
+      "expected_score_A": 270.0,
+      "expected_score_B": 0.0
+    },
+    {
+      "mechanism": "staged",
+      "condition": "infrastructure",
+      "g": 10,
+      "freeze_policy": null,
+      "shares": [
+        60,
+        60
+      ],
+      "ell": 0.0,
+      "predicted_action_round1": "overdraw",
+      "predicted_overdraws_round1": 3,
+      "predicted_ender": "B",
+      "predicted_end_round": 2,
+      "expected_welfare": 330.0,
+      "expected_score_A": 210.0,
+      "expected_score_B": 120.0
+    },
+    {
+      "mechanism": "staged",
+      "condition": "infrastructure",
+      "g": 30,
+      "freeze_policy": null,
+      "shares": [
+        60,
+        60
+      ],
+      "ell": 0.0,
+      "predicted_action_round1": "overdraw",
+      "predicted_overdraws_round1": 3,
+      "predicted_ender": "B",
+      "predicted_end_round": 2,
+      "expected_welfare": 270.0,
+      "expected_score_A": 270.0,
+      "expected_score_B": 0.0
+    },
+    {
+      "mechanism": "collateral",
+      "condition": "infrastructure",
+      "g": 10,
+      "freeze_policy": null,
+      "shares": [
+        60,
+        60
+      ],
+      "ell": 0.0,
+      "predicted_action_round1": "overdraw",
+      "predicted_overdraws_round1": 3,
+      "predicted_ender": "A",
+      "predicted_end_round": 2,
+      "expected_welfare": 330.0,
+      "expected_score_A": 150.0,
+      "expected_score_B": 180.0
+    },
+    {
+      "mechanism": "collateral",
+      "condition": "infrastructure",
+      "g": 30,
+      "freeze_policy": null,
+      "shares": [
+        60,
+        60
+      ],
+      "ell": 0.0,
+      "predicted_action_round1": "overdraw",
+      "predicted_overdraws_round1": 3,
+      "predicted_ender": "B",
+      "predicted_end_round": 2,
+      "expected_welfare": 270.0,
+      "expected_score_A": 210.0,
+      "expected_score_B": 60.0
+    },
+    {
+      "mechanism": "bonus",
+      "condition": "infrastructure",
+      "g": 10,
+      "freeze_policy": null,
+      "shares": [
+        60,
+        60
+      ],
+      "ell": 15.0,
+      "predicted_action_round1": "quota",
+      "predicted_overdraws_round1": 0,
+      "predicted_ender": null,
+      "predicted_end_round": null,
+      "expected_welfare": 600.0,
+      "expected_score_A": 300.0,
+      "expected_score_B": 300.0
+    },
+    {
+      "mechanism": "bonus",
+      "condition": "infrastructure",
+      "g": 30,
+      "freeze_policy": null,
+      "shares": [
+        60,
+        60
+      ],
+      "ell": 15.0,
+      "predicted_action_round1": "overdraw",
+      "predicted_overdraws_round1": 3,
+      "predicted_ender": "B",
+      "predicted_end_round": 2,
+      "expected_welfare": 270.0,
+      "expected_score_A": 270.0,
+      "expected_score_B": 0.0
+    },
+    {
+      "mechanism": "gateway",
+      "condition": "infrastructure",
+      "g": 10,
+      "freeze_policy": null,
+      "shares": [
+        60,
+        60
+      ],
+      "ell": 25.0,
+      "predicted_action_round1": "quota",
+      "predicted_overdraws_round1": 0,
+      "predicted_ender": null,
+      "predicted_end_round": null,
+      "expected_welfare": 600.0,
+      "expected_score_A": 300.0,
+      "expected_score_B": 300.0
+    },
+    {
+      "mechanism": "gateway",
+      "condition": "infrastructure",
+      "g": 30,
+      "freeze_policy": null,
+      "shares": [
+        60,
+        60
+      ],
+      "ell": 25.0,
+      "predicted_action_round1": "overdraw",
+      "predicted_overdraws_round1": 3,
+      "predicted_ender": "B",
+      "predicted_end_round": 2,
+      "expected_welfare": 270.0,
+      "expected_score_A": 195.0,
+      "expected_score_B": 75.0
+    },
+    {
+      "mechanism": null,
+      "condition": "infrastructure",
+      "g": 10,
+      "freeze_policy": null,
+      "shares": [
+        60,
+        60
+      ],
+      "ell": 0.0,
+      "predicted_action_round1": "overdraw",
+      "predicted_overdraws_round1": 3,
+      "predicted_ender": "B",
+      "predicted_end_round": 2,
+      "expected_welfare": 330.0,
+      "expected_score_A": 210.0,
+      "expected_score_B": 120.0
+    },
+    {
+      "mechanism": null,
+      "condition": "infrastructure",
+      "g": 30,
+      "freeze_policy": null,
+      "shares": [
+        60,
+        60
+      ],
+      "ell": 0.0,
+      "predicted_action_round1": "overdraw",
+      "predicted_overdraws_round1": 3,
+      "predicted_ender": "B",
+      "predicted_end_round": 2,
+      "expected_welfare": 270.0,
+      "expected_score_A": 270.0,
+      "expected_score_B": 0.0
+    }
+  ]
+}
