@@ -73,6 +73,38 @@ Re-pilot after v2 (gateway × infrastructure, 3 episodes per g): comprehension 4
 are payoff-field slips where the worker's reasoning states the correct values; payoff fields are elicited
 before reasoning, so comprehension is a lower bound. Proceeded without further prompt changes.
 
+## Deviations from pre-registration
+
+- **Headline measure.** The design pre-registered deal survival as the primary outcome and the overdraw rate as the
+  share of *all* worker decisions. The analysis reports Swarm A workers' **round-1** overdraw rate as the headline
+  "no-history" measure, because both benchmarks make their prediction about round 1 and later rounds depend on the
+  realized history (freezes, stopped staged release, successors reacting to predecessors). The pre-registered
+  measures are reported next to it everywhere: all-rounds overdraw rates (Figure 1, second row; every table in
+  `results/paper_numbers.md`) and deal survival (Kaplan–Meier, share ended, who ended it, mean swarm scores).
+- **Exploratory analyses (not pre-registered).** Contagion in turnover/infrastructure cells (Figures 6a, 6b and
+  per-cell linear probability models); how models read the continuation horizon (Figure 7); keyword classification
+  of worker reasoning under renaming and B's freeze modes; exit vs punishment in retaliation × turnover. Code:
+  `analysis_extra.py`.
+- **Second benchmark.** `contest_aware` was added before pre-registration (tag `prereg`) and is reported alongside
+  `per_worker` throughout.
+
+## Limitations
+
+- **Horizon reading differs across models.** After a fully clean history, B's expected value of continuing (truth
+  300 = 60 / (1 − δ)) is a flat 240 for Claude Haiku 5.5 (4 × 60), 300 for GPT-6 Sol, and falls from about 247 in
+  round 2 to 160 in round 5 for GPT-6 Luna; Luna's workers' expected future cost of overdrawing in stable cells
+  falls from 20 to 0 by round 5, and Luna's negotiators end clean deals (A 3.4%, B 8.2% of decisions after a clean
+  history). Luna behaves as if the game had a fixed horizon of about 5 rounds. **Luna's survival and late-round
+  results are confounded by this; round-1 results are not.**
+- **Comprehension is a lower bound.** Payoff fields are elicited before the reasoning field, so some misses are
+  field slips whose reasoning states the correct values (gateway re-pilot).
+- **Floor effects.** Claude Haiku 5.5 never overdraws in round 1 in any stable or renaming cell, so contrasts
+  among those cells (H4 freeze targeting, H5 placebo) are uninformative for Haiku.
+- **Design.** There is no infrastructure-without-gateway cell, so H7 compares gateway × infrastructure with other
+  mechanisms × turnover. Exp 2/3 (H6) were run on the main model only.
+- **Wording.** The wording-B paraphrase changes Haiku's overdraw rate in the turnover cells (e.g. retaliation ×
+  turnover, round 1: 0.30 vs 0.63 at g = 10), so levels are wording-sensitive even where the ordering of cells is not.
+
 ## Preexisting code
 
 None. All code in this repository was written for this project.

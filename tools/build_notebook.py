@@ -58,8 +58,8 @@ t = R1[cols].merge(R1_clean[["cell_id", "rate"]].rename(columns={"rate": "rate_c
             .merge(R1_all[["cell_id", "rate"]].rename(columns={"rate": "rate_all_rounds"}), on="cell_id")
 t.round(3)"""),
     code("""A.reliability_by_cell(D1).round(3)"""),
-    md("### Figure 1 — overdraw rate by mechanism × condition, both benchmarks marked"),
-    code("""display(Image(A.fig1(R1, FIG / "fig1_overdraw_grid_main.png", A.MODEL_LABEL["main"])))"""),
+    md("### Figure 1 — overdraw rate by mechanism × condition, both benchmarks marked (row 1: round 1, the no-history measure; row 2: all rounds, the pre-registered measure)"),
+    code("""display(Image(A.fig1(R1, FIG / "fig1_overdraw_grid_main.png", A.MODEL_LABEL["main"], R_all=R1_all)))"""),
     md("### Figure 2 — deal survival (Kaplan–Meier) by condition, one panel per mechanism"),
     code("""display(Image(A.fig2(E1, FIG / "fig2_survival_main.png", A.MODEL_LABEL["main"])))"""),
     md("### Figure 3 — g = 10 vs 30 per cell (H8), `h8_noise_check` cells highlighted"),
@@ -85,6 +85,7 @@ display(Image(A.fig5(E2 if len(E2) else None, E3 if len(E3) else None, FIG / "fi
     display(R3[["cell_id", "rate", "lo", "hi", "n_episodes", "pw_pred", "ca_pred"]].round(3))"""),
     md("## Robustness: wording B (KEY_CELLS) and cross-model grids (Figure 1b)"),
     code("""panels = {A.MODEL_LABEL["main"]: R1}
+panels_all = {A.MODEL_LABEL["main"]: R1_all}
 RB = None
 if has(1, "main"):
     DB, EB = A.load(1, "main", wording="B")
@@ -100,9 +101,11 @@ for model in ("cross_family", "frontier"):
             Rm = A.cell_rates(Dm)
             Rm.to_csv(A.ROOT / "results" / f"cell_rates_{model}.csv", index=False)
             panels[A.MODEL_LABEL[model]] = Rm
-display(Image(A.fig1b(panels, FIG / "fig1b_models.png")))
+            panels_all[A.MODEL_LABEL[model]] = A.cell_rates(Dm, rounds="all")
+display(Image(A.fig1b(panels, FIG / "fig1b_models.png", panels_all=panels_all)))
 if "GPT-6 Luna" in panels:
-    display(Image(A.fig1(panels["GPT-6 Luna"], FIG / "fig1_overdraw_grid_cross_family.png", "GPT-6 Luna")))
+    display(Image(A.fig1(panels["GPT-6 Luna"], FIG / "fig1_overdraw_grid_cross_family.png", "GPT-6 Luna",
+                         R_all=panels_all["GPT-6 Luna"])))
     display(Image(A.fig3(panels["GPT-6 Luna"], FIG / "fig3_g10_vs_g30_cross_family.png", "GPT-6 Luna")))"""),
     code("""models = {"main": D1}
 for model in ("cross_family", "frontier"):
@@ -112,15 +115,18 @@ if len(models) > 1:
     kind, res, n = A.logistic_regression(None, models=models)
     print("pooled with model fixed effects:", kind, "n =", n)
     print(res.summary().tables[1])"""),
-    md("## Hypotheses H1–H8 — headline numbers against both benchmarks\n\nFormat: rate [95% CI] (per_worker prediction, contest_aware prediction), round 1, g = 10 unless stated."),
-    code("""H = {"main": A.hypotheses(D1, E1, R1, E2 if len(E2) else None, D2 if len(D2) else None)}
-for model in ("cross_family", "frontier"):
-    if has(1, model):
-        Dm, Em = A.load(1, model)
-        if len(Dm):
-            H[model] = A.hypotheses(Dm, Em, A.cell_rates(Dm))
-(A.ROOT / "results" / "hypotheses.json").write_text(json.dumps(H, indent=1, default=str))
-print(json.dumps(H, indent=1, default=str))"""),
+    md("## Hypotheses H1–H8, both benchmarks, round 1 and all rounds, with deal survival\n\n"
+       "Built by `tools/paper_numbers.py`, which also writes `results/paper_numbers.md`, `results/hypotheses.json`, "
+       "`results/cell_summary_{model}.csv` and the exploratory figures. Each hypothesis table reports, per model and "
+       "cell: round-1 and all-rounds overdraw rates with 95% CIs and n, both benchmark predictions, share of deals "
+       "ended, Kaplan–Meier P(survive ≥ 4 rounds), who ended them, and mean swarm scores."),
+    code("""from IPython.display import Markdown
+from tools import paper_numbers
+paper_numbers.main()
+display(Markdown((A.ROOT / "results" / "paper_numbers.md").read_text(encoding="utf-8")))"""),
+    md("## Exploratory (not pre-registered): contagion, horizon reading"),
+    code("""for f in ("fig6a_overdraw_by_round.png", "fig6b_contagion.png", "fig7_horizon_reading.png"):
+    display(Image(FIG / f))"""),
 ]
 
 nb = nbf.v4.new_notebook()

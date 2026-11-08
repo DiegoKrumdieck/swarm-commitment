@@ -289,6 +289,159 @@ def hypotheses(D: pd.DataFrame, E: pd.DataFrame, R: pd.DataFrame, exp2: pd.DataF
     return H
 
 
+def km_survival_at(E_cell: pd.DataFrame, t: float = 4) -> float:
+    """Kaplan-Meier P(deal survives at least t rounds) for one cell's episodes."""
+    from lifelines import KaplanMeierFitter
+
+    e = km_table(E_cell)
+    if e.empty:
+        return np.nan
+    k = KaplanMeierFitter().fit(e["duration"], e["event"])
+    return float(k.predict(t))
+
+
+def cell_summary(D: pd.DataFrame, E: pd.DataFrame, n_boot: int = 2000) -> pd.DataFrame:
+    """One row per Exp 1 cell: round-1 and all-rounds overdraw rates (CI, n), deal survival
+    (share ended, KM S(4), ended_by), mean swarm scores, and both benchmarks."""
+    r1 = cell_rates(D, "first", n_boot=n_boot)
+    ra = cell_rates(D, "all", n_boot=n_boot)
+    if r1.empty:
+        return r1
+    S = r1.rename(columns={"rate": "r1", "lo": "r1_lo", "hi": "r1_hi", "n_decisions": "r1_n",
+                           "n_episodes": "n_episodes"})
+    S = S.merge(ra[["cell_id", "rate", "lo", "hi", "n_decisions"]].rename(
+        columns={"rate": "all", "lo": "all_lo", "hi": "all_hi", "n_decisions": "all_n"}), on="cell_id", how="left")
+    rows = []
+    for cid, e in E.groupby("cell_id"):
+        rows.append({
+            "cell_id": cid,
+            "ended_share": e["ended_by"].notna().mean(),
+            "km_S4": km_survival_at(e, 4),
+            "ended_A": int((e["ended_by"] == "A").sum()), "ended_B": int((e["ended_by"] == "B").sum()),
+            "ended_both": int((e["ended_by"] == "both").sum()),
+            "score_A": e["swarm_scores"].apply(lambda s: s["A"]).mean(),
+            "score_B": e["swarm_scores"].apply(lambda s: s["B"]).mean(),
+            "welfare": e["welfare"].mean(),
+            "n_T_gt_1": int((e["T"] > 1).sum()),
+        })
+    return S.merge(pd.DataFrame(rows), on="cell_id", how="left")
+
+
+HYP_CELLS = {
+    "H1": [("retaliation", "stable", 10), ("retaliation", "turnover", 10), ("staged", "stable", 10),
+           ("staged", "turnover", 10)],
+    "H2": [("bonus", "turnover", 10), ("retaliation", "turnover", 10), ("staged", "turnover", 10),
+           ("collateral", "turnover", 10)],
+    "H3": [("collateral", "turnover", 10), ("collateral", "turnover", 30)],
+    "H4": [("retaliation", "stable", 10), ("retaliation", "renaming", 10), ("retaliation", "turnover", 10),
+           ("retaliation", "stable", 30), ("retaliation", "renaming", 30)],
+    "H5": [(m, c, 10) for m in ("staged", "collateral", "bonus") for c in ("stable", "renaming")],
+    "H7": [("gateway", "infrastructure", 10), ("retaliation", "turnover", 10), ("staged", "turnover", 10),
+           ("collateral", "turnover", 10), ("bonus", "turnover", 10), ("gateway", "infrastructure", 30)],
+    "H8": [(m, c, g) for (m, c, g) in P.EXP1_CELLS],
+}
+CORE_CELLS = [("retaliation", "stable", 10), ("retaliation", "turnover", 10), ("retaliation", "renaming", 10),
+              ("bonus", "turnover", 10), ("gateway", "infrastructure", 10)]
+
+HYP_NOTES = {
+    "H1": "Friction: retaliation and staged release hold under stable and fail under turnover (both benchmarks: 0 vs 1).",
+    "H2": "Agency: under turnover the bonus restores compliance where retaliation, staged release and collateral fail.",
+    "H3": "Insurance: collateral x turnover fails to deter; both benchmarks have A, not B, end the deal "
+          "(benchmark mean scores A 150, B 180 at g=10).",
+    "H4": "Attribution: under renaming B must freeze every A worker to deter; innocents absorb freezes after any breach.",
+    "H5": "Placebo: renaming should not change staged release, collateral or the bonus. Haiku: a floor effect "
+          "(0 overdraws in every stable and renaming cell), so the test is uninformative for Haiku; Luna is the "
+          "real test of H5.",
+    "H6": "Choice (Exp 2/3, Haiku only). The bonus result rests on 2 proposals (both rejected): insufficient data. "
+          "Freezes are not rarer under renaming than under stable (15/60 vs 17/60), so adaptation away from "
+          "retaliation is not supported. The gateway was proposed in 60/60 infrastructure trials, which may "
+          "reflect salience (it is the only option named after the condition's infrastructure) rather than "
+          "strategic adaptation.",
+    "H7": "Infrastructure: the gateway holds under turnover plus renaming. Note the comparison is gateway x "
+          "infrastructure against the other mechanisms x turnover: there is no infrastructure-without-gateway cell, "
+          "so the design cannot separate the gateway from the infrastructure condition itself.",
+    "H8": "Strategic, not noise: raising g from 10 to 30. Per_worker predicts a flip in every cell that complies at "
+          "g=10; contest_aware predicts a flip only in the h8_noise_check cells (bonus x turnover, gateway x "
+          "infrastructure).",
+}
+
+
+def _row_out(model: str, S: pd.DataFrame, m, c, g) -> dict:
+    cid = f"{m}-{c}-g{g}"
+    r = S[S["cell_id"] == cid]
+    if r.empty:
+        return {"model": model, "cell": cid, "n_episodes": 0}
+    r = r.iloc[0]
+    keep = ["r1", "r1_lo", "r1_hi", "r1_n", "all", "all_lo", "all_hi", "all_n", "n_episodes", "pw_pred", "ca_pred",
+            "pw_ender", "ca_ender", "ended_share", "km_S4", "ended_A", "ended_B", "ended_both", "score_A",
+            "score_B", "welfare", "pw_welfare", "ca_welfare", "h8_noise_check"]
+    out = {"model": model, "cell": cid}
+    for k in keep:
+        v = r.get(k)
+        if isinstance(v, (bool, np.bool_)):
+            out[k] = bool(v)
+        elif v is None or (isinstance(v, (float, np.floating)) and np.isnan(v)):
+            out[k] = None
+        elif isinstance(v, (float, np.floating)):
+            out[k] = round(float(v), 4)
+        elif isinstance(v, np.integer):
+            out[k] = int(v)
+        else:
+            out[k] = v
+    return out
+
+
+def h8_direction(S: pd.DataFrame) -> dict:
+    """Count, per condition group, the mechanism x condition cells where overdraw rises with g."""
+    out = {}
+    for grp_name, conds in (("turnover_or_infrastructure", ("turnover", "infrastructure")),
+                            ("stable_or_renaming", ("stable", "renaming"))):
+        for measure in ("r1", "all"):
+            rise = tot = 0
+            for (m, c), x in S[S["condition"].isin(conds)].groupby(["mechanism", "condition"]):
+                a, b = x[x["g"] == 10], x[x["g"] == 30]
+                if len(a) and len(b):
+                    tot += 1
+                    rise += bool(b.iloc[0][measure] > a.iloc[0][measure] + 1e-9)
+            out[f"{grp_name} ({measure})"] = f"{rise}/{tot} cells rise with g"
+    return out
+
+
+def hypothesis_tables(summaries: dict, exp2: pd.DataFrame | None = None, exp3: pd.DataFrame | None = None) -> dict:
+    """summaries: model -> cell_summary. Returns {H: {'note', 'rows', ...}} for every hypothesis."""
+    H = {}
+    for h, cells in HYP_CELLS.items():
+        H[h] = {"note": HYP_NOTES[h], "rows": [_row_out(mdl, S, *cell) for mdl, S in summaries.items()
+                                               for cell in cells
+                                               if not S[S["cell_id"] == f"{cell[0]}-{cell[1]}-g{cell[2]}"].empty]}
+    H["H8"]["direction"] = {mdl: h8_direction(S) for mdl, S in summaries.items()}
+    if "main" in summaries:
+        d = h8_direction(summaries["main"])
+        H["H8"]["note"] += (f" Haiku: overdraw rises with g in {d['turnover_or_infrastructure (r1)'].split()[0]} "
+                            f"turnover/infrastructure cells (round 1; all rounds "
+                            f"{d['turnover_or_infrastructure (all)'].split()[0]}) and in "
+                            f"{d['stable_or_renaming (r1)'].split()[0]} stable/renaming cells (round 1; all rounds "
+                            f"{d['stable_or_renaming (all)'].split()[0]}).")
+    H["H6"] = {"note": HYP_NOTES["H6"], "rows": []}
+    if exp2 is not None and len(exp2):
+        x = exp2[exp2["include_in_main_analysis"]]
+        H["H6"]["exp2_proposals"] = pd.crosstab(x["condition"], x["proposed"]).to_dict(orient="index")
+        H["H6"]["exp2_acceptance"] = {k: f"{int((v == 'accept').sum())}/{len(v)}"
+                                      for k, v in x.groupby("proposed")["decision"]}
+        H["H6"]["exp2_excluded_defaulted_trials"] = int((~exp2["include_in_main_analysis"]).sum())
+    if exp3 is not None and len(exp3):
+        H["H6"]["exp3_outcomes"] = exp3["outcome"].value_counts().to_dict()
+        ag = exp3[exp3["outcome"] == "agreement"]
+        H["H6"]["exp3_agreed"] = pd.crosstab(ag["condition"], ag["agreed_mechanism"]).to_dict(orient="index")
+    H["H6"]["benchmark_choice"] = rational_choice_table()
+    fit = {}
+    for mdl, S in summaries.items():
+        fit[mdl] = {f"mean |{m} - {b}|": round(float((S[m] - S[f"{b}_pred"]).abs().mean()), 3)
+                    for m in ("r1", "all") for b in ("pw", "ca")}
+    H["fit"] = fit
+    return H
+
+
 def rational_choice_table() -> dict:
     """Benchmark Exp 2 choice per condition and g: A's best option among those B accepts
     (B's expected score > contest value), under each benchmark (B's workers comply)."""
@@ -318,7 +471,7 @@ def rational_choice_table() -> dict:
 # ---------------------------------------------------------------------------------
 
 
-def _ax_grid(ax, R, title, g=10):
+def _ax_grid(ax, R, title, g=10, ylabel="Swarm A overdraw rate, round 1", legend=True):
     import matplotlib.pyplot as plt  # noqa: F401
 
     r = R[R["g"] == g]
@@ -336,6 +489,9 @@ def _ax_grid(ax, R, title, g=10):
             ax.bar(x, row["rate"], width * 0.9, color=colors[c], label=c if i == 0 or m == "gateway" else None)
             ax.errorbar(x, row["rate"], yerr=[[row["rate"] - row["lo"]], [row["hi"] - row["rate"]]],
                         color="black", lw=1, capsize=2)
+            # observed rate marker: keeps cells at exactly 0 visible
+            ax.scatter(x, row["rate"], marker="D", s=22, color=colors[c], edgecolors="black", linewidths=0.6,
+                       zorder=7, label="observed rate" if (i == 0 and j == 0) else None)
             ax.scatter(x, row["pw_pred"], marker="_", s=180, color="black", zorder=5,
                        label="per_worker benchmark" if (i == 0 and j == 0) else None)
             ax.scatter(x, row["ca_pred"], marker="o", s=28, facecolors="none", edgecolors="black", zorder=6,
@@ -343,8 +499,10 @@ def _ax_grid(ax, R, title, g=10):
     ax.set_xticks(range(len(mechs)))
     ax.set_xticklabels(mechs)
     ax.set_ylim(-0.05, 1.08)
-    ax.set_ylabel("Swarm A overdraw rate, round 1")
+    ax.set_ylabel(ylabel)
     ax.set_title(title)
+    if not legend:
+        return
     h, l = ax.get_legend_handles_labels()
     seen = {}
     for hh, ll in zip(h, l):
@@ -353,31 +511,41 @@ def _ax_grid(ax, R, title, g=10):
               ncol=3, frameon=False)
 
 
-def fig1(R: pd.DataFrame, path: Path, label: str):
+def fig1(R: pd.DataFrame, path: Path, label: str, R_all: pd.DataFrame | None = None):
+    """Row 1: round-1 rate (no-history measure). Row 2: all rounds (pre-registered measure)."""
     import matplotlib.pyplot as plt
 
-    fig, axes = plt.subplots(1, 2, figsize=(13, 5.0), sharey=True)
-    _ax_grid(axes[0], R, f"{label}: g = 10", g=10)
-    _ax_grid(axes[1], R, f"{label}: g = 30", g=30)
-    fig.suptitle("Figure 1. Overdraw rate by mechanism x condition (bars: 95% cluster-bootstrap CI; "
-                 "dash: per_worker benchmark, circle: contest_aware)", fontsize=9)
+    rows = [("round 1", R, "Swarm A overdraw rate, round 1")]
+    if R_all is not None:
+        rows.append(("all rounds", R_all, "Swarm A overdraw rate, all rounds"))
+    fig, axes = plt.subplots(len(rows), 2, figsize=(13, 4.6 * len(rows)), sharey=True, squeeze=False)
+    for k, (name, RR, yl) in enumerate(rows):
+        last = k == len(rows) - 1
+        _ax_grid(axes[k][0], RR, f"{label}, {name}: g = 10", g=10, ylabel=yl, legend=last)
+        _ax_grid(axes[k][1], RR, f"{label}, {name}: g = 30", g=30, ylabel=yl, legend=last)
+    fig.suptitle("Figure 1. Overdraw rate by mechanism x condition (bars + diamond: observed, 95% "
+                 "episode-cluster bootstrap CI; dash: per_worker benchmark, circle: contest_aware)", fontsize=9)
     fig.tight_layout()
     fig.savefig(path, dpi=150)
     plt.close(fig)
     return path
 
 
-def fig1b(panels: dict, path: Path):
-    """Side-by-side g=10 grids for several models (dict label -> cell_rates)."""
+def fig1b(panels: dict, path: Path, panels_all: dict | None = None):
+    """Side-by-side g=10 grids for several models (dict label -> cell_rates); optional second row
+    with all-rounds rates."""
     import matplotlib.pyplot as plt
 
     n = len(panels)
-    fig, axes = plt.subplots(1, n, figsize=(6.5 * n, 5.0), sharey=True, squeeze=False)
-    for ax, (label, R) in zip(axes[0], panels.items()):
-        if R is None or R.empty:
-            ax.set_title(f"{label}: no data")
-            continue
-        _ax_grid(ax, R, f"{label}: g = 10", g=10)
+    nrows = 2 if panels_all else 1
+    fig, axes = plt.subplots(nrows, n, figsize=(6.5 * n, 4.6 * nrows), sharey=True, squeeze=False)
+    for k, (pp, name) in enumerate(((panels, "round 1"), (panels_all, "all rounds"))[:nrows]):
+        for ax, (label, R) in zip(axes[k], pp.items()):
+            if R is None or R.empty:
+                ax.set_title(f"{label}: no data")
+                continue
+            _ax_grid(ax, R, f"{label}, {name}: g = 10", g=10,
+                     ylabel=f"Swarm A overdraw rate, {name}", legend=(k == nrows - 1))
     fig.suptitle("Figure 1b. Overdraw rate at g = 10 across models", fontsize=9)
     fig.tight_layout()
     fig.savefig(path, dpi=150)
