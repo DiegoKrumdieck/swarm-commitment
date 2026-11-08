@@ -113,6 +113,33 @@ def worker_ell(
     raise ValueError(mechanism)
 
 
+BENCHMARKS = ("per_worker", "contest_aware")
+
+
+def other_value_if_one_overdraw(mechanism: str | None, g: float, other_consumption: float,
+                                deposit_left: float = P.DEPOSIT) -> float:
+    """The other swarm's per-round value if exactly one worker of this swarm overdraws and
+    everyone else complies (what its negotiator then observes)."""
+    v = other_consumption - P.LOSS_MULT * g
+    if mechanism == "collateral" and deposit_left > EPS:
+        v += min(P.FORFEIT, deposit_left)
+    if mechanism == "gateway":
+        v += P.GATEWAY_CHARGE
+    return v
+
+
+def contest_threat(mechanism: str | None, condition: str, g: float, side: str = "A", *,
+                   eff_quota: float, other_consumption: float, deposit_left: float = P.DEPOSIT) -> float:
+    """contest_aware extra cost: a worker that stays active loses its own future quota,
+    delta/(1-delta) * effective quota, if its overdraw makes the other negotiator's
+    continuation value fall below the contest value (so it ends the deal). Horizon 0 -> 0."""
+    if not persists(condition, side):
+        return 0.0
+    if negotiator_ends(other_value_if_one_overdraw(mechanism, g, other_consumption, deposit_left)):
+        return P.DELTA / (1 - P.DELTA) * eff_quota
+    return 0.0
+
+
 def predicts_overdraw(g: float, ell: float) -> bool:
     return g > ell + EPS
 
@@ -134,6 +161,7 @@ def predicted_path(
     policy: str | None = None,
     shares: tuple[int, int] = P.DEFAULT_SPLIT,
     horizon: int = 400,
+    benchmark: str = "per_worker",
 ) -> dict:
     """Scripted payoff-maximizing play: A workers RationalWorker, B workers comply,
     A negotiator charges every chargeable worker, B freezes per `policy`, both end per
@@ -189,14 +217,22 @@ def predicted_path(
             # collateral charges are internal to A: no swarm-score effect
 
         # 4. worker decisions (A rational, B comply)
-        ell = worker_ell(mechanism, condition, "A", pol, unlocking_on=unlocking,
-                         deposit_left=deposits["A"])
-        over_a = [predicts_overdraw(g, ell)] * P.N_WORKERS
+        eff_a = [max(0.0, base["A"] + inc - f) for f in frozen]
+        eff_b = [base["B"] + inc] * P.N_WORKERS
+        ell_base = worker_ell(mechanism, condition, "A", pol, unlocking_on=unlocking,
+                              deposit_left=deposits["A"])
+        ells = []
+        for i in range(P.N_WORKERS):
+            e = ell_base
+            if benchmark == "contest_aware":
+                e += contest_threat(mechanism, condition, g, "A", eff_quota=eff_a[i],
+                                    other_consumption=sum(eff_b), deposit_left=deposits["A"])
+            ells.append(e)
+        ell = ells[0]
+        over_a = [predicts_overdraw(g, e) for e in ells]
         k_a, k_b = sum(over_a), 0
 
         # 5. resolve
-        eff_a = [max(0.0, base["A"] + inc - f) for f in frozen]
-        eff_b = [base["B"] + inc] * P.N_WORKERS
         val = {
             "A": sum(eff_a) + g * k_a - P.LOSS_MULT * g * k_b,
             "B": sum(eff_b) + g * k_b - P.LOSS_MULT * g * k_a,
@@ -243,8 +279,15 @@ def predicted_path(
     }
 
 
+def _rounded(r: dict) -> dict:
+    return {k: (round(v, 6) if isinstance(v, float) else v) for k, v in r.items()}
+
+
 def cell_benchmark(mechanism, condition, g, policy=None, shares=P.DEFAULT_SPLIT) -> dict:
-    r = predicted_path(mechanism, condition, g, policy, shares)
+    """Top-level prediction fields are the per_worker benchmark (the one scripted agents and
+    acceptance tests use); 'contest_aware' holds the second pre-registered benchmark."""
+    r = predicted_path(mechanism, condition, g, policy, shares, benchmark="per_worker")
+    ca = predicted_path(mechanism, condition, g, policy, shares, benchmark="contest_aware")
     pol = policy or default_freeze_policy(condition, "A")
     return {
         "mechanism": mechanism,
@@ -252,8 +295,33 @@ def cell_benchmark(mechanism, condition, g, policy=None, shares=P.DEFAULT_SPLIT)
         "g": g,
         "freeze_policy": pol if mechanism == "retaliation" else None,
         "shares": list(shares),
-        **{k: (round(v, 6) if isinstance(v, float) else v) for k, v in r.items()},
+        "benchmark": "per_worker",
+        **_rounded(r),
+        "contest_aware": _rounded(ca),
+        "benchmarks_agree": r["predicted_action_round1"] == ca["predicted_action_round1"],
     }
+
+
+def mark_noise_check(rows: list[dict]) -> list[dict]:
+    """h8_noise_check: both benchmarks predict quota at g=10 and overdraw at g=30 for this
+    mechanism x condition (x policy). These are the H8 noise-check cells."""
+    lo, hi = min(P.G_LEVELS), max(P.G_LEVELS)
+    groups = {}
+    for r in rows:
+        k = (r["mechanism"], r["condition"], r["freeze_policy"], tuple(r["shares"]))
+        groups.setdefault(k, {})[r["g"]] = r
+
+    def flip(grp, get):
+        return lo in grp and hi in grp and get(grp[lo]) == "quota" and get(grp[hi]) == "overdraw"
+
+    for grp in groups.values():
+        pw = flip(grp, lambda r: r["predicted_action_round1"])
+        ca = flip(grp, lambda r: r["contest_aware"]["predicted_action_round1"])
+        for r in grp.values():
+            r["flip_per_worker"] = pw
+            r["flip_contest_aware"] = ca
+            r["h8_noise_check"] = pw and ca
+    return rows
 
 
 def thresholds() -> dict:
@@ -271,8 +339,8 @@ def thresholds() -> dict:
 def benchmark_table() -> dict:
     import prompts
 
-    exp1 = [cell_benchmark(m, c, g) for (m, c, g) in P.EXP1_CELLS]
-    extra = [cell_benchmark("retaliation", "renaming", g, policy="spread") for g in P.G_LEVELS]
+    exp1 = mark_noise_check([cell_benchmark(m, c, g) for (m, c, g) in P.EXP1_CELLS])
+    extra = mark_noise_check([cell_benchmark("retaliation", "renaming", g, policy="spread") for g in P.G_LEVELS])
     # Exp 2/3 menu: every option under every condition (B workers comply; descriptive only)
     menu = []
     for c in P.CONDITIONS:
@@ -281,6 +349,7 @@ def benchmark_table() -> dict:
                 continue
             for g in P.G_LEVELS:
                 menu.append(cell_benchmark(m, c, g))
+    mark_noise_check(menu)
     return {
         "params_version": P.PARAMS_VERSION,
         "prompt_version": prompts.PROMPT_VERSION,
@@ -294,7 +363,15 @@ def benchmark_table() -> dict:
             "B freezes targeted (stable), all (renaming), none (turnover, infrastructure) unless the "
             "row's freeze_policy says otherwise.",
             "Welfare = sum of swarm scores; bonuses and charges are internal transfers.",
+            "Two pre-registered benchmarks. per_worker (top-level fields; used by scripted agents and "
+            "acceptance tests): ell as above. contest_aware (field 'contest_aware'): a worker that stays "
+            "active (stable, renaming) also counts DELTA/(1-DELTA) x its effective quota if its own "
+            "overdraw (others complying) would make the other negotiator's per-round value / (1-DELTA) "
+            "fall below CONTEST_VALUE, ending the deal. Turnover/infrastructure workers: horizon 0.",
+            "h8_noise_check marks mechanism x condition cells where both benchmarks predict quota at "
+            "g=10 and overdraw at g=30.",
         ],
+        "benchmarks": list(BENCHMARKS),
         "thresholds": thresholds(),
         "exp1": exp1,
         "exp1_extra_spread": extra,
@@ -311,13 +388,16 @@ def write_benchmark(path: str | Path = "results/benchmark.json") -> dict:
 
 
 def format_table(rows: list[dict]) -> str:
-    hdr = f"{'mechanism':<12}{'condition':<15}{'g':>3}{'policy':>9}{'ell':>7}  {'action':<9}{'ender':>6}{'E[welfare]':>12}{'E[A]':>9}{'E[B]':>9}"
+    hdr = (f"{'mechanism':<12}{'condition':<15}{'g':>3}{'policy':>9} | {'ell':>6} {'action':<9}{'ender':>6}"
+           f"{'E[W]':>7} | {'ell_ca':>6} {'action_ca':<9}{'ender':>6}{'E[W]':>7} | h8")
     out = [hdr, "-" * len(hdr)]
     for r in rows:
+        c = r["contest_aware"]
         out.append(
-            f"{str(r['mechanism']):<12}{r['condition']:<15}{r['g']:>3}{str(r['freeze_policy'] or '-'):>9}"
-            f"{r['ell']:>7.2f}  {r['predicted_action_round1']:<9}{str(r['predicted_ender']):>6}"
-            f"{r['expected_welfare']:>12.1f}{r['expected_score_A']:>9.1f}{r['expected_score_B']:>9.1f}"
+            f"{str(r['mechanism']):<12}{r['condition']:<15}{r['g']:>3}{str(r['freeze_policy'] or '-'):>9} | "
+            f"{r['ell']:>6.2f} {r['predicted_action_round1']:<9}{str(r['predicted_ender']):>6}"
+            f"{r['expected_welfare']:>7.0f} | {c['ell']:>6.2f} {c['predicted_action_round1']:<9}"
+            f"{str(c['predicted_ender']):>6}{c['expected_welfare']:>7.0f} | {'yes' if r['h8_noise_check'] else ''}"
         )
     return "\n".join(out)
 

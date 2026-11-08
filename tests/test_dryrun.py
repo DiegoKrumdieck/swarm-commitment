@@ -250,3 +250,14 @@ def test_rendered_prompts_have_no_banned_words_or_internal_labels():
             asyncio.run(fn(cell, 1, roster, None))
     assert seen > 300
     assert not violations, sorted(set(violations))
+
+
+def test_exp2_defaulted_trials_flagged_for_exclusion(tmp_path):
+    dec, eps = dry(tmp_path, "--exp", "2", "--episodes", "6", "--fault-rate", "0.7", "--seed-offset", "2")
+    assert any(e["defaulted_any"] for e in eps), "expected some defaulted trials at 70% faults"
+    for e in eps:
+        assert e["defaulted_any"] == any(e["defaulted"])
+        assert e["include_in_main_analysis"] == (not e["defaulted_any"])
+    for r in dec:
+        if r["defaulted"]:
+            assert r["enforcement"] == "none" if r["side"] == "A" else r["decision"] == "accept"

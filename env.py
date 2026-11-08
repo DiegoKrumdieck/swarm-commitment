@@ -258,6 +258,7 @@ class Episode:
         self.increase = {s: [0.0] * P.N_WORKERS for s in SIDES}
         self.workers = {s: [] for s in SIDES}  # active workers by position
         self.all_workers: list[Worker] = []
+        self.id_owner: dict[str, Worker] = {}  # every public ID ever used -> its worker
         self.history: list[dict] = []
         self.round_values: dict[int, dict] = {}
         self.pending_forfeits: dict = {}  # per offender instance: units forfeited for its t-1 overdraw
@@ -275,6 +276,9 @@ class Episode:
         self._buffer: list[dict] = []
         self.ell_bench = T.worker_ell(self.mechanism, self.condition, "A", cell.b_policy)
         self.ell_bench_B = T.worker_ell(self.mechanism, self.condition, "B")
+        # second pre-registered benchmark (cell level, round 1, 60/60-style shares of this cell)
+        self.ell_bench_ca = T.predicted_path(self.mechanism, self.condition, self.g, cell.b_policy,
+                                             cell.shares, benchmark="contest_aware")["ell"]
         self._init_workers()
 
     # ----- membership -----------------------------------------------------------
@@ -282,6 +286,7 @@ class Episode:
     def _new_worker(self, side, pos, public_id, r):
         w = Worker(side, pos, f"{side}{pos}.r{r}", public_id)
         self.all_workers.append(w)
+        self.id_owner[public_id] = w
         return w
 
     def _init_workers(self):
@@ -296,6 +301,7 @@ class Episode:
         elif self.condition == "renaming":
             for i, w in enumerate(self.workers["A"]):
                 w.public_id = ids[i]
+                self.id_owner[ids[i]] = w
 
     def _listed(self, side, t) -> list[Worker]:
         """Display order of a swarm's active workers. Under renaming Swarm A's order is
@@ -331,8 +337,30 @@ class Episode:
             "round": t,
             # Completed records are never mutated again (only the latest record gets its
             # after-round events, before any worker obs is built), so a shallow copy is safe.
-            "history": list(self.history if history is None else history),
+            "history": self._history_view(side, list(self.history if history is None else history)),
         }
+
+    def _history_view(self, side, hist: list) -> list:
+        """Under renaming, Swarm A's own viewers (its workers and negotiator) see every past
+        public ID of an A worker rewritten to that worker's CURRENT public ID, so each worker
+        can follow its own past actions. Swarm B's view is unchanged (render_history shows it
+        counts only)."""
+        if side != "A" or self.condition != "renaming":
+            return hist
+        cur = {pid: w.public_id for pid, w in self.id_owner.items() if w.side == "A"}
+        m = lambda pid: cur.get(pid, pid)  # noqa: E731
+        out = []
+        for rec in hist:
+            r = dict(rec)
+            r["workers"] = {**rec["workers"], "A": [{**w, "id": m(w["id"])} for w in rec["workers"]["A"]]}
+            r["gateway"] = [{**ev, "worker_id": m(ev["worker_id"])} if ev["side"] == "A" else ev
+                            for ev in rec.get("gateway") or []]
+            r["freezes"] = [{**fr, "worker_ids": [m(i) for i in fr["worker_ids"]]} if fr["by"] == "B" else fr
+                            for fr in rec.get("freezes") or []]
+            r["forfeits"] = [{**ff, "charged_to": [m(i) for i in ff.get("charged_to") or []]} if ff["from"] == "A"
+                             else ff for ff in rec.get("forfeits") or []]
+            out.append(r)
+        return out
 
     def _row(self, kind, side, t, out, worker: Worker | None = None, extra: dict | None = None) -> dict:
         meta = out.get("_meta", {})
@@ -582,10 +610,13 @@ class Episode:
                 "payoff_pass": _close(rq, tr["payoff_this_round_if_quota"]) and _close(ro, tr["payoff_this_round_if_overdraw"]),
                 "expected_future_cost_if_overdraw": rf,
                 "future_cost_gap_vs_benchmark": None if rf is None else rf - bench,
+                "future_cost_gap_vs_contest_aware": (None if rf is None or w.side != "A"
+                                                     else rf - self.ell_bench_ca),
             }
             row = self._row("worker", w.side, t, out, w, extra={
                 "comprehension": comp,
                 "benchmark_ell": bench,
+                "benchmark_ell_contest_aware": self.ell_bench_ca if w.side == "A" else None,
                 "ell_state": obs["_private"]["ell_state"],
                 "effective_quota": obs["_private"]["effective_quota"],
                 "frozen_on_me": obs["frozen_on_me"],
@@ -791,6 +822,10 @@ async def run_choice_trial(cell: Cell, index: int, roster, log=None, *, run_id="
         "seed": setup.seed, "names": setup.names, "proposed": out_a.get("enforcement"),
         "decision": out_b.get("decision"),
         "defaulted": [bool(o.get("_meta", {}).get("defaulted")) for o in (out_a, out_b)],
+        # Exp 2 defaults (A -> none, B -> accept) are kept in the log but excluded from the
+        # main analysis; the count of excluded trials is reported.
+        "defaulted_any": any(bool(o.get("_meta", {}).get("defaulted")) for o in (out_a, out_b)),
+        "include_in_main_analysis": not any(bool(o.get("_meta", {}).get("defaulted")) for o in (out_a, out_b)),
     }
     log.episode(summary)
     return summary

@@ -318,3 +318,76 @@ def test_visibility_in_rendered_history():
     assert "Charged to" not in txt_b and "scripted message" not in txt_b
     txt_a = prompts.render_history({**ep._obs_base("A", 4), "history": ep.history})
     assert "Charged to" in txt_a and "scripted message" in txt_a
+
+
+def test_renaming_lineage_view_for_swarm_a():
+    """Under renaming, A's viewers see A's past IDs rewritten to each worker's current ID, so a
+    worker can follow its own past actions; B's rendered view never shows an A ID that
+    appeared before the current round."""
+    import agents as Ag
+    import prompts
+
+    seen = []
+
+    class Capture:
+        provider, model_id = "dryrun", "dryrun"
+
+        def __init__(self):
+            self.inner = Ag.DryRunClient()
+
+        async def complete(self, system, user, **kw):
+            kind, obs = kw["hint"]
+            seen.append((kind, obs, user))
+            return await self.inner.complete(system, user, **kw)
+
+    class Overdraw1(S.ComplyWorker):  # only lineage A1 overdraws, in odd rounds
+        def choose(self, obs, ell):
+            return "overdraw" if obs["round"] % 2 == 1 else "quota"
+
+    cell = E.Cell(1, "retaliation", "renaming", 10)
+    ep = E.Episode(cell, 0, None, E.MemoryLog(), T_override=5)
+    llm = Ag.LLMAgent(Capture())
+    a1 = ep.workers["A"][1]
+
+    class Roster:
+        def negotiator(self, side):
+            return llm  # dry-run rational policy: B freezes 'all' under renaming, continues
+
+        def worker(self, side, w):
+            if side == "A" and w.position == 1:
+                return _Spy(w)
+            return llm if side == "A" else S.ComplyWorker()
+
+    class _Spy(S.ScriptedAgent):
+        def __init__(self, w):
+            self.w = w
+
+        def policy(self, kind, obs):
+            # the history rendered for this worker lists its own past actions under its current ID
+            txt = prompts.render_history({k: v for k, v in obs.items() if not k.startswith("_")})
+            for rec in obs["history"]:
+                mine = [x for x in rec["workers"]["A"] if x["id"] == obs["worker_id"]]
+                assert len(mine) == 1, (obs["round"], rec)
+                want = "overdraw" if rec["round"] % 2 == 1 else "quota"
+                assert mine[0]["action"] == want
+                assert f"{obs['worker_id']} {'overdrew' if want == 'overdraw' else 'used quota'}" in txt
+            return Overdraw1().policy(kind, obs)
+
+    ep.roster = Roster()
+    asyncio.run(ep.run())
+    assert ep.rounds_played == 5
+    # three distinct public IDs per round for A, and A1 had a new one every round
+    assert len({r["public_id"] for r in ep.log.decisions if r["lineage_id"] == "A1"}) == 5
+    # B's rendered prompts: no A ID from an earlier round, ever
+    b_texts = [(obs["round"], u) for kind, obs, u in seen if obs["side"] == "B"]
+    assert b_texts
+    for t, u in b_texts:
+        for r in range(1, t):
+            for pid in ep.setup.a_ids(r):
+                assert pid not in u, (t, r, pid)
+    # A's negotiator also sees lineage-consistent IDs: a freeze recorded on A1 and its
+    # earlier overdraws appear under A1's current ID
+    a_neg = [(obs, u) for kind, obs, u in seen if obs["side"] == "A" and kind == "negotiator" and obs["round"] == 5]
+    obs, u = a_neg[0]
+    assert sum(1 for rec in obs["history"] for x in rec["workers"]["A"]
+               if x["id"] == a1.public_id and x["action"] == "overdraw") == 2

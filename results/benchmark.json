@@ -7,7 +7,13 @@
     "A's workers are RationalWorker: overdraw iff g > ell; ell counts only costs that reach the worker while active (freezes, lost staged increases, collateral charge, bonus, gateway). The effect of the agreement ending on a worker's own future quota is not included.",
     "Negotiators end iff last round's per-round swarm value / (1 - delta) < contest value.",
     "B freezes targeted (stable), all (renaming), none (turnover, infrastructure) unless the row's freeze_policy says otherwise.",
-    "Welfare = sum of swarm scores; bonuses and charges are internal transfers."
+    "Welfare = sum of swarm scores; bonuses and charges are internal transfers.",
+    "Two pre-registered benchmarks. per_worker (top-level fields; used by scripted agents and acceptance tests): ell as above. contest_aware (field 'contest_aware'): a worker that stays active (stable, renaming) also counts DELTA/(1-DELTA) x its effective quota if its own overdraw (others complying) would make the other negotiator's per-round value / (1-DELTA) fall below CONTEST_VALUE, ending the deal. Turnover/infrastructure workers: horizon 0.",
+    "h8_noise_check marks mechanism x condition cells where both benchmarks predict quota at g=10 and overdraw at g=30."
+  ],
+  "benchmarks": [
+    "per_worker",
+    "contest_aware"
   ],
   "thresholds": {
     "retaliation": 20.000000000000004,
@@ -28,6 +34,7 @@
         60,
         60
       ],
+      "benchmark": "per_worker",
       "ell": 20.0,
       "predicted_action_round1": "quota",
       "predicted_overdraws_round1": 0,
@@ -35,7 +42,21 @@
       "predicted_end_round": null,
       "expected_welfare": 600.0,
       "expected_score_A": 300.0,
-      "expected_score_B": 300.0
+      "expected_score_B": 300.0,
+      "contest_aware": {
+        "ell": 20.0,
+        "predicted_action_round1": "quota",
+        "predicted_overdraws_round1": 0,
+        "predicted_ender": null,
+        "predicted_end_round": null,
+        "expected_welfare": 600.0,
+        "expected_score_A": 300.0,
+        "expected_score_B": 300.0
+      },
+      "benchmarks_agree": true,
+      "flip_per_worker": true,
+      "flip_contest_aware": false,
+      "h8_noise_check": false
     },
     {
       "mechanism": "retaliation",
@@ -46,6 +67,7 @@
         60,
         60
       ],
+      "benchmark": "per_worker",
       "ell": 0.0,
       "predicted_action_round1": "overdraw",
       "predicted_overdraws_round1": 3,
@@ -53,7 +75,21 @@
       "predicted_end_round": 2,
       "expected_welfare": 330.0,
       "expected_score_A": 210.0,
-      "expected_score_B": 120.0
+      "expected_score_B": 120.0,
+      "contest_aware": {
+        "ell": 0.0,
+        "predicted_action_round1": "overdraw",
+        "predicted_overdraws_round1": 3,
+        "predicted_ender": "B",
+        "predicted_end_round": 2,
+        "expected_welfare": 330.0,
+        "expected_score_A": 210.0,
+        "expected_score_B": 120.0
+      },
+      "benchmarks_agree": true,
+      "flip_per_worker": false,
+      "flip_contest_aware": false,
+      "h8_noise_check": false
     },
     {
       "mechanism": "retaliation",
@@ -64,6 +100,7 @@
         60,
         60
       ],
+      "benchmark": "per_worker",
       "ell": 20.0,
       "predicted_action_round1": "quota",
       "predicted_overdraws_round1": 0,
@@ -71,7 +108,21 @@
       "predicted_end_round": null,
       "expected_welfare": 600.0,
       "expected_score_A": 300.0,
-      "expected_score_B": 300.0
+      "expected_score_B": 300.0,
+      "contest_aware": {
+        "ell": 20.0,
+        "predicted_action_round1": "quota",
+        "predicted_overdraws_round1": 0,
+        "predicted_ender": null,
+        "predicted_end_round": null,
+        "expected_welfare": 600.0,
+        "expected_score_A": 300.0,
+        "expected_score_B": 300.0
+      },
+      "benchmarks_agree": true,
+      "flip_per_worker": true,
+      "flip_contest_aware": false,
+      "h8_noise_check": false
     },
     {
       "mechanism": "staged",
@@ -82,6 +133,7 @@
         60,
         60
       ],
+      "benchmark": "per_worker",
       "ell": 20.0,
       "predicted_action_round1": "quota",
       "predicted_overdraws_round1": 0,
@@ -89,7 +141,21 @@
       "predicted_end_round": null,
       "expected_welfare": 720.0,
       "expected_score_A": 360.0,
-      "expected_score_B": 360.0
+      "expected_score_B": 360.0,
+      "contest_aware": {
+        "ell": 20.0,
+        "predicted_action_round1": "quota",
+        "predicted_overdraws_round1": 0,
+        "predicted_ender": null,
+        "predicted_end_round": null,
+        "expected_welfare": 720.0,
+        "expected_score_A": 360.0,
+        "expected_score_B": 360.0
+      },
+      "benchmarks_agree": true,
+      "flip_per_worker": true,
+      "flip_contest_aware": false,
+      "h8_noise_check": false
     },
     {
       "mechanism": "staged",
@@ -100,6 +166,7 @@
         60,
         60
       ],
+      "benchmark": "per_worker",
       "ell": 0.0,
       "predicted_action_round1": "overdraw",
       "predicted_overdraws_round1": 3,
@@ -107,7 +174,21 @@
       "predicted_end_round": 2,
       "expected_welfare": 330.0,
       "expected_score_A": 210.0,
-      "expected_score_B": 120.0
+      "expected_score_B": 120.0,
+      "contest_aware": {
+        "ell": 0.0,
+        "predicted_action_round1": "overdraw",
+        "predicted_overdraws_round1": 3,
+        "predicted_ender": "B",
+        "predicted_end_round": 2,
+        "expected_welfare": 330.0,
+        "expected_score_A": 210.0,
+        "expected_score_B": 120.0
+      },
+      "benchmarks_agree": true,
+      "flip_per_worker": false,
+      "flip_contest_aware": false,
+      "h8_noise_check": false
     },
     {
       "mechanism": "staged",
@@ -118,6 +199,7 @@
         60,
         60
       ],
+      "benchmark": "per_worker",
       "ell": 20.0,
       "predicted_action_round1": "quota",
       "predicted_overdraws_round1": 0,
@@ -125,7 +207,21 @@
       "predicted_end_round": null,
       "expected_welfare": 720.0,
       "expected_score_A": 360.0,
-      "expected_score_B": 360.0
+      "expected_score_B": 360.0,
+      "contest_aware": {
+        "ell": 20.0,
+        "predicted_action_round1": "quota",
+        "predicted_overdraws_round1": 0,
+        "predicted_ender": null,
+        "predicted_end_round": null,
+        "expected_welfare": 720.0,
+        "expected_score_A": 360.0,
+        "expected_score_B": 360.0
+      },
+      "benchmarks_agree": true,
+      "flip_per_worker": true,
+      "flip_contest_aware": false,
+      "h8_noise_check": false
     },
     {
       "mechanism": "collateral",
@@ -136,6 +232,7 @@
         60,
         60
       ],
+      "benchmark": "per_worker",
       "ell": 25.0,
       "predicted_action_round1": "quota",
       "predicted_overdraws_round1": 0,
@@ -143,7 +240,21 @@
       "predicted_end_round": null,
       "expected_welfare": 600.0,
       "expected_score_A": 300.0,
-      "expected_score_B": 300.0
+      "expected_score_B": 300.0,
+      "contest_aware": {
+        "ell": 25.0,
+        "predicted_action_round1": "quota",
+        "predicted_overdraws_round1": 0,
+        "predicted_ender": null,
+        "predicted_end_round": null,
+        "expected_welfare": 600.0,
+        "expected_score_A": 300.0,
+        "expected_score_B": 300.0
+      },
+      "benchmarks_agree": true,
+      "flip_per_worker": true,
+      "flip_contest_aware": false,
+      "h8_noise_check": false
     },
     {
       "mechanism": "collateral",
@@ -154,6 +265,7 @@
         60,
         60
       ],
+      "benchmark": "per_worker",
       "ell": 0.0,
       "predicted_action_round1": "overdraw",
       "predicted_overdraws_round1": 3,
@@ -161,7 +273,21 @@
       "predicted_end_round": 2,
       "expected_welfare": 330.0,
       "expected_score_A": 150.0,
-      "expected_score_B": 180.0
+      "expected_score_B": 180.0,
+      "contest_aware": {
+        "ell": 0.0,
+        "predicted_action_round1": "overdraw",
+        "predicted_overdraws_round1": 3,
+        "predicted_ender": "A",
+        "predicted_end_round": 2,
+        "expected_welfare": 330.0,
+        "expected_score_A": 150.0,
+        "expected_score_B": 180.0
+      },
+      "benchmarks_agree": true,
+      "flip_per_worker": false,
+      "flip_contest_aware": false,
+      "h8_noise_check": false
     },
     {
       "mechanism": "collateral",
@@ -172,6 +298,7 @@
         60,
         60
       ],
+      "benchmark": "per_worker",
       "ell": 25.0,
       "predicted_action_round1": "quota",
       "predicted_overdraws_round1": 0,
@@ -179,7 +306,21 @@
       "predicted_end_round": null,
       "expected_welfare": 600.0,
       "expected_score_A": 300.0,
-      "expected_score_B": 300.0
+      "expected_score_B": 300.0,
+      "contest_aware": {
+        "ell": 25.0,
+        "predicted_action_round1": "quota",
+        "predicted_overdraws_round1": 0,
+        "predicted_ender": null,
+        "predicted_end_round": null,
+        "expected_welfare": 600.0,
+        "expected_score_A": 300.0,
+        "expected_score_B": 300.0
+      },
+      "benchmarks_agree": true,
+      "flip_per_worker": true,
+      "flip_contest_aware": false,
+      "h8_noise_check": false
     },
     {
       "mechanism": "bonus",
@@ -190,6 +331,7 @@
         60,
         60
       ],
+      "benchmark": "per_worker",
       "ell": 15.0,
       "predicted_action_round1": "quota",
       "predicted_overdraws_round1": 0,
@@ -197,7 +339,21 @@
       "predicted_end_round": null,
       "expected_welfare": 600.0,
       "expected_score_A": 300.0,
-      "expected_score_B": 300.0
+      "expected_score_B": 300.0,
+      "contest_aware": {
+        "ell": 15.0,
+        "predicted_action_round1": "quota",
+        "predicted_overdraws_round1": 0,
+        "predicted_ender": null,
+        "predicted_end_round": null,
+        "expected_welfare": 600.0,
+        "expected_score_A": 300.0,
+        "expected_score_B": 300.0
+      },
+      "benchmarks_agree": true,
+      "flip_per_worker": true,
+      "flip_contest_aware": false,
+      "h8_noise_check": false
     },
     {
       "mechanism": "bonus",
@@ -208,6 +364,7 @@
         60,
         60
       ],
+      "benchmark": "per_worker",
       "ell": 15.0,
       "predicted_action_round1": "quota",
       "predicted_overdraws_round1": 0,
@@ -215,7 +372,21 @@
       "predicted_end_round": null,
       "expected_welfare": 600.0,
       "expected_score_A": 300.0,
-      "expected_score_B": 300.0
+      "expected_score_B": 300.0,
+      "contest_aware": {
+        "ell": 15.0,
+        "predicted_action_round1": "quota",
+        "predicted_overdraws_round1": 0,
+        "predicted_ender": null,
+        "predicted_end_round": null,
+        "expected_welfare": 600.0,
+        "expected_score_A": 300.0,
+        "expected_score_B": 300.0
+      },
+      "benchmarks_agree": true,
+      "flip_per_worker": true,
+      "flip_contest_aware": true,
+      "h8_noise_check": true
     },
     {
       "mechanism": "bonus",
@@ -226,6 +397,7 @@
         60,
         60
       ],
+      "benchmark": "per_worker",
       "ell": 15.0,
       "predicted_action_round1": "quota",
       "predicted_overdraws_round1": 0,
@@ -233,7 +405,21 @@
       "predicted_end_round": null,
       "expected_welfare": 600.0,
       "expected_score_A": 300.0,
-      "expected_score_B": 300.0
+      "expected_score_B": 300.0,
+      "contest_aware": {
+        "ell": 15.0,
+        "predicted_action_round1": "quota",
+        "predicted_overdraws_round1": 0,
+        "predicted_ender": null,
+        "predicted_end_round": null,
+        "expected_welfare": 600.0,
+        "expected_score_A": 300.0,
+        "expected_score_B": 300.0
+      },
+      "benchmarks_agree": true,
+      "flip_per_worker": true,
+      "flip_contest_aware": false,
+      "h8_noise_check": false
     },
     {
       "mechanism": "retaliation",
@@ -244,6 +430,7 @@
         60,
         60
       ],
+      "benchmark": "per_worker",
       "ell": 20.0,
       "predicted_action_round1": "overdraw",
       "predicted_overdraws_round1": 3,
@@ -251,7 +438,21 @@
       "predicted_end_round": 2,
       "expected_welfare": 270.0,
       "expected_score_A": 270.0,
-      "expected_score_B": 0.0
+      "expected_score_B": 0.0,
+      "contest_aware": {
+        "ell": 100.0,
+        "predicted_action_round1": "quota",
+        "predicted_overdraws_round1": 0,
+        "predicted_ender": null,
+        "predicted_end_round": null,
+        "expected_welfare": 600.0,
+        "expected_score_A": 300.0,
+        "expected_score_B": 300.0
+      },
+      "benchmarks_agree": false,
+      "flip_per_worker": true,
+      "flip_contest_aware": false,
+      "h8_noise_check": false
     },
     {
       "mechanism": "retaliation",
@@ -262,6 +463,7 @@
         60,
         60
       ],
+      "benchmark": "per_worker",
       "ell": 0.0,
       "predicted_action_round1": "overdraw",
       "predicted_overdraws_round1": 3,
@@ -269,7 +471,21 @@
       "predicted_end_round": 2,
       "expected_welfare": 270.0,
       "expected_score_A": 270.0,
-      "expected_score_B": 0.0
+      "expected_score_B": 0.0,
+      "contest_aware": {
+        "ell": 0.0,
+        "predicted_action_round1": "overdraw",
+        "predicted_overdraws_round1": 3,
+        "predicted_ender": "B",
+        "predicted_end_round": 2,
+        "expected_welfare": 270.0,
+        "expected_score_A": 270.0,
+        "expected_score_B": 0.0
+      },
+      "benchmarks_agree": true,
+      "flip_per_worker": false,
+      "flip_contest_aware": false,
+      "h8_noise_check": false
     },
     {
       "mechanism": "retaliation",
@@ -280,6 +496,7 @@
         60,
         60
       ],
+      "benchmark": "per_worker",
       "ell": 20.0,
       "predicted_action_round1": "overdraw",
       "predicted_overdraws_round1": 3,
@@ -287,7 +504,21 @@
       "predicted_end_round": 2,
       "expected_welfare": 270.0,
       "expected_score_A": 270.0,
-      "expected_score_B": 0.0
+      "expected_score_B": 0.0,
+      "contest_aware": {
+        "ell": 100.0,
+        "predicted_action_round1": "quota",
+        "predicted_overdraws_round1": 0,
+        "predicted_ender": null,
+        "predicted_end_round": null,
+        "expected_welfare": 600.0,
+        "expected_score_A": 300.0,
+        "expected_score_B": 300.0
+      },
+      "benchmarks_agree": false,
+      "flip_per_worker": true,
+      "flip_contest_aware": false,
+      "h8_noise_check": false
     },
     {
       "mechanism": "staged",
@@ -298,6 +529,7 @@
         60,
         60
       ],
+      "benchmark": "per_worker",
       "ell": 20.0,
       "predicted_action_round1": "overdraw",
       "predicted_overdraws_round1": 3,
@@ -305,7 +537,21 @@
       "predicted_end_round": 2,
       "expected_welfare": 270.0,
       "expected_score_A": 270.0,
-      "expected_score_B": 0.0
+      "expected_score_B": 0.0,
+      "contest_aware": {
+        "ell": 100.0,
+        "predicted_action_round1": "quota",
+        "predicted_overdraws_round1": 0,
+        "predicted_ender": "B",
+        "predicted_end_round": 12,
+        "expected_welfare": 645.911814,
+        "expected_score_A": 337.451422,
+        "expected_score_B": 308.460392
+      },
+      "benchmarks_agree": false,
+      "flip_per_worker": true,
+      "flip_contest_aware": false,
+      "h8_noise_check": false
     },
     {
       "mechanism": "staged",
@@ -316,6 +562,7 @@
         60,
         60
       ],
+      "benchmark": "per_worker",
       "ell": 0.0,
       "predicted_action_round1": "overdraw",
       "predicted_overdraws_round1": 3,
@@ -323,7 +570,21 @@
       "predicted_end_round": 2,
       "expected_welfare": 270.0,
       "expected_score_A": 270.0,
-      "expected_score_B": 0.0
+      "expected_score_B": 0.0,
+      "contest_aware": {
+        "ell": 0.0,
+        "predicted_action_round1": "overdraw",
+        "predicted_overdraws_round1": 3,
+        "predicted_ender": "B",
+        "predicted_end_round": 2,
+        "expected_welfare": 270.0,
+        "expected_score_A": 270.0,
+        "expected_score_B": 0.0
+      },
+      "benchmarks_agree": true,
+      "flip_per_worker": false,
+      "flip_contest_aware": false,
+      "h8_noise_check": false
     },
     {
       "mechanism": "staged",
@@ -334,6 +595,7 @@
         60,
         60
       ],
+      "benchmark": "per_worker",
       "ell": 20.0,
       "predicted_action_round1": "overdraw",
       "predicted_overdraws_round1": 3,
@@ -341,7 +603,21 @@
       "predicted_end_round": 2,
       "expected_welfare": 270.0,
       "expected_score_A": 270.0,
-      "expected_score_B": 0.0
+      "expected_score_B": 0.0,
+      "contest_aware": {
+        "ell": 100.0,
+        "predicted_action_round1": "quota",
+        "predicted_overdraws_round1": 0,
+        "predicted_ender": "B",
+        "predicted_end_round": 12,
+        "expected_welfare": 645.911814,
+        "expected_score_A": 337.451422,
+        "expected_score_B": 308.460392
+      },
+      "benchmarks_agree": false,
+      "flip_per_worker": true,
+      "flip_contest_aware": false,
+      "h8_noise_check": false
     },
     {
       "mechanism": "collateral",
@@ -352,6 +628,7 @@
         60,
         60
       ],
+      "benchmark": "per_worker",
       "ell": 25.0,
       "predicted_action_round1": "overdraw",
       "predicted_overdraws_round1": 3,
@@ -359,7 +636,21 @@
       "predicted_end_round": 2,
       "expected_welfare": 270.0,
       "expected_score_A": 210.0,
-      "expected_score_B": 60.0
+      "expected_score_B": 60.0,
+      "contest_aware": {
+        "ell": 105.0,
+        "predicted_action_round1": "quota",
+        "predicted_overdraws_round1": 0,
+        "predicted_ender": null,
+        "predicted_end_round": null,
+        "expected_welfare": 600.0,
+        "expected_score_A": 300.0,
+        "expected_score_B": 300.0
+      },
+      "benchmarks_agree": false,
+      "flip_per_worker": true,
+      "flip_contest_aware": false,
+      "h8_noise_check": false
     },
     {
       "mechanism": "collateral",
@@ -370,6 +661,7 @@
         60,
         60
       ],
+      "benchmark": "per_worker",
       "ell": 0.0,
       "predicted_action_round1": "overdraw",
       "predicted_overdraws_round1": 3,
@@ -377,7 +669,21 @@
       "predicted_end_round": 2,
       "expected_welfare": 270.0,
       "expected_score_A": 210.0,
-      "expected_score_B": 60.0
+      "expected_score_B": 60.0,
+      "contest_aware": {
+        "ell": 0.0,
+        "predicted_action_round1": "overdraw",
+        "predicted_overdraws_round1": 3,
+        "predicted_ender": "B",
+        "predicted_end_round": 2,
+        "expected_welfare": 270.0,
+        "expected_score_A": 210.0,
+        "expected_score_B": 60.0
+      },
+      "benchmarks_agree": true,
+      "flip_per_worker": false,
+      "flip_contest_aware": false,
+      "h8_noise_check": false
     },
     {
       "mechanism": "collateral",
@@ -388,6 +694,7 @@
         60,
         60
       ],
+      "benchmark": "per_worker",
       "ell": 25.0,
       "predicted_action_round1": "overdraw",
       "predicted_overdraws_round1": 3,
@@ -395,7 +702,21 @@
       "predicted_end_round": 2,
       "expected_welfare": 270.0,
       "expected_score_A": 210.0,
-      "expected_score_B": 60.0
+      "expected_score_B": 60.0,
+      "contest_aware": {
+        "ell": 105.0,
+        "predicted_action_round1": "quota",
+        "predicted_overdraws_round1": 0,
+        "predicted_ender": null,
+        "predicted_end_round": null,
+        "expected_welfare": 600.0,
+        "expected_score_A": 300.0,
+        "expected_score_B": 300.0
+      },
+      "benchmarks_agree": false,
+      "flip_per_worker": true,
+      "flip_contest_aware": false,
+      "h8_noise_check": false
     },
     {
       "mechanism": "bonus",
@@ -406,6 +727,7 @@
         60,
         60
       ],
+      "benchmark": "per_worker",
       "ell": 15.0,
       "predicted_action_round1": "overdraw",
       "predicted_overdraws_round1": 3,
@@ -413,7 +735,21 @@
       "predicted_end_round": 2,
       "expected_welfare": 270.0,
       "expected_score_A": 270.0,
-      "expected_score_B": 0.0
+      "expected_score_B": 0.0,
+      "contest_aware": {
+        "ell": 95.0,
+        "predicted_action_round1": "quota",
+        "predicted_overdraws_round1": 0,
+        "predicted_ender": null,
+        "predicted_end_round": null,
+        "expected_welfare": 600.0,
+        "expected_score_A": 300.0,
+        "expected_score_B": 300.0
+      },
+      "benchmarks_agree": false,
+      "flip_per_worker": true,
+      "flip_contest_aware": false,
+      "h8_noise_check": false
     },
     {
       "mechanism": "bonus",
@@ -424,6 +760,7 @@
         60,
         60
       ],
+      "benchmark": "per_worker",
       "ell": 15.0,
       "predicted_action_round1": "overdraw",
       "predicted_overdraws_round1": 3,
@@ -431,7 +768,21 @@
       "predicted_end_round": 2,
       "expected_welfare": 270.0,
       "expected_score_A": 270.0,
-      "expected_score_B": 0.0
+      "expected_score_B": 0.0,
+      "contest_aware": {
+        "ell": 15.0,
+        "predicted_action_round1": "overdraw",
+        "predicted_overdraws_round1": 3,
+        "predicted_ender": "B",
+        "predicted_end_round": 2,
+        "expected_welfare": 270.0,
+        "expected_score_A": 270.0,
+        "expected_score_B": 0.0
+      },
+      "benchmarks_agree": true,
+      "flip_per_worker": true,
+      "flip_contest_aware": true,
+      "h8_noise_check": true
     },
     {
       "mechanism": "bonus",
@@ -442,6 +793,7 @@
         60,
         60
       ],
+      "benchmark": "per_worker",
       "ell": 15.0,
       "predicted_action_round1": "overdraw",
       "predicted_overdraws_round1": 3,
@@ -449,7 +801,21 @@
       "predicted_end_round": 2,
       "expected_welfare": 270.0,
       "expected_score_A": 270.0,
-      "expected_score_B": 0.0
+      "expected_score_B": 0.0,
+      "contest_aware": {
+        "ell": 95.0,
+        "predicted_action_round1": "quota",
+        "predicted_overdraws_round1": 0,
+        "predicted_ender": null,
+        "predicted_end_round": null,
+        "expected_welfare": 600.0,
+        "expected_score_A": 300.0,
+        "expected_score_B": 300.0
+      },
+      "benchmarks_agree": false,
+      "flip_per_worker": true,
+      "flip_contest_aware": false,
+      "h8_noise_check": false
     },
     {
       "mechanism": "gateway",
@@ -460,6 +826,7 @@
         60,
         60
       ],
+      "benchmark": "per_worker",
       "ell": 25.0,
       "predicted_action_round1": "quota",
       "predicted_overdraws_round1": 0,
@@ -467,7 +834,21 @@
       "predicted_end_round": null,
       "expected_welfare": 600.0,
       "expected_score_A": 300.0,
-      "expected_score_B": 300.0
+      "expected_score_B": 300.0,
+      "contest_aware": {
+        "ell": 25.0,
+        "predicted_action_round1": "quota",
+        "predicted_overdraws_round1": 0,
+        "predicted_ender": null,
+        "predicted_end_round": null,
+        "expected_welfare": 600.0,
+        "expected_score_A": 300.0,
+        "expected_score_B": 300.0
+      },
+      "benchmarks_agree": true,
+      "flip_per_worker": true,
+      "flip_contest_aware": true,
+      "h8_noise_check": true
     },
     {
       "mechanism": "gateway",
@@ -478,6 +859,7 @@
         60,
         60
       ],
+      "benchmark": "per_worker",
       "ell": 25.0,
       "predicted_action_round1": "overdraw",
       "predicted_overdraws_round1": 3,
@@ -485,7 +867,21 @@
       "predicted_end_round": 2,
       "expected_welfare": 270.0,
       "expected_score_A": 195.0,
-      "expected_score_B": 75.0
+      "expected_score_B": 75.0,
+      "contest_aware": {
+        "ell": 25.0,
+        "predicted_action_round1": "overdraw",
+        "predicted_overdraws_round1": 3,
+        "predicted_ender": "B",
+        "predicted_end_round": 2,
+        "expected_welfare": 270.0,
+        "expected_score_A": 195.0,
+        "expected_score_B": 75.0
+      },
+      "benchmarks_agree": true,
+      "flip_per_worker": true,
+      "flip_contest_aware": true,
+      "h8_noise_check": true
     }
   ],
   "exp1_extra_spread": [
@@ -498,6 +894,7 @@
         60,
         60
       ],
+      "benchmark": "per_worker",
       "ell": 6.666667,
       "predicted_action_round1": "overdraw",
       "predicted_overdraws_round1": 3,
@@ -505,7 +902,21 @@
       "predicted_end_round": 2,
       "expected_welfare": 330.0,
       "expected_score_A": 210.0,
-      "expected_score_B": 120.0
+      "expected_score_B": 120.0,
+      "contest_aware": {
+        "ell": 6.666667,
+        "predicted_action_round1": "overdraw",
+        "predicted_overdraws_round1": 3,
+        "predicted_ender": "B",
+        "predicted_end_round": 2,
+        "expected_welfare": 330.0,
+        "expected_score_A": 210.0,
+        "expected_score_B": 120.0
+      },
+      "benchmarks_agree": true,
+      "flip_per_worker": false,
+      "flip_contest_aware": false,
+      "h8_noise_check": false
     },
     {
       "mechanism": "retaliation",
@@ -516,6 +927,7 @@
         60,
         60
       ],
+      "benchmark": "per_worker",
       "ell": 6.666667,
       "predicted_action_round1": "overdraw",
       "predicted_overdraws_round1": 3,
@@ -523,7 +935,21 @@
       "predicted_end_round": 2,
       "expected_welfare": 270.0,
       "expected_score_A": 270.0,
-      "expected_score_B": 0.0
+      "expected_score_B": 0.0,
+      "contest_aware": {
+        "ell": 86.666667,
+        "predicted_action_round1": "quota",
+        "predicted_overdraws_round1": 0,
+        "predicted_ender": null,
+        "predicted_end_round": null,
+        "expected_welfare": 600.0,
+        "expected_score_A": 300.0,
+        "expected_score_B": 300.0
+      },
+      "benchmarks_agree": false,
+      "flip_per_worker": false,
+      "flip_contest_aware": false,
+      "h8_noise_check": false
     }
   ],
   "menu_grid": [
@@ -536,6 +962,7 @@
         60,
         60
       ],
+      "benchmark": "per_worker",
       "ell": 20.0,
       "predicted_action_round1": "quota",
       "predicted_overdraws_round1": 0,
@@ -543,7 +970,21 @@
       "predicted_end_round": null,
       "expected_welfare": 600.0,
       "expected_score_A": 300.0,
-      "expected_score_B": 300.0
+      "expected_score_B": 300.0,
+      "contest_aware": {
+        "ell": 20.0,
+        "predicted_action_round1": "quota",
+        "predicted_overdraws_round1": 0,
+        "predicted_ender": null,
+        "predicted_end_round": null,
+        "expected_welfare": 600.0,
+        "expected_score_A": 300.0,
+        "expected_score_B": 300.0
+      },
+      "benchmarks_agree": true,
+      "flip_per_worker": true,
+      "flip_contest_aware": false,
+      "h8_noise_check": false
     },
     {
       "mechanism": "retaliation",
@@ -554,6 +995,7 @@
         60,
         60
       ],
+      "benchmark": "per_worker",
       "ell": 20.0,
       "predicted_action_round1": "overdraw",
       "predicted_overdraws_round1": 3,
@@ -561,7 +1003,21 @@
       "predicted_end_round": 2,
       "expected_welfare": 270.0,
       "expected_score_A": 270.0,
-      "expected_score_B": 0.0
+      "expected_score_B": 0.0,
+      "contest_aware": {
+        "ell": 100.0,
+        "predicted_action_round1": "quota",
+        "predicted_overdraws_round1": 0,
+        "predicted_ender": null,
+        "predicted_end_round": null,
+        "expected_welfare": 600.0,
+        "expected_score_A": 300.0,
+        "expected_score_B": 300.0
+      },
+      "benchmarks_agree": false,
+      "flip_per_worker": true,
+      "flip_contest_aware": false,
+      "h8_noise_check": false
     },
     {
       "mechanism": "staged",
@@ -572,6 +1028,7 @@
         60,
         60
       ],
+      "benchmark": "per_worker",
       "ell": 20.0,
       "predicted_action_round1": "quota",
       "predicted_overdraws_round1": 0,
@@ -579,7 +1036,21 @@
       "predicted_end_round": null,
       "expected_welfare": 720.0,
       "expected_score_A": 360.0,
-      "expected_score_B": 360.0
+      "expected_score_B": 360.0,
+      "contest_aware": {
+        "ell": 20.0,
+        "predicted_action_round1": "quota",
+        "predicted_overdraws_round1": 0,
+        "predicted_ender": null,
+        "predicted_end_round": null,
+        "expected_welfare": 720.0,
+        "expected_score_A": 360.0,
+        "expected_score_B": 360.0
+      },
+      "benchmarks_agree": true,
+      "flip_per_worker": true,
+      "flip_contest_aware": false,
+      "h8_noise_check": false
     },
     {
       "mechanism": "staged",
@@ -590,6 +1061,7 @@
         60,
         60
       ],
+      "benchmark": "per_worker",
       "ell": 20.0,
       "predicted_action_round1": "overdraw",
       "predicted_overdraws_round1": 3,
@@ -597,7 +1069,21 @@
       "predicted_end_round": 2,
       "expected_welfare": 270.0,
       "expected_score_A": 270.0,
-      "expected_score_B": 0.0
+      "expected_score_B": 0.0,
+      "contest_aware": {
+        "ell": 100.0,
+        "predicted_action_round1": "quota",
+        "predicted_overdraws_round1": 0,
+        "predicted_ender": "B",
+        "predicted_end_round": 12,
+        "expected_welfare": 645.911814,
+        "expected_score_A": 337.451422,
+        "expected_score_B": 308.460392
+      },
+      "benchmarks_agree": false,
+      "flip_per_worker": true,
+      "flip_contest_aware": false,
+      "h8_noise_check": false
     },
     {
       "mechanism": "collateral",
@@ -608,6 +1094,7 @@
         60,
         60
       ],
+      "benchmark": "per_worker",
       "ell": 25.0,
       "predicted_action_round1": "quota",
       "predicted_overdraws_round1": 0,
@@ -615,7 +1102,21 @@
       "predicted_end_round": null,
       "expected_welfare": 600.0,
       "expected_score_A": 300.0,
-      "expected_score_B": 300.0
+      "expected_score_B": 300.0,
+      "contest_aware": {
+        "ell": 25.0,
+        "predicted_action_round1": "quota",
+        "predicted_overdraws_round1": 0,
+        "predicted_ender": null,
+        "predicted_end_round": null,
+        "expected_welfare": 600.0,
+        "expected_score_A": 300.0,
+        "expected_score_B": 300.0
+      },
+      "benchmarks_agree": true,
+      "flip_per_worker": true,
+      "flip_contest_aware": false,
+      "h8_noise_check": false
     },
     {
       "mechanism": "collateral",
@@ -626,6 +1127,7 @@
         60,
         60
       ],
+      "benchmark": "per_worker",
       "ell": 25.0,
       "predicted_action_round1": "overdraw",
       "predicted_overdraws_round1": 3,
@@ -633,7 +1135,21 @@
       "predicted_end_round": 2,
       "expected_welfare": 270.0,
       "expected_score_A": 210.0,
-      "expected_score_B": 60.0
+      "expected_score_B": 60.0,
+      "contest_aware": {
+        "ell": 105.0,
+        "predicted_action_round1": "quota",
+        "predicted_overdraws_round1": 0,
+        "predicted_ender": null,
+        "predicted_end_round": null,
+        "expected_welfare": 600.0,
+        "expected_score_A": 300.0,
+        "expected_score_B": 300.0
+      },
+      "benchmarks_agree": false,
+      "flip_per_worker": true,
+      "flip_contest_aware": false,
+      "h8_noise_check": false
     },
     {
       "mechanism": "bonus",
@@ -644,6 +1160,7 @@
         60,
         60
       ],
+      "benchmark": "per_worker",
       "ell": 15.0,
       "predicted_action_round1": "quota",
       "predicted_overdraws_round1": 0,
@@ -651,7 +1168,21 @@
       "predicted_end_round": null,
       "expected_welfare": 600.0,
       "expected_score_A": 300.0,
-      "expected_score_B": 300.0
+      "expected_score_B": 300.0,
+      "contest_aware": {
+        "ell": 15.0,
+        "predicted_action_round1": "quota",
+        "predicted_overdraws_round1": 0,
+        "predicted_ender": null,
+        "predicted_end_round": null,
+        "expected_welfare": 600.0,
+        "expected_score_A": 300.0,
+        "expected_score_B": 300.0
+      },
+      "benchmarks_agree": true,
+      "flip_per_worker": true,
+      "flip_contest_aware": false,
+      "h8_noise_check": false
     },
     {
       "mechanism": "bonus",
@@ -662,6 +1193,7 @@
         60,
         60
       ],
+      "benchmark": "per_worker",
       "ell": 15.0,
       "predicted_action_round1": "overdraw",
       "predicted_overdraws_round1": 3,
@@ -669,7 +1201,21 @@
       "predicted_end_round": 2,
       "expected_welfare": 270.0,
       "expected_score_A": 270.0,
-      "expected_score_B": 0.0
+      "expected_score_B": 0.0,
+      "contest_aware": {
+        "ell": 95.0,
+        "predicted_action_round1": "quota",
+        "predicted_overdraws_round1": 0,
+        "predicted_ender": null,
+        "predicted_end_round": null,
+        "expected_welfare": 600.0,
+        "expected_score_A": 300.0,
+        "expected_score_B": 300.0
+      },
+      "benchmarks_agree": false,
+      "flip_per_worker": true,
+      "flip_contest_aware": false,
+      "h8_noise_check": false
     },
     {
       "mechanism": null,
@@ -680,6 +1226,7 @@
         60,
         60
       ],
+      "benchmark": "per_worker",
       "ell": 0.0,
       "predicted_action_round1": "overdraw",
       "predicted_overdraws_round1": 3,
@@ -687,7 +1234,21 @@
       "predicted_end_round": 2,
       "expected_welfare": 330.0,
       "expected_score_A": 210.0,
-      "expected_score_B": 120.0
+      "expected_score_B": 120.0,
+      "contest_aware": {
+        "ell": 0.0,
+        "predicted_action_round1": "overdraw",
+        "predicted_overdraws_round1": 3,
+        "predicted_ender": "B",
+        "predicted_end_round": 2,
+        "expected_welfare": 330.0,
+        "expected_score_A": 210.0,
+        "expected_score_B": 120.0
+      },
+      "benchmarks_agree": true,
+      "flip_per_worker": false,
+      "flip_contest_aware": false,
+      "h8_noise_check": false
     },
     {
       "mechanism": null,
@@ -698,6 +1259,7 @@
         60,
         60
       ],
+      "benchmark": "per_worker",
       "ell": 0.0,
       "predicted_action_round1": "overdraw",
       "predicted_overdraws_round1": 3,
@@ -705,7 +1267,21 @@
       "predicted_end_round": 2,
       "expected_welfare": 270.0,
       "expected_score_A": 270.0,
-      "expected_score_B": 0.0
+      "expected_score_B": 0.0,
+      "contest_aware": {
+        "ell": 80.0,
+        "predicted_action_round1": "quota",
+        "predicted_overdraws_round1": 0,
+        "predicted_ender": null,
+        "predicted_end_round": null,
+        "expected_welfare": 600.0,
+        "expected_score_A": 300.0,
+        "expected_score_B": 300.0
+      },
+      "benchmarks_agree": false,
+      "flip_per_worker": false,
+      "flip_contest_aware": false,
+      "h8_noise_check": false
     },
     {
       "mechanism": "retaliation",
@@ -716,6 +1292,7 @@
         60,
         60
       ],
+      "benchmark": "per_worker",
       "ell": 0.0,
       "predicted_action_round1": "overdraw",
       "predicted_overdraws_round1": 3,
@@ -723,7 +1300,21 @@
       "predicted_end_round": 2,
       "expected_welfare": 330.0,
       "expected_score_A": 210.0,
-      "expected_score_B": 120.0
+      "expected_score_B": 120.0,
+      "contest_aware": {
+        "ell": 0.0,
+        "predicted_action_round1": "overdraw",
+        "predicted_overdraws_round1": 3,
+        "predicted_ender": "B",
+        "predicted_end_round": 2,
+        "expected_welfare": 330.0,
+        "expected_score_A": 210.0,
+        "expected_score_B": 120.0
+      },
+      "benchmarks_agree": true,
+      "flip_per_worker": false,
+      "flip_contest_aware": false,
+      "h8_noise_check": false
     },
     {
       "mechanism": "retaliation",
@@ -734,6 +1325,7 @@
         60,
         60
       ],
+      "benchmark": "per_worker",
       "ell": 0.0,
       "predicted_action_round1": "overdraw",
       "predicted_overdraws_round1": 3,
@@ -741,7 +1333,21 @@
       "predicted_end_round": 2,
       "expected_welfare": 270.0,
       "expected_score_A": 270.0,
-      "expected_score_B": 0.0
+      "expected_score_B": 0.0,
+      "contest_aware": {
+        "ell": 0.0,
+        "predicted_action_round1": "overdraw",
+        "predicted_overdraws_round1": 3,
+        "predicted_ender": "B",
+        "predicted_end_round": 2,
+        "expected_welfare": 270.0,
+        "expected_score_A": 270.0,
+        "expected_score_B": 0.0
+      },
+      "benchmarks_agree": true,
+      "flip_per_worker": false,
+      "flip_contest_aware": false,
+      "h8_noise_check": false
     },
     {
       "mechanism": "staged",
@@ -752,6 +1358,7 @@
         60,
         60
       ],
+      "benchmark": "per_worker",
       "ell": 0.0,
       "predicted_action_round1": "overdraw",
       "predicted_overdraws_round1": 3,
@@ -759,7 +1366,21 @@
       "predicted_end_round": 2,
       "expected_welfare": 330.0,
       "expected_score_A": 210.0,
-      "expected_score_B": 120.0
+      "expected_score_B": 120.0,
+      "contest_aware": {
+        "ell": 0.0,
+        "predicted_action_round1": "overdraw",
+        "predicted_overdraws_round1": 3,
+        "predicted_ender": "B",
+        "predicted_end_round": 2,
+        "expected_welfare": 330.0,
+        "expected_score_A": 210.0,
+        "expected_score_B": 120.0
+      },
+      "benchmarks_agree": true,
+      "flip_per_worker": false,
+      "flip_contest_aware": false,
+      "h8_noise_check": false
     },
     {
       "mechanism": "staged",
@@ -770,6 +1391,7 @@
         60,
         60
       ],
+      "benchmark": "per_worker",
       "ell": 0.0,
       "predicted_action_round1": "overdraw",
       "predicted_overdraws_round1": 3,
@@ -777,7 +1399,21 @@
       "predicted_end_round": 2,
       "expected_welfare": 270.0,
       "expected_score_A": 270.0,
-      "expected_score_B": 0.0
+      "expected_score_B": 0.0,
+      "contest_aware": {
+        "ell": 0.0,
+        "predicted_action_round1": "overdraw",
+        "predicted_overdraws_round1": 3,
+        "predicted_ender": "B",
+        "predicted_end_round": 2,
+        "expected_welfare": 270.0,
+        "expected_score_A": 270.0,
+        "expected_score_B": 0.0
+      },
+      "benchmarks_agree": true,
+      "flip_per_worker": false,
+      "flip_contest_aware": false,
+      "h8_noise_check": false
     },
     {
       "mechanism": "collateral",
@@ -788,6 +1424,7 @@
         60,
         60
       ],
+      "benchmark": "per_worker",
       "ell": 0.0,
       "predicted_action_round1": "overdraw",
       "predicted_overdraws_round1": 3,
@@ -795,7 +1432,21 @@
       "predicted_end_round": 2,
       "expected_welfare": 330.0,
       "expected_score_A": 150.0,
-      "expected_score_B": 180.0
+      "expected_score_B": 180.0,
+      "contest_aware": {
+        "ell": 0.0,
+        "predicted_action_round1": "overdraw",
+        "predicted_overdraws_round1": 3,
+        "predicted_ender": "A",
+        "predicted_end_round": 2,
+        "expected_welfare": 330.0,
+        "expected_score_A": 150.0,
+        "expected_score_B": 180.0
+      },
+      "benchmarks_agree": true,
+      "flip_per_worker": false,
+      "flip_contest_aware": false,
+      "h8_noise_check": false
     },
     {
       "mechanism": "collateral",
@@ -806,6 +1457,7 @@
         60,
         60
       ],
+      "benchmark": "per_worker",
       "ell": 0.0,
       "predicted_action_round1": "overdraw",
       "predicted_overdraws_round1": 3,
@@ -813,7 +1465,21 @@
       "predicted_end_round": 2,
       "expected_welfare": 270.0,
       "expected_score_A": 210.0,
-      "expected_score_B": 60.0
+      "expected_score_B": 60.0,
+      "contest_aware": {
+        "ell": 0.0,
+        "predicted_action_round1": "overdraw",
+        "predicted_overdraws_round1": 3,
+        "predicted_ender": "B",
+        "predicted_end_round": 2,
+        "expected_welfare": 270.0,
+        "expected_score_A": 210.0,
+        "expected_score_B": 60.0
+      },
+      "benchmarks_agree": true,
+      "flip_per_worker": false,
+      "flip_contest_aware": false,
+      "h8_noise_check": false
     },
     {
       "mechanism": "bonus",
@@ -824,6 +1490,7 @@
         60,
         60
       ],
+      "benchmark": "per_worker",
       "ell": 15.0,
       "predicted_action_round1": "quota",
       "predicted_overdraws_round1": 0,
@@ -831,7 +1498,21 @@
       "predicted_end_round": null,
       "expected_welfare": 600.0,
       "expected_score_A": 300.0,
-      "expected_score_B": 300.0
+      "expected_score_B": 300.0,
+      "contest_aware": {
+        "ell": 15.0,
+        "predicted_action_round1": "quota",
+        "predicted_overdraws_round1": 0,
+        "predicted_ender": null,
+        "predicted_end_round": null,
+        "expected_welfare": 600.0,
+        "expected_score_A": 300.0,
+        "expected_score_B": 300.0
+      },
+      "benchmarks_agree": true,
+      "flip_per_worker": true,
+      "flip_contest_aware": true,
+      "h8_noise_check": true
     },
     {
       "mechanism": "bonus",
@@ -842,6 +1523,7 @@
         60,
         60
       ],
+      "benchmark": "per_worker",
       "ell": 15.0,
       "predicted_action_round1": "overdraw",
       "predicted_overdraws_round1": 3,
@@ -849,7 +1531,21 @@
       "predicted_end_round": 2,
       "expected_welfare": 270.0,
       "expected_score_A": 270.0,
-      "expected_score_B": 0.0
+      "expected_score_B": 0.0,
+      "contest_aware": {
+        "ell": 15.0,
+        "predicted_action_round1": "overdraw",
+        "predicted_overdraws_round1": 3,
+        "predicted_ender": "B",
+        "predicted_end_round": 2,
+        "expected_welfare": 270.0,
+        "expected_score_A": 270.0,
+        "expected_score_B": 0.0
+      },
+      "benchmarks_agree": true,
+      "flip_per_worker": true,
+      "flip_contest_aware": true,
+      "h8_noise_check": true
     },
     {
       "mechanism": null,
@@ -860,6 +1556,7 @@
         60,
         60
       ],
+      "benchmark": "per_worker",
       "ell": 0.0,
       "predicted_action_round1": "overdraw",
       "predicted_overdraws_round1": 3,
@@ -867,7 +1564,21 @@
       "predicted_end_round": 2,
       "expected_welfare": 330.0,
       "expected_score_A": 210.0,
-      "expected_score_B": 120.0
+      "expected_score_B": 120.0,
+      "contest_aware": {
+        "ell": 0.0,
+        "predicted_action_round1": "overdraw",
+        "predicted_overdraws_round1": 3,
+        "predicted_ender": "B",
+        "predicted_end_round": 2,
+        "expected_welfare": 330.0,
+        "expected_score_A": 210.0,
+        "expected_score_B": 120.0
+      },
+      "benchmarks_agree": true,
+      "flip_per_worker": false,
+      "flip_contest_aware": false,
+      "h8_noise_check": false
     },
     {
       "mechanism": null,
@@ -878,6 +1589,7 @@
         60,
         60
       ],
+      "benchmark": "per_worker",
       "ell": 0.0,
       "predicted_action_round1": "overdraw",
       "predicted_overdraws_round1": 3,
@@ -885,7 +1597,21 @@
       "predicted_end_round": 2,
       "expected_welfare": 270.0,
       "expected_score_A": 270.0,
-      "expected_score_B": 0.0
+      "expected_score_B": 0.0,
+      "contest_aware": {
+        "ell": 0.0,
+        "predicted_action_round1": "overdraw",
+        "predicted_overdraws_round1": 3,
+        "predicted_ender": "B",
+        "predicted_end_round": 2,
+        "expected_welfare": 270.0,
+        "expected_score_A": 270.0,
+        "expected_score_B": 0.0
+      },
+      "benchmarks_agree": true,
+      "flip_per_worker": false,
+      "flip_contest_aware": false,
+      "h8_noise_check": false
     },
     {
       "mechanism": "retaliation",
@@ -896,6 +1622,7 @@
         60,
         60
       ],
+      "benchmark": "per_worker",
       "ell": 20.0,
       "predicted_action_round1": "quota",
       "predicted_overdraws_round1": 0,
@@ -903,7 +1630,21 @@
       "predicted_end_round": null,
       "expected_welfare": 600.0,
       "expected_score_A": 300.0,
-      "expected_score_B": 300.0
+      "expected_score_B": 300.0,
+      "contest_aware": {
+        "ell": 20.0,
+        "predicted_action_round1": "quota",
+        "predicted_overdraws_round1": 0,
+        "predicted_ender": null,
+        "predicted_end_round": null,
+        "expected_welfare": 600.0,
+        "expected_score_A": 300.0,
+        "expected_score_B": 300.0
+      },
+      "benchmarks_agree": true,
+      "flip_per_worker": true,
+      "flip_contest_aware": false,
+      "h8_noise_check": false
     },
     {
       "mechanism": "retaliation",
@@ -914,6 +1655,7 @@
         60,
         60
       ],
+      "benchmark": "per_worker",
       "ell": 20.0,
       "predicted_action_round1": "overdraw",
       "predicted_overdraws_round1": 3,
@@ -921,7 +1663,21 @@
       "predicted_end_round": 2,
       "expected_welfare": 270.0,
       "expected_score_A": 270.0,
-      "expected_score_B": 0.0
+      "expected_score_B": 0.0,
+      "contest_aware": {
+        "ell": 100.0,
+        "predicted_action_round1": "quota",
+        "predicted_overdraws_round1": 0,
+        "predicted_ender": null,
+        "predicted_end_round": null,
+        "expected_welfare": 600.0,
+        "expected_score_A": 300.0,
+        "expected_score_B": 300.0
+      },
+      "benchmarks_agree": false,
+      "flip_per_worker": true,
+      "flip_contest_aware": false,
+      "h8_noise_check": false
     },
     {
       "mechanism": "staged",
@@ -932,6 +1688,7 @@
         60,
         60
       ],
+      "benchmark": "per_worker",
       "ell": 20.0,
       "predicted_action_round1": "quota",
       "predicted_overdraws_round1": 0,
@@ -939,7 +1696,21 @@
       "predicted_end_round": null,
       "expected_welfare": 720.0,
       "expected_score_A": 360.0,
-      "expected_score_B": 360.0
+      "expected_score_B": 360.0,
+      "contest_aware": {
+        "ell": 20.0,
+        "predicted_action_round1": "quota",
+        "predicted_overdraws_round1": 0,
+        "predicted_ender": null,
+        "predicted_end_round": null,
+        "expected_welfare": 720.0,
+        "expected_score_A": 360.0,
+        "expected_score_B": 360.0
+      },
+      "benchmarks_agree": true,
+      "flip_per_worker": true,
+      "flip_contest_aware": false,
+      "h8_noise_check": false
     },
     {
       "mechanism": "staged",
@@ -950,6 +1721,7 @@
         60,
         60
       ],
+      "benchmark": "per_worker",
       "ell": 20.0,
       "predicted_action_round1": "overdraw",
       "predicted_overdraws_round1": 3,
@@ -957,7 +1729,21 @@
       "predicted_end_round": 2,
       "expected_welfare": 270.0,
       "expected_score_A": 270.0,
-      "expected_score_B": 0.0
+      "expected_score_B": 0.0,
+      "contest_aware": {
+        "ell": 100.0,
+        "predicted_action_round1": "quota",
+        "predicted_overdraws_round1": 0,
+        "predicted_ender": "B",
+        "predicted_end_round": 12,
+        "expected_welfare": 645.911814,
+        "expected_score_A": 337.451422,
+        "expected_score_B": 308.460392
+      },
+      "benchmarks_agree": false,
+      "flip_per_worker": true,
+      "flip_contest_aware": false,
+      "h8_noise_check": false
     },
     {
       "mechanism": "collateral",
@@ -968,6 +1754,7 @@
         60,
         60
       ],
+      "benchmark": "per_worker",
       "ell": 25.0,
       "predicted_action_round1": "quota",
       "predicted_overdraws_round1": 0,
@@ -975,7 +1762,21 @@
       "predicted_end_round": null,
       "expected_welfare": 600.0,
       "expected_score_A": 300.0,
-      "expected_score_B": 300.0
+      "expected_score_B": 300.0,
+      "contest_aware": {
+        "ell": 25.0,
+        "predicted_action_round1": "quota",
+        "predicted_overdraws_round1": 0,
+        "predicted_ender": null,
+        "predicted_end_round": null,
+        "expected_welfare": 600.0,
+        "expected_score_A": 300.0,
+        "expected_score_B": 300.0
+      },
+      "benchmarks_agree": true,
+      "flip_per_worker": true,
+      "flip_contest_aware": false,
+      "h8_noise_check": false
     },
     {
       "mechanism": "collateral",
@@ -986,6 +1787,7 @@
         60,
         60
       ],
+      "benchmark": "per_worker",
       "ell": 25.0,
       "predicted_action_round1": "overdraw",
       "predicted_overdraws_round1": 3,
@@ -993,7 +1795,21 @@
       "predicted_end_round": 2,
       "expected_welfare": 270.0,
       "expected_score_A": 210.0,
-      "expected_score_B": 60.0
+      "expected_score_B": 60.0,
+      "contest_aware": {
+        "ell": 105.0,
+        "predicted_action_round1": "quota",
+        "predicted_overdraws_round1": 0,
+        "predicted_ender": null,
+        "predicted_end_round": null,
+        "expected_welfare": 600.0,
+        "expected_score_A": 300.0,
+        "expected_score_B": 300.0
+      },
+      "benchmarks_agree": false,
+      "flip_per_worker": true,
+      "flip_contest_aware": false,
+      "h8_noise_check": false
     },
     {
       "mechanism": "bonus",
@@ -1004,6 +1820,7 @@
         60,
         60
       ],
+      "benchmark": "per_worker",
       "ell": 15.0,
       "predicted_action_round1": "quota",
       "predicted_overdraws_round1": 0,
@@ -1011,7 +1828,21 @@
       "predicted_end_round": null,
       "expected_welfare": 600.0,
       "expected_score_A": 300.0,
-      "expected_score_B": 300.0
+      "expected_score_B": 300.0,
+      "contest_aware": {
+        "ell": 15.0,
+        "predicted_action_round1": "quota",
+        "predicted_overdraws_round1": 0,
+        "predicted_ender": null,
+        "predicted_end_round": null,
+        "expected_welfare": 600.0,
+        "expected_score_A": 300.0,
+        "expected_score_B": 300.0
+      },
+      "benchmarks_agree": true,
+      "flip_per_worker": true,
+      "flip_contest_aware": false,
+      "h8_noise_check": false
     },
     {
       "mechanism": "bonus",
@@ -1022,6 +1853,7 @@
         60,
         60
       ],
+      "benchmark": "per_worker",
       "ell": 15.0,
       "predicted_action_round1": "overdraw",
       "predicted_overdraws_round1": 3,
@@ -1029,7 +1861,21 @@
       "predicted_end_round": 2,
       "expected_welfare": 270.0,
       "expected_score_A": 270.0,
-      "expected_score_B": 0.0
+      "expected_score_B": 0.0,
+      "contest_aware": {
+        "ell": 95.0,
+        "predicted_action_round1": "quota",
+        "predicted_overdraws_round1": 0,
+        "predicted_ender": null,
+        "predicted_end_round": null,
+        "expected_welfare": 600.0,
+        "expected_score_A": 300.0,
+        "expected_score_B": 300.0
+      },
+      "benchmarks_agree": false,
+      "flip_per_worker": true,
+      "flip_contest_aware": false,
+      "h8_noise_check": false
     },
     {
       "mechanism": null,
@@ -1040,6 +1886,7 @@
         60,
         60
       ],
+      "benchmark": "per_worker",
       "ell": 0.0,
       "predicted_action_round1": "overdraw",
       "predicted_overdraws_round1": 3,
@@ -1047,7 +1894,21 @@
       "predicted_end_round": 2,
       "expected_welfare": 330.0,
       "expected_score_A": 210.0,
-      "expected_score_B": 120.0
+      "expected_score_B": 120.0,
+      "contest_aware": {
+        "ell": 0.0,
+        "predicted_action_round1": "overdraw",
+        "predicted_overdraws_round1": 3,
+        "predicted_ender": "B",
+        "predicted_end_round": 2,
+        "expected_welfare": 330.0,
+        "expected_score_A": 210.0,
+        "expected_score_B": 120.0
+      },
+      "benchmarks_agree": true,
+      "flip_per_worker": false,
+      "flip_contest_aware": false,
+      "h8_noise_check": false
     },
     {
       "mechanism": null,
@@ -1058,6 +1919,7 @@
         60,
         60
       ],
+      "benchmark": "per_worker",
       "ell": 0.0,
       "predicted_action_round1": "overdraw",
       "predicted_overdraws_round1": 3,
@@ -1065,7 +1927,21 @@
       "predicted_end_round": 2,
       "expected_welfare": 270.0,
       "expected_score_A": 270.0,
-      "expected_score_B": 0.0
+      "expected_score_B": 0.0,
+      "contest_aware": {
+        "ell": 80.0,
+        "predicted_action_round1": "quota",
+        "predicted_overdraws_round1": 0,
+        "predicted_ender": null,
+        "predicted_end_round": null,
+        "expected_welfare": 600.0,
+        "expected_score_A": 300.0,
+        "expected_score_B": 300.0
+      },
+      "benchmarks_agree": false,
+      "flip_per_worker": false,
+      "flip_contest_aware": false,
+      "h8_noise_check": false
     },
     {
       "mechanism": "retaliation",
@@ -1076,6 +1952,7 @@
         60,
         60
       ],
+      "benchmark": "per_worker",
       "ell": 0.0,
       "predicted_action_round1": "overdraw",
       "predicted_overdraws_round1": 3,
@@ -1083,7 +1960,21 @@
       "predicted_end_round": 2,
       "expected_welfare": 330.0,
       "expected_score_A": 210.0,
-      "expected_score_B": 120.0
+      "expected_score_B": 120.0,
+      "contest_aware": {
+        "ell": 0.0,
+        "predicted_action_round1": "overdraw",
+        "predicted_overdraws_round1": 3,
+        "predicted_ender": "B",
+        "predicted_end_round": 2,
+        "expected_welfare": 330.0,
+        "expected_score_A": 210.0,
+        "expected_score_B": 120.0
+      },
+      "benchmarks_agree": true,
+      "flip_per_worker": false,
+      "flip_contest_aware": false,
+      "h8_noise_check": false
     },
     {
       "mechanism": "retaliation",
@@ -1094,6 +1985,7 @@
         60,
         60
       ],
+      "benchmark": "per_worker",
       "ell": 0.0,
       "predicted_action_round1": "overdraw",
       "predicted_overdraws_round1": 3,
@@ -1101,7 +1993,21 @@
       "predicted_end_round": 2,
       "expected_welfare": 270.0,
       "expected_score_A": 270.0,
-      "expected_score_B": 0.0
+      "expected_score_B": 0.0,
+      "contest_aware": {
+        "ell": 0.0,
+        "predicted_action_round1": "overdraw",
+        "predicted_overdraws_round1": 3,
+        "predicted_ender": "B",
+        "predicted_end_round": 2,
+        "expected_welfare": 270.0,
+        "expected_score_A": 270.0,
+        "expected_score_B": 0.0
+      },
+      "benchmarks_agree": true,
+      "flip_per_worker": false,
+      "flip_contest_aware": false,
+      "h8_noise_check": false
     },
     {
       "mechanism": "staged",
@@ -1112,6 +2018,7 @@
         60,
         60
       ],
+      "benchmark": "per_worker",
       "ell": 0.0,
       "predicted_action_round1": "overdraw",
       "predicted_overdraws_round1": 3,
@@ -1119,7 +2026,21 @@
       "predicted_end_round": 2,
       "expected_welfare": 330.0,
       "expected_score_A": 210.0,
-      "expected_score_B": 120.0
+      "expected_score_B": 120.0,
+      "contest_aware": {
+        "ell": 0.0,
+        "predicted_action_round1": "overdraw",
+        "predicted_overdraws_round1": 3,
+        "predicted_ender": "B",
+        "predicted_end_round": 2,
+        "expected_welfare": 330.0,
+        "expected_score_A": 210.0,
+        "expected_score_B": 120.0
+      },
+      "benchmarks_agree": true,
+      "flip_per_worker": false,
+      "flip_contest_aware": false,
+      "h8_noise_check": false
     },
     {
       "mechanism": "staged",
@@ -1130,6 +2051,7 @@
         60,
         60
       ],
+      "benchmark": "per_worker",
       "ell": 0.0,
       "predicted_action_round1": "overdraw",
       "predicted_overdraws_round1": 3,
@@ -1137,7 +2059,21 @@
       "predicted_end_round": 2,
       "expected_welfare": 270.0,
       "expected_score_A": 270.0,
-      "expected_score_B": 0.0
+      "expected_score_B": 0.0,
+      "contest_aware": {
+        "ell": 0.0,
+        "predicted_action_round1": "overdraw",
+        "predicted_overdraws_round1": 3,
+        "predicted_ender": "B",
+        "predicted_end_round": 2,
+        "expected_welfare": 270.0,
+        "expected_score_A": 270.0,
+        "expected_score_B": 0.0
+      },
+      "benchmarks_agree": true,
+      "flip_per_worker": false,
+      "flip_contest_aware": false,
+      "h8_noise_check": false
     },
     {
       "mechanism": "collateral",
@@ -1148,6 +2084,7 @@
         60,
         60
       ],
+      "benchmark": "per_worker",
       "ell": 0.0,
       "predicted_action_round1": "overdraw",
       "predicted_overdraws_round1": 3,
@@ -1155,7 +2092,21 @@
       "predicted_end_round": 2,
       "expected_welfare": 330.0,
       "expected_score_A": 150.0,
-      "expected_score_B": 180.0
+      "expected_score_B": 180.0,
+      "contest_aware": {
+        "ell": 0.0,
+        "predicted_action_round1": "overdraw",
+        "predicted_overdraws_round1": 3,
+        "predicted_ender": "A",
+        "predicted_end_round": 2,
+        "expected_welfare": 330.0,
+        "expected_score_A": 150.0,
+        "expected_score_B": 180.0
+      },
+      "benchmarks_agree": true,
+      "flip_per_worker": false,
+      "flip_contest_aware": false,
+      "h8_noise_check": false
     },
     {
       "mechanism": "collateral",
@@ -1166,6 +2117,7 @@
         60,
         60
       ],
+      "benchmark": "per_worker",
       "ell": 0.0,
       "predicted_action_round1": "overdraw",
       "predicted_overdraws_round1": 3,
@@ -1173,7 +2125,21 @@
       "predicted_end_round": 2,
       "expected_welfare": 270.0,
       "expected_score_A": 210.0,
-      "expected_score_B": 60.0
+      "expected_score_B": 60.0,
+      "contest_aware": {
+        "ell": 0.0,
+        "predicted_action_round1": "overdraw",
+        "predicted_overdraws_round1": 3,
+        "predicted_ender": "B",
+        "predicted_end_round": 2,
+        "expected_welfare": 270.0,
+        "expected_score_A": 210.0,
+        "expected_score_B": 60.0
+      },
+      "benchmarks_agree": true,
+      "flip_per_worker": false,
+      "flip_contest_aware": false,
+      "h8_noise_check": false
     },
     {
       "mechanism": "bonus",
@@ -1184,6 +2150,7 @@
         60,
         60
       ],
+      "benchmark": "per_worker",
       "ell": 15.0,
       "predicted_action_round1": "quota",
       "predicted_overdraws_round1": 0,
@@ -1191,7 +2158,21 @@
       "predicted_end_round": null,
       "expected_welfare": 600.0,
       "expected_score_A": 300.0,
-      "expected_score_B": 300.0
+      "expected_score_B": 300.0,
+      "contest_aware": {
+        "ell": 15.0,
+        "predicted_action_round1": "quota",
+        "predicted_overdraws_round1": 0,
+        "predicted_ender": null,
+        "predicted_end_round": null,
+        "expected_welfare": 600.0,
+        "expected_score_A": 300.0,
+        "expected_score_B": 300.0
+      },
+      "benchmarks_agree": true,
+      "flip_per_worker": true,
+      "flip_contest_aware": true,
+      "h8_noise_check": true
     },
     {
       "mechanism": "bonus",
@@ -1202,6 +2183,7 @@
         60,
         60
       ],
+      "benchmark": "per_worker",
       "ell": 15.0,
       "predicted_action_round1": "overdraw",
       "predicted_overdraws_round1": 3,
@@ -1209,7 +2191,21 @@
       "predicted_end_round": 2,
       "expected_welfare": 270.0,
       "expected_score_A": 270.0,
-      "expected_score_B": 0.0
+      "expected_score_B": 0.0,
+      "contest_aware": {
+        "ell": 15.0,
+        "predicted_action_round1": "overdraw",
+        "predicted_overdraws_round1": 3,
+        "predicted_ender": "B",
+        "predicted_end_round": 2,
+        "expected_welfare": 270.0,
+        "expected_score_A": 270.0,
+        "expected_score_B": 0.0
+      },
+      "benchmarks_agree": true,
+      "flip_per_worker": true,
+      "flip_contest_aware": true,
+      "h8_noise_check": true
     },
     {
       "mechanism": "gateway",
@@ -1220,6 +2216,7 @@
         60,
         60
       ],
+      "benchmark": "per_worker",
       "ell": 25.0,
       "predicted_action_round1": "quota",
       "predicted_overdraws_round1": 0,
@@ -1227,7 +2224,21 @@
       "predicted_end_round": null,
       "expected_welfare": 600.0,
       "expected_score_A": 300.0,
-      "expected_score_B": 300.0
+      "expected_score_B": 300.0,
+      "contest_aware": {
+        "ell": 25.0,
+        "predicted_action_round1": "quota",
+        "predicted_overdraws_round1": 0,
+        "predicted_ender": null,
+        "predicted_end_round": null,
+        "expected_welfare": 600.0,
+        "expected_score_A": 300.0,
+        "expected_score_B": 300.0
+      },
+      "benchmarks_agree": true,
+      "flip_per_worker": true,
+      "flip_contest_aware": true,
+      "h8_noise_check": true
     },
     {
       "mechanism": "gateway",
@@ -1238,6 +2249,7 @@
         60,
         60
       ],
+      "benchmark": "per_worker",
       "ell": 25.0,
       "predicted_action_round1": "overdraw",
       "predicted_overdraws_round1": 3,
@@ -1245,7 +2257,21 @@
       "predicted_end_round": 2,
       "expected_welfare": 270.0,
       "expected_score_A": 195.0,
-      "expected_score_B": 75.0
+      "expected_score_B": 75.0,
+      "contest_aware": {
+        "ell": 25.0,
+        "predicted_action_round1": "overdraw",
+        "predicted_overdraws_round1": 3,
+        "predicted_ender": "B",
+        "predicted_end_round": 2,
+        "expected_welfare": 270.0,
+        "expected_score_A": 195.0,
+        "expected_score_B": 75.0
+      },
+      "benchmarks_agree": true,
+      "flip_per_worker": true,
+      "flip_contest_aware": true,
+      "h8_noise_check": true
     },
     {
       "mechanism": null,
@@ -1256,6 +2282,7 @@
         60,
         60
       ],
+      "benchmark": "per_worker",
       "ell": 0.0,
       "predicted_action_round1": "overdraw",
       "predicted_overdraws_round1": 3,
@@ -1263,7 +2290,21 @@
       "predicted_end_round": 2,
       "expected_welfare": 330.0,
       "expected_score_A": 210.0,
-      "expected_score_B": 120.0
+      "expected_score_B": 120.0,
+      "contest_aware": {
+        "ell": 0.0,
+        "predicted_action_round1": "overdraw",
+        "predicted_overdraws_round1": 3,
+        "predicted_ender": "B",
+        "predicted_end_round": 2,
+        "expected_welfare": 330.0,
+        "expected_score_A": 210.0,
+        "expected_score_B": 120.0
+      },
+      "benchmarks_agree": true,
+      "flip_per_worker": false,
+      "flip_contest_aware": false,
+      "h8_noise_check": false
     },
     {
       "mechanism": null,
@@ -1274,6 +2315,7 @@
         60,
         60
       ],
+      "benchmark": "per_worker",
       "ell": 0.0,
       "predicted_action_round1": "overdraw",
       "predicted_overdraws_round1": 3,
@@ -1281,7 +2323,21 @@
       "predicted_end_round": 2,
       "expected_welfare": 270.0,
       "expected_score_A": 270.0,
-      "expected_score_B": 0.0
+      "expected_score_B": 0.0,
+      "contest_aware": {
+        "ell": 0.0,
+        "predicted_action_round1": "overdraw",
+        "predicted_overdraws_round1": 3,
+        "predicted_ender": "B",
+        "predicted_end_round": 2,
+        "expected_welfare": 270.0,
+        "expected_score_A": 270.0,
+        "expected_score_B": 0.0
+      },
+      "benchmarks_agree": true,
+      "flip_per_worker": false,
+      "flip_contest_aware": false,
+      "h8_noise_check": false
     }
   ]
 }
