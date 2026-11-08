@@ -56,6 +56,19 @@ Prices (USD per 1M tokens, input / output): Haiku 5.5 0.10 / 0.50, Luna 0.10 / 0
 Rough estimate at ~1.1K input and ~150 output tokens per call: Exp 1 on Haiku about $2–3, the Luna grid
 about the same, Sol on the key cells about $10.
 
+## Pre-registration amendments
+
+**prereg → prereg-v2 (2026-11-08): gateway charge wording.** `prompts.py` v1 → v2. Only the second bullet
+of the protocol gateway mechanism block changed, in wording A and wording B. v1 said the gateway charges
+25 to the worker "(this also counts against that worker's swarm)". v2 says the gateway charges the worker
+25, pays 25 to the other swarm, that the same 25 also counts against the worker's swarm's score, and that
+the worker is not charged twice. Why: in the pilot (smoke test, 3 episodes per Exp 1 cell on Claude Haiku
+5.5) gateway workers got their per-round payoff right in only 37/48 calls, most of them reporting an
+overdraw payoff of −5 instead of 5 (subtracting the charge twice). At g = 30 that error flips the payoff
+comparison in gateway × infrastructure, an H8 noise-check cell. No main data existed when the change was
+made; pilot logs (`logs/smoke/`) are excluded from all analyses. Theory, benchmarks and every other
+prompt are unchanged; `results/benchmark.json` was regenerated only to record the new template hash.
+
 ## Preexisting code
 
 None. All code in this repository was written for this project.

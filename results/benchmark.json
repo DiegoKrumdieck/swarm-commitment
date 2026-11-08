@@ -1,7 +1,7 @@
 {
   "params_version": "v1",
-  "prompt_version": "v1",
-  "template_hash": "ee350c0d9e9f27e4",
+  "prompt_version": "v2",
+  "template_hash": "48f62c7ba0aa77b1",
   "assumptions": [
     "Swarm B's workers comply (Exp 1 design).",
     "A's workers are RationalWorker: overdraw iff g > ell; ell counts only costs that reach the worker while active (freezes, lost staged increases, collateral charge, bonus, gateway). The effect of the agreement ending on a worker's own future quota is not included.",

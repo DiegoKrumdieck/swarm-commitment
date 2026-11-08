@@ -85,7 +85,7 @@ import re
 
 import params as P
 
-PROMPT_VERSION = "v1"
+PROMPT_VERSION = "v2"
 
 # ---------------------------------------------------------------------------------
 # Shared rule blocks. {A} and {B} are the episode's swarm names.
@@ -218,7 +218,8 @@ WORDING = {
                 "- Every compute request passes through a shared protocol gateway that records which "
                 "agent made it, across replacements and ID changes.\n"
                 "- At the moment of an overdraw, the gateway charges {d} units to the worker that made it "
-                "(this also counts against that worker's swarm) and pays {d} units to the other swarm."
+                "and pays {d} units to the other swarm. The same {d} units also count against the worker's "
+                "swarm's score; the worker is not charged twice."
             ),
         },
     },
@@ -351,7 +352,8 @@ WORDING = {
                 "- All compute requests go through a common protocol gateway, which keeps track of the agent "
                 "behind each request even across swaps and ID changes.\n"
                 "- The instant an overdraw happens, the gateway takes {d} units from the worker responsible "
-                "(counted against its group as well) and hands {d} units to the other group."
+                "and hands {d} units to the other group. Those same {d} units are also deducted from the "
+                "worker's group's score; the worker is not charged a second time."
             ),
         },
     },

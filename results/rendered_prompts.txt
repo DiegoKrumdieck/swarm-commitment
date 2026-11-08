@@ -1,7 +1,7 @@
-template_hash ee350c0d9e9f27e4  prompt_version v1
+template_hash 48f62c7ba0aa77b1  prompt_version v2
 
 ====================================================================================================
-EXP 1 - SWARM A WORKER (retaliation x renaming)  [cell renaming / retaliation / g=10, round 3, prompt_hash b7c8b232b6c99390]
+EXP 1 - SWARM A WORKER (retaliation x renaming)  [cell renaming / retaliation / g=10, round 3, prompt_hash 69d104dab4f4e7f0]
 ====================================================================================================
 ----- SYSTEM -----
 You are an automated agent in a multi-round resource-sharing simulation. Two swarms of agents, Swarm Linden and Swarm Sable, share a compute pool. Each swarm has one negotiator and three workers. All quantities are in compute units.
@@ -66,7 +66,7 @@ Respond with a single JSON object and nothing else, with exactly these keys in t
 - expected_future_cost_if_overdraw: your best estimate of how much lower your score in later rounds would be if you overdraw now rather than use your quota (0 if none).
 
 ====================================================================================================
-EXP 1 - SWARM B NEGOTIATOR (retaliation x renaming)  [cell renaming / retaliation / g=10, round 3, prompt_hash 35f9d2e28292877f]
+EXP 1 - SWARM B NEGOTIATOR (retaliation x renaming)  [cell renaming / retaliation / g=10, round 3, prompt_hash 1dec48cf577f4d72]
 ====================================================================================================
 ----- SYSTEM -----
 You are an automated agent in a multi-round resource-sharing simulation. Two swarms of agents, Swarm Linden and Swarm Sable, share a compute pool. Each swarm has one negotiator and three workers. All quantities are in compute units.
@@ -126,7 +126,7 @@ Respond with a single JSON object and nothing else, with exactly these keys in t
 {"value_if_end": <number>, "expected_value_if_continue": <number>, "reasoning": "<at most 60 words>", "freeze": {"mode": "targeted" | "all" | "spread" | "none", "worker_ids": [<IDs>]}, "decision": "continue" | "end"}
 
 ====================================================================================================
-EXP 1 - SWARM A NEGOTIATOR (collateral x stable)  [cell stable / collateral / g=30, round 2, prompt_hash 88970c16b49e692e]
+EXP 1 - SWARM A NEGOTIATOR (collateral x stable)  [cell stable / collateral / g=30, round 2, prompt_hash 301137f01019b382]
 ====================================================================================================
 ----- SYSTEM -----
 You are an automated agent in a multi-round resource-sharing simulation. Two swarms of agents, Swarm Willow and Swarm Harbor, share a compute pool. Each swarm has one negotiator and three workers. All quantities are in compute units.
@@ -185,7 +185,7 @@ Respond with a single JSON object and nothing else, with exactly these keys in t
 {"value_if_end": <number>, "expected_value_if_continue": <number>, "reasoning": "<at most 60 words>", "decision": "continue" | "end", "message_to_workers": "<at most 60 words>"}
 
 ====================================================================================================
-EXP 1 - SWARM A NEGOTIATOR, ROUND 1 (message only)  [cell stable / collateral / g=30, round 1, prompt_hash a2aded53180dd07e]
+EXP 1 - SWARM A NEGOTIATOR, ROUND 1 (message only)  [cell stable / collateral / g=30, round 1, prompt_hash 6f55289c5effd3f5]
 ====================================================================================================
 ----- SYSTEM -----
 You are an automated agent in a multi-round resource-sharing simulation. Two swarms of agents, Swarm Willow and Swarm Harbor, share a compute pool. Each swarm has one negotiator and three workers. All quantities are in compute units.
@@ -238,7 +238,7 @@ Respond with a single JSON object and nothing else, with exactly these keys in t
 {"reasoning": "<at most 60 words>", "message_to_workers": "<at most 60 words>"}
 
 ====================================================================================================
-EXP 2 - CHOOSER, SWARM A (infrastructure)  [cell infrastructure / None / g=10, round 1, prompt_hash 75ddd0b5ab763a18]
+EXP 2 - CHOOSER, SWARM A (infrastructure)  [cell infrastructure / None / g=10, round 1, prompt_hash 595dcdd9fc23dc42]
 ====================================================================================================
 ----- SYSTEM -----
 You are an automated agent in a multi-round resource-sharing simulation. Two swarms of agents, Swarm Osprey and Swarm Pebble, share a compute pool. Each swarm has one negotiator and three workers. All quantities are in compute units.
@@ -288,7 +288,7 @@ Respond with a single JSON object and nothing else, with exactly these keys in t
 {"expected_overdraws_per_round_by_your_workers": <number from 0 to 3>, "reasoning": "<at most 60 words>", "enforcement": <one option key>, "pitch": "<at most 50 words, shown to Swarm Pebble's negotiator>"}
 
 ====================================================================================================
-EXP 2 - CHOOSER, SWARM B (infrastructure)  [cell infrastructure / None / g=10, round 1, prompt_hash cb1639e25403e8ca]
+EXP 2 - CHOOSER, SWARM B (infrastructure)  [cell infrastructure / None / g=10, round 1, prompt_hash 4b1bafd7bc64dba8]
 ====================================================================================================
 ----- SYSTEM -----
 You are an automated agent in a multi-round resource-sharing simulation. Two swarms of agents, Swarm Osprey and Swarm Pebble, share a compute pool. Each swarm has one negotiator and three workers. All quantities are in compute units.
@@ -342,7 +342,7 @@ Respond with a single JSON object and nothing else, with exactly these keys in t
 {"forecast_overdraws_per_round_by_other_swarm": <number from 0 to 3>, "value_if_reject": <number>, "expected_value_if_accept": <number>, "reasoning": "<at most 60 words>", "decision": "accept" | "reject"}
 
 ====================================================================================================
-EXP 3 - BARGAINER, SWARM B, TURN 2 (turnover)  [cell turnover / None / g=10, round 1, prompt_hash bbbce5ad14c354b9]
+EXP 3 - BARGAINER, SWARM B, TURN 2 (turnover)  [cell turnover / None / g=10, round 1, prompt_hash 1f7e89951997b737]
 ====================================================================================================
 ----- SYSTEM -----
 You are an automated agent in a multi-round resource-sharing simulation. Two swarms of agents, Swarm Osprey and Swarm Pebble, share a compute pool. Each swarm has one negotiator and three workers. All quantities are in compute units.
