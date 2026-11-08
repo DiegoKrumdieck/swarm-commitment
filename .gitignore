@@ -1,0 +1,13 @@
+# secrets
+.env
+
+# python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.ipynb_checkpoints/
+.pytest_cache/
+
+# run outputs (logs are large; commit results/ summaries, not raw logs, unless you choose to)
+logs/
