@@ -191,7 +191,7 @@ def _meta_fields(meta: dict) -> dict:
         "system_chars", "user_chars", "raw_response", "parsed", "parse_failed", "defaulted",
         "retries", "refusal", "errors", "input_tokens", "output_tokens", "cache_read_tokens",
         "cache_write_tokens", "reasoning_tokens", "latency_ms", "temperature_sent",
-        "effort_sent", "proposal_invalid",
+        "effort_sent", "proposal_invalid", "raw_responses", "stop_reason",
     ]
     out = {k: meta.get(k) for k in keys}
     if out["parse_failed"] is None:
