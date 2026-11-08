@@ -67,6 +67,17 @@ class Completion:
     meta: dict = field(default_factory=dict)
 
 
+def _save_flagged(model_id: str, system: str, user: str, error: str):
+    """Keep every prompt a provider's input moderation declined (logs/flagged/, gitignored)."""
+    import hashlib
+
+    d = os.path.join(os.path.dirname(os.path.abspath(__file__)), "logs", "flagged")
+    os.makedirs(d, exist_ok=True)
+    h = hashlib.sha256((system + "\x00" + user).encode()).hexdigest()[:12]
+    with open(os.path.join(d, f"{model_id}_{h}.json"), "w", encoding="utf-8") as f:
+        json.dump({"model_id": model_id, "error": error[:500], "system": system, "user": user}, f, indent=1)
+
+
 def cost_usd(model_id: str, row: dict) -> float:
     p = PRICING.get(model_id)
     if p is None:
@@ -189,7 +200,15 @@ class OpenAIClient:
             if self.send_temperature and "temperature" in str(e).lower():
                 self.send_temperature = False
                 return await self.complete(system, user, schema=schema, name=name, hint=hint)
-            raise FatalProviderError(f"BadRequestError: {str(e)[:300]}") from e
+            msg = str(e)
+            if "flagged" in msg.lower() or "usage policy" in msg.lower():
+                # OpenAI's input moderation declined the prompt: a refusal, not a malformed request.
+                # Logged as refusal "input_flagged"; LLMAgent retries, then defaults.
+                _save_flagged(self.model_id, system, user, msg)
+                return Completion("", {}, "refusal:input_flagged", {
+                    "status": "input_flagged", "effort_sent": self.effort,
+                    "temperature_sent": P.TEMPERATURE if self.send_temperature else None})
+            raise FatalProviderError(f"BadRequestError: {msg[:300]}") from e
         except (o.AuthenticationError, o.PermissionDeniedError, o.NotFoundError) as e:
             raise FatalProviderError(f"{type(e).__name__}: {str(e)[:300]}") from e
         except o.APIError as e:

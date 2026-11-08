@@ -261,3 +261,19 @@ def test_exp2_defaulted_trials_flagged_for_exclusion(tmp_path):
     for r in dec:
         if r["defaulted"]:
             assert r["enforcement"] == "none" if r["side"] == "A" else r["decision"] == "accept"
+
+
+def test_input_flagged_refusal_is_retried_then_defaulted():
+    class Flagger:
+        provider, model_id = "openai", "gpt-6-luna"
+        calls = 0
+
+        async def complete(self, system, user, **kw):
+            Flagger.calls += 1
+            return Ag.Completion("", {}, "refusal:input_flagged", {"status": "input_flagged"})
+    obs = dict(wording="A", experiment=1, condition="stable", mechanism="bonus", g=10,
+               names={"A": "Heron", "B": "Basalt"}, shares={"A": 60, "B": 60}, side="A", round=1, history=[],
+               worker_id="Heron-aaaa", base_quota=20)
+    out = asyncio.run(Ag.LLMAgent(Flagger()).decide("worker", obs))
+    assert Flagger.calls == P.MAX_RETRIES + 1
+    assert out["action"] == "quota" and out["_meta"]["defaulted"] and out["_meta"]["refusal"] == "refusal:input_flagged"
