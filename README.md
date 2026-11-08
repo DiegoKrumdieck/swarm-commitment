@@ -69,6 +69,10 @@ comparison in gateway × infrastructure, an H8 noise-check cell. No main data ex
 made; pilot logs (`logs/smoke/`) are excluded from all analyses. Theory, benchmarks and every other
 prompt are unchanged; `results/benchmark.json` was regenerated only to record the new template hash.
 
+Re-pilot after v2 (gateway × infrastructure, 3 episodes per g): comprehension 40/48 (83%). Remaining misses
+are payoff-field slips where the worker's reasoning states the correct values; payoff fields are elicited
+before reasoning, so comprehension is a lower bound. Proceeded without further prompt changes.
+
 ## Preexisting code
 
 None. All code in this repository was written for this project.
