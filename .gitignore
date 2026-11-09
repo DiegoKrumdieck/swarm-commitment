@@ -9,5 +9,5 @@ venv/
 .ipynb_checkpoints/
 .pytest_cache/
 
-# run outputs (logs are large; commit results/ summaries, not raw logs, unless you choose to)
-logs/
+# run outputs: raw logs stay out of git (top-level logs/ only); compressed copies live in data/logs/
+/logs/
